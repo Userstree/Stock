@@ -9,10 +9,15 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+
+    // MARK: - Vars & Lets
+//    private lazy var
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = R.color.backgroundColor()
+
     }
 
     // MARK: - Properties

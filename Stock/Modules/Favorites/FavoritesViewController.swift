@@ -6,13 +6,15 @@
 //  
 //
 
-import UIKit
 
 class FavoritesViewController: UIViewController {
-    
+
+
+
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 
     // MARK: - Properties
