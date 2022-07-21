@@ -6,8 +6,6 @@
 //  
 //
 
-import Foundation
-
 
 // MARK: View Output (Presenter -> View)
 protocol PresenterToViewHomeProtocol {

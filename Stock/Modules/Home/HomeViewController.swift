@@ -6,12 +6,16 @@
 //  
 //
 
-import UIKit
 
 class HomeViewController: UIViewController {
 
     // MARK: - Vars & Lets
-//    private lazy var
+    private lazy var stockMarketCardsCollection: UICollectionView = {
+        let flow = UICollectionViewFlowLayout()
+        flow.scrollDirection = .horizontal
+        let collection = CollectionView(collectionViewLayout: flow, items: <#T##[Item]##[Item]#>, configure: <#T##@escaping (Cell, Item) -> Void##@escaping (Cell, Item) -> Swift.Void#>)
+        return collection
+    }()
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
