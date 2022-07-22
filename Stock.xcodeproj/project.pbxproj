@@ -216,13 +216,14 @@
 			isa = PBXGroup;
 			children = (
 				05078D1C2888032A002C6223 /* Resources */,
-				C2A9961428874AF600E34139 /* Modules */,
+				C2A9961428874AF600E34139 /* Scenes */,
 				C2660F072887145D00D8EA16 /* CoreData */,
 				C2660F062887145200D8EA16 /* Application */,
 				C2660F052887144800D8EA16 /* Supporting Files */,
 				C2660EF22887143F00D8EA16 /* ViewController.swift */,
 				615B43147D5B670BD4BF6E4A /* Extensions */,
 				615B4A78401D0046559AC92D /* Common */,
+				F8843FDA1BD2FB23CB6C1918 /* Coordinator */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -290,14 +291,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		C2A9961428874AF600E34139 /* Modules */ = {
+		C2A9961428874AF600E34139 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				C2884B6128874C3C0010E55E /* Search */,
 				C2884B5628874C1A0010E55E /* Favorites */,
 				C2884B4B28874BF40010E55E /* Home */,
 			);
-			path = Modules;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		F884306F930DFC50079C5D6A /* FavoritesView */ = {
@@ -324,6 +325,13 @@
 			path = SearchRouter;
 			sourceTree = "<group>";
 		};
+		F884354D775735CC8AAC385F /* BaseCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BaseCoordinator;
+			sourceTree = "<group>";
+		};
 		F88436F7A1FC70E6C55EB7D8 /* SearchInteractor */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +346,13 @@
 				F88433D5E0A73B3472D3BB8E /* FavoritesRouter.swift */,
 			);
 			path = FavoritesRouter;
+			sourceTree = "<group>";
+		};
+		F88438D8EE2AE3ACC2132FB6 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 		F8843B3C804487DF2291F80E /* SearchView */ = {
@@ -370,6 +385,15 @@
 				F88434148F6CD5A7ABC515C3 /* SearchProtocols.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F8843FDA1BD2FB23CB6C1918 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				F884354D775735CC8AAC385F /* BaseCoordinator */,
+				F88438D8EE2AE3ACC2132FB6 /* Coordinators */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		F8843FF3E18C9E7ED7C74110 /* FavoritesPresenter */ = {
