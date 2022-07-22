@@ -9,6 +9,11 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     var configure: (Item, Cell) -> Void
 
     // MARK: - TableViewDelegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = items[indexPath.row]
+        didSelect(item)
+    }
 
     // MARK: - TableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -16,10 +21,17 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: <#T##String##Swift.String#>, for: <#T##IndexPath##Foundation.IndexPath#>)
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: Cell.self), for: indexPath) as! Cell
+        let item = items[indexPath.row]
+        configure(item, cell)
+        return cell
     }
 
     // MARK: - Controller lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.register(Cell.self, forCellReuseIdentifier: String(describing: Cell.self))
+    }
 
     // MARK: - Init
     init(style: UITableView.Style? = .plain,
