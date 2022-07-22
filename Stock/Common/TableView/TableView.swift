@@ -5,7 +5,7 @@
 class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     // MARK: - Vars & Lets
     var items: [Item] = []
-    var didSelect: (Item) -> Void
+    var didSelect: (Item) -> Void = { _ in }
     var configure: (Item, Cell) -> Void
 
     // MARK: - TableViewDelegate
@@ -39,7 +39,6 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
          configure: @escaping (Item, Cell) -> ()
     ) {
         self.items = items
-        self.didSelect = didSelect
         self.configure = configure
         super.init(style: style!)
     }

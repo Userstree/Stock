@@ -18,9 +18,9 @@ class HomeRouter: PresenterToRouterHomeProtocol {
         
         viewController.presenter = presenter
         viewController.presenter?.router = HomeRouter()
-        viewController.presenter?.view = viewController
+//        viewController.presenter?.view = viewController
         viewController.presenter?.interactor = HomeInteractor()
-        viewController.presenter?.interactor?.presenter = presenter
+//        viewController.presenter?.interactor?.presenter = presenter
         
         return viewController
     }
