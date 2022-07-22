@@ -34,7 +34,9 @@ class CollectionView<Item, Cell: UICollectionViewCell>: UICollectionViewControll
     }
 
     // MARK: - Init
-    init(collectionViewLayout layout: UICollectionViewLayout, items: [Item], configure: @escaping (Cell, Item) -> Void) {
+    init(collectionViewLayout layout: UICollectionViewLayout,
+         items: [Item],
+         configure: @escaping (Cell, Item) -> Void) {
         self.configure = configure
         super.init(collectionViewLayout: layout)
         self.items = items

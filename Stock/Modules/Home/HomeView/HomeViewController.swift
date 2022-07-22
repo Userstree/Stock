@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     private lazy var stockMarketCardsCollection: UICollectionView = {
         let flow = UICollectionViewFlowLayout()
         flow.scrollDirection = .horizontal
-        let collection = CollectionView(collectionViewLayout: flow, items: <#T##[Item]##[Item]#>, configure: <#T##@escaping (Cell, Item) -> Void##@escaping (Cell, Item) -> Swift.Void#>)
+        let collection = CollectionView(collectionViewLayout: flow, items: ["Card1","Card2"], configure: <#T##@escaping (Cell, Item) -> Void##@escaping (Cell, Item) -> Swift.Void#>)
         return collection
     }()
     
