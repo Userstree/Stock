@@ -5,21 +5,24 @@
 //  Created by Dossymkhan Zhulamanov on 19.07.2022.
 //
 
-import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var rootController: UINavigationController {
+        window?.rootViewController as! UINavigationController
+    }
+
+    private lazy var applicationCoordinator: Coordinator = ApplicationCoordinator(router: Router(rootController: rootController), coordinatorFactory: CoordinatorFactory())
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        let home = HomeRouter.createModule()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = home
+        applicationCoordinator.start()
         window?.makeKeyAndVisible()
     }
 

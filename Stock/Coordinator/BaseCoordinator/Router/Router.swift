@@ -3,30 +3,6 @@
 //
 
 
-protocol RouterProtocol {
-
-    func present(_ module: Presentable?)
-    func present(_ module: Presentable?, animated: Bool)
-
-    func push(_ module: Presentable?)
-    func push(_ module: Presentable?, transition: UIViewControllerAnimatedTransitioning?)
-    func push(_ module: Presentable?, transition: UIViewControllerAnimatedTransitioning?, animated: Bool)
-    func push(_ module: Presentable?, transition: UIViewControllerAnimatedTransitioning?, animated: Bool, completion: (() -> Void)?)
-
-    func popModule()
-    func popModule(transition: UIViewControllerAnimatedTransitioning?)
-    func popModule(transition: UIViewControllerAnimatedTransitioning?, animated: Bool)
-
-    func dismissModule()
-    func dismissModule(animated: Bool, completion: (() -> Void)?)
-
-    func setRootModule(_ module: Presentable?)
-    func setRootModule(_ module: Presentable?, hideBar: Bool)
-
-    func popToRootModule(animated: Bool)
-    func popToModule(module: Presentable?, animated: Bool)
-
-}
 
 final class Router: NSObject, RouterProtocol {
 
@@ -47,7 +23,7 @@ final class Router: NSObject, RouterProtocol {
 
     func present(_ module: Presentable?, animated: Bool) {
         guard let controller = module?.toPresent() else { return }
-        self.rootController?.present(controller, animated: animated, completion: nil)
+        rootController?.present(controller, animated: animated, completion: nil)
     }
 
     func push(_ module: Presentable?)  {

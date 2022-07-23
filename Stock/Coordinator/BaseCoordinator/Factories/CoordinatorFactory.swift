@@ -8,8 +8,8 @@ protocol CoordinatorFactoryProtocol {
     func makeHomeCoordinatorBox(router: RouterProtocol, coordinatorFactory: CoordinatorFactoryProtocol, viewControllerFactory: ViewControllerFactory) -> HomeCoordinator
 }
 
-class CoordinatorFactory: CoordinatorFactoryProtocol {
+final class CoordinatorFactory: CoordinatorFactoryProtocol {
     func makeHomeCoordinatorBox(router: RouterProtocol, coordinatorFactory: CoordinatorFactoryProtocol, viewControllerFactory: ViewControllerFactory) -> HomeCoordinator {
-
+        HomeCoordinator(router: router, coordinatorFactory: coordinatorFactory, viewControllerFactory: viewControllerFactory)
     }
 }
