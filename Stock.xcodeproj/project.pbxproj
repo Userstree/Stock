@@ -38,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05B466DD288E985D0094940F /* testRxSwift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = testRxSwift.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		4BDA12EF28C984F43E4F3F2C /* Pods_Stock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		615B453775827B917CC1D631 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		615B45B56E11F7D58D6A4151 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
@@ -102,6 +103,14 @@
 				F8843E41EAFD2FE88EAE653B /* Main.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		05B466DC288E98050094940F /* Playgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				05B466DD288E985D0094940F /* testRxSwift.playground */,
+			);
+			path = Playgrounds;
 			sourceTree = "<group>";
 		};
 		173267D272348BF581DC2077 /* Pods */ = {
@@ -215,6 +224,7 @@
 		C2660EED2887143F00D8EA16 /* Stock */ = {
 			isa = PBXGroup;
 			children = (
+				05B466DC288E98050094940F /* Playgrounds */,
 				05078D1C2888032A002C6223 /* Resources */,
 				C2A9961428874AF600E34139 /* Scenes */,
 				C2660F072887145D00D8EA16 /* CoreData */,
@@ -263,6 +273,7 @@
 				615B4400339B3902886516B9 /* HomePresenter */,
 				615B4020A202A8E361D4BF0C /* HomeRouter */,
 				615B401C63712C4CECAAD4E7 /* Protocols */,
+				F88431AC7C1DE003AE7F8412 /* HomeAssembly */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -307,6 +318,13 @@
 				F8843B9B8EDBE2509E482F92 /* FavoritesViewController.swift */,
 			);
 			path = FavoritesView;
+			sourceTree = "<group>";
+		};
+		F88431AC7C1DE003AE7F8412 /* HomeAssembly */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HomeAssembly;
 			sourceTree = "<group>";
 		};
 		F88433007562DCE9453C465B /* FavoritesInteractor */ = {
