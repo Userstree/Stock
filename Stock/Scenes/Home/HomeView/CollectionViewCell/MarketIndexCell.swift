@@ -15,7 +15,6 @@ class MarketIndexCell: UICollectionViewCell {
 
     var iconImage = UIImageView()
 
-
     var chartImage = UIImageView()
 
     var value = UILabel()
@@ -30,6 +29,8 @@ class MarketIndexCell: UICollectionViewCell {
 
     private lazy var valuesVStack = UIStackView(axis: .vertical)
 
+    private lazy var leftSideVStack = UIStackView(axis: .vertical)
+
     private lazy var mainHStack = UIStackView(axis: .horizontal)
 
     // MARK: - Controller lifecycle
@@ -42,7 +43,7 @@ class MarketIndexCell: UICollectionViewCell {
     // MARK: - Configuring the Views
 
     private func configureViews() {
-
+        [title, subTitle].forEach(titlesVStack.addArrangedSubview)
         makeConstraints()
     }
 

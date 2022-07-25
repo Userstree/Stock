@@ -23,5 +23,19 @@ extension UIStackView {
         return self
     }
 
-    
+    @discardableResult
+    func(_ distribution: UIStackView.Distribution) -> Self {
+        distribution = distribution
+
+        return self
+    }
+
+    @discardableResult
+    func(_ alignment: UIStackView.Alignment) -> Self {
+        alignment = alignment
+
+        return self
+    }
+
+
 }
