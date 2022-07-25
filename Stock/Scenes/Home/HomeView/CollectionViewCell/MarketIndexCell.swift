@@ -3,7 +3,7 @@
 //
 
 
-class MarketIndexCell: UICollectionViewCell {
+public class MarketIndexCell: UICollectionViewCell {
 
     // MARK: - Vars & Lets
 

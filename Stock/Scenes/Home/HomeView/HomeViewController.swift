@@ -14,9 +14,9 @@ class HomeViewController: UIViewController {
         let flow = UICollectionViewFlowLayout()
         flow.scrollDirection = .horizontal
         let collection = CollectionView(collectionViewLayout: flow, items: ["Card1","Card2"], configure: { (cell: MarketIndexCell, item) in
-            cell.
+//            cell.
         })
-        return collection
+        return collection.collectionView
     }()
     
     // MARK: - Lifecycle Methods

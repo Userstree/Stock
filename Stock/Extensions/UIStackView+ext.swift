@@ -17,21 +17,21 @@ extension UIStackView {
 
 extension UIStackView {
     @discardableResult
-    func(_ spacing: Int) -> Self {
+    func spacing(_ spacing: Int) -> Self {
         spacing = spacing
 
         return self
     }
 
     @discardableResult
-    func(_ distribution: UIStackView.Distribution) -> Self {
+    func distribution(_ distribution: UIStackView.Distribution) -> Self {
         distribution = distribution
 
         return self
     }
 
     @discardableResult
-    func(_ alignment: UIStackView.Alignment) -> Self {
+    func alignment(_ alignment: UIStackView.Alignment) -> Self {
         alignment = alignment
 
         return self

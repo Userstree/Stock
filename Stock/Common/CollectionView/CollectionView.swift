@@ -3,7 +3,7 @@
 //
 
 
-class CollectionView<Item, Cell: UICollectionViewCell>: UICollectionViewController {
+open class CollectionView<Item, Cell: UICollectionViewCell>: UICollectionViewController {
     // MARK: - Vars & Lets
     var items: [Item] = []
     let configure: (Cell, Item) -> Void
@@ -34,7 +34,7 @@ class CollectionView<Item, Cell: UICollectionViewCell>: UICollectionViewControll
     }
 
     // MARK: - Init
-    init(collectionViewLayout layout: UICollectionViewLayout,
+    open init(collectionViewLayout layout: UICollectionViewLayout,
          items: [Item],
          configure: @escaping (Cell, Item) -> Void) {
         self.configure = configure
