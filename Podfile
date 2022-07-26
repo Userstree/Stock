@@ -11,4 +11,6 @@ target 'Stock' do
 
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
+  pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord'
+
 end

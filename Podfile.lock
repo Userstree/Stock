@@ -1,4 +1,7 @@
 PODS:
+  - MagicalRecord (2.4.0):
+    - MagicalRecord/Core (= 2.4.0)
+  - MagicalRecord/Core (2.4.0)
   - R.swift (6.1.0):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
@@ -11,6 +14,7 @@ PODS:
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
+  - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord`)
   - R.swift
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
@@ -25,7 +29,17 @@ SPEC REPOS:
     - RxSwift
     - SnapKit
 
+EXTERNAL SOURCES:
+  MagicalRecord:
+    :git: https://github.com/magicalpanda/MagicalRecord
+
+CHECKOUT OPTIONS:
+  MagicalRecord:
+    :commit: 6031f608b79c1d6802007aaed6efd100e11f59ba
+    :git: https://github.com/magicalpanda/MagicalRecord
+
 SPEC CHECKSUMS:
+  MagicalRecord: 1f22a766156474d9f46a9b1e1ce59ca9e37830fc
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
@@ -33,6 +47,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 494ef29d5c2a10a7975b69db866e9b3a6550e329
+PODFILE CHECKSUM: 982c629f02b89fb47d6d21222740efad238554f6
 
 COCOAPODS: 1.11.3

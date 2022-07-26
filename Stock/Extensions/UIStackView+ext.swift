@@ -18,24 +18,23 @@ extension UIStackView {
 extension UIStackView {
     @discardableResult
     func spacing(_ spacing: Int) -> Self {
-        spacing = spacing
+        self.spacing = CGFloat(spacing)
 
         return self
     }
 
     @discardableResult
     func distribution(_ distribution: UIStackView.Distribution) -> Self {
-        distribution = distribution
+        self.distribution = distribution
 
         return self
     }
 
     @discardableResult
     func alignment(_ alignment: UIStackView.Alignment) -> Self {
-        alignment = alignment
+        self.alignment = alignment
 
         return self
     }
-
 
 }

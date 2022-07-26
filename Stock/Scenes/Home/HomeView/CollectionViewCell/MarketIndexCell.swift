@@ -35,7 +35,7 @@ public class MarketIndexCell: UICollectionViewCell {
 
     // MARK: - Controller lifecycle
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         configureViews()
     }
