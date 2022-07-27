@@ -3,12 +3,12 @@
 //
 
 
-protocol EndPointProtocol {
+protocol NetworkEndPointProtocol {
     var path: String { get }
     var baseString: String { get }
 }
 
-extension EndPointProtocol {
+extension NetworkEndPointProtocol {
     var urlComponents: URLComponents {
         var components = URLComponents(string: baseString)!
         components.path = path

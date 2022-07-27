@@ -11,7 +11,7 @@ enum StocksEndPoint {
     case priceWebSocket
 }
 
-extension StocksEndPoint: EndPointProtocol {
+extension StocksEndPoint: NetworkEndPointProtocol {
 
     // MARK: - EndPointProtocol
     var path: String {
