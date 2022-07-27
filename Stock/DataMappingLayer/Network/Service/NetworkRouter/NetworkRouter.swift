@@ -4,6 +4,7 @@
 
 
 class NetworkRouter<Endpoint: NetworkEndPointProtocol>: NetworkRouterProtocol {
+    typealias EndPoint = StocksEndPoint
 
     // MARK: - NetworkRouterProtocol
     func request(route: EndPoint, queryParameters: QueryParams?) -> URLRequest {

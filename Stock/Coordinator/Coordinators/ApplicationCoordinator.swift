@@ -25,6 +25,7 @@ final class ApplicationCoordinator: BaseCoordinator {
         )
         coordinator.finishFlow = { [unowned self, unowned coordinator] in
             removeDependency(coordinator)
+            print("dependency removed")
             self.start()
         }
         addDependency(coordinator)

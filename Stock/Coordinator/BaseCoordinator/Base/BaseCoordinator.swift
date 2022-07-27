@@ -28,7 +28,10 @@ class BaseCoordinator: Coordinator {
 
     // MARK: - Coordinator
     func start() {
-//        start(with: nil)
+        start(with: nil)
     }
 
+    func start(with option: String?) {
+
+    }
 }

@@ -8,9 +8,12 @@
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    private let navigationController = UINavigationController()
+    
     var window: UIWindow?
+    
     var rootController: UINavigationController {
-        window?.rootViewController as! UINavigationController
+        return navigationController
     }
 
     private lazy var applicationCoordinator: Coordinator = ApplicationCoordinator(router: Router(rootController: rootController), coordinatorFactory: CoordinatorFactory())
@@ -20,8 +23,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        window = UIWindow(frame: UIScreen.main.bounds)
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = rootController
         applicationCoordinator.start()
         window?.makeKeyAndVisible()
     }

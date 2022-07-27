@@ -14,17 +14,17 @@ struct NetworkManager {
     // MARK: - Private methods
     private func buildApiRequest(to endpoint: StocksEndPoint) -> URLRequest {
         switch endpoint {
-        case .exchanges: return router.request(route: StocksEndPoint.exchanges)
-        case .logo: return router.request(route: StocksEndPoint.logo)
-        case .stocksList: return router.request(route: StocksEndPoint.stocksList)
-        case .priceWebSocket: return router.request(route: StocksEndPoint.priceWebSocket)
+        case .exchanges: return router.request(route: StocksEndPoint.exchanges, queryParameters: nil)
+        case .logo: return router.request(route: StocksEndPoint.logo, queryParameters: nil)
+        case .stocksList: return router.request(route: StocksEndPoint.stocksList, queryParameters: nil)
+        case .priceWebSocket: return router.request(route: StocksEndPoint.priceWebSocket, queryParameters: nil)
         }
     }
 
     private func buildApiRequest(to endpoint: StocksEndPoint, with queryParams: QueryParams?) -> URLRequest {
         switch endpoint {
-        case .exchanges: return router.request(route: StocksEndPoint.exchanges)
-        case .logo: return router.request(route: StocksEndPoint.logo, queryParameters: queryParams)
+        case .exchanges: return router.request(route: StocksEndPoint.exchanges, queryParameters: nil)
+        case .logo: return router.request(route: StocksEndPoint.logo, queryParameters: queryParams )
         case .stocksList: return router.request(route: StocksEndPoint.stocksList, queryParameters: queryParams)
         case .priceWebSocket: return router.request(route: StocksEndPoint.priceWebSocket, queryParameters: queryParams)
         }
@@ -32,7 +32,7 @@ struct NetworkManager {
 
     private func makeObservedGetRequest<T: Codable>(request: inout URLRequest) -> Observable<T> {
         request.httpMethod = "GET"
-        session.rx.data(request: request)
+        return session.rx.data(request: request)
                 .map {
                     try JSONDecoder().decode(T.self, from: $0)
                 }
@@ -40,7 +40,7 @@ struct NetworkManager {
 
     private func makeObservedPostRequest<T: Codable>(request: inout URLRequest) -> Observable<T> {
         request.httpMethod = "POST"
-        session.rx.data(request: request)
+        return session.rx.data(request: request)
                 .map {
                     try JSONDecoder().decode(T.self, from: $0)
                 }

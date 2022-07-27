@@ -18,6 +18,8 @@ class HomeCoordinator: BaseCoordinator {
     // MARK: - Private methods
 
     private func showHomeViewController() {
+        let homeViewController = viewControllerFactory.instantiateHomeViewController()
+        router.setRootModule(homeViewController, hideBar: false)
     }
 
     private func showBViewController() {

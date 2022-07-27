@@ -18,20 +18,59 @@ class HomeViewController: UIViewController {
 //        })
 //        return collection.collectionView
 //    }()
-//    private lazy var
+
+    private let searchBarController: UISearchController = {
+        let searchController = UISearchController()
+        searchController.searchBar.placeholder = "Find Company or Ticker"
+        return searchController
+    }()
+
+    private var stocksListChanger: UISegmentedControl = {}()
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.backgroundColor()
-
+        configureNavigationItems()
+        configureViews()
     }
 
     // MARK: - Properties
     var presenter: ViewToPresenterHomeProtocol?
-    
+
+    // MARK: - Configuration of the View
+
+    private func configureNavigationItems() {
+        searchBarController.searchResultsUpdater = self
+        navigationItem.searchController = searchBarController
+    }
+
+    private func configureViews() {
+
+        makeConstraints()
+    }
+
+    private func makeConstraints(){
+
+    }
+
+    // MARK: - Init
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init?(coder: NSCoder)")
+    }
 }
 
 extension HomeViewController: PresenterToViewHomeProtocol{
     // TODO: Implement View Output Methods
+}
+
+extension HomeViewController: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+    }
 }
