@@ -9,7 +9,10 @@ protocol CoordinatorFactoryProtocol {
 }
 
 final class CoordinatorFactory: CoordinatorFactoryProtocol {
+
+    // MARK: - CoordinatorFactoryProtocol
     func makeHomeCoordinatorBox(router: RouterProtocol, coordinatorFactory: CoordinatorFactoryProtocol, viewControllerFactory: ViewControllerFactory) -> HomeCoordinator {
         HomeCoordinator(router: router, coordinatorFactory: coordinatorFactory, viewControllerFactory: viewControllerFactory)
     }
+
 }

@@ -3,7 +3,7 @@
 //
 
 
-protocol NetworkEndPointProtocol {
+protocol NetworkEndPointProtocol{
     var path: String { get }
     var baseString: String { get }
 }

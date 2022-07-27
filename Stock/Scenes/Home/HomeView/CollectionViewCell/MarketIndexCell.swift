@@ -23,6 +23,8 @@ public class MarketIndexCell: UICollectionViewCell {
     var valueDiffPercent = UILabel()
             .font(ofSize: 14, weight: .regular)
 
+    // MARK: - StackViews
+
     private lazy var upperHStack = UIStackView(axis: .horizontal)
 
     private lazy var titlesVStack = UIStackView(axis: .vertical)

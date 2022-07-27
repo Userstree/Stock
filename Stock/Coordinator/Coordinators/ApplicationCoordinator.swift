@@ -10,11 +10,14 @@ final class ApplicationCoordinator: BaseCoordinator {
     private var viewControllerFactory: ViewControllerFactory = ViewControllerFactory()
     private var router: RouterProtocol
 
+
+    // MARK: - Coordinator
     override func start() {
         super.start()
         runHomeFlow()
     }
 
+    // MARK: - Private methods
     private func runHomeFlow() {
         let coordinator = coordinatorFactory.makeHomeCoordinatorBox(router: router,
                 coordinatorFactory: coordinatorFactory,
@@ -29,7 +32,6 @@ final class ApplicationCoordinator: BaseCoordinator {
     }
 
     // MARK: - Init
-
     init(router: RouterProtocol, coordinatorFactory: CoordinatorFactoryProtocol) {
         self.coordinatorFactory = coordinatorFactory
         self.router = router

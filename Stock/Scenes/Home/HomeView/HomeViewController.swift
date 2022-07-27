@@ -10,14 +10,15 @@
 class HomeViewController: UIViewController {
 
     // MARK: - Vars & Lets
-    private lazy var marketIndexesCollection: UICollectionView = {
-        let flow = UICollectionViewFlowLayout()
-        flow.scrollDirection = .horizontal
-        let collection = CollectionView(collectionViewLayout: flow, items: ["Card1","Card2"], configure: { (cell: MarketIndexCell, item) in
-//            cell.
-        })
-        return collection.collectionView
-    }()
+//    private lazy var marketIndexesCollection: UICollectionView = {
+//        let flow = UICollectionViewFlowLayout()
+//        flow.scrollDirection = .horizontal
+//        let collection = CollectionView(collectionViewLayout: flow, items: ["Card1","Card2"], configure: { (cell: MarketIndexCell, item) in
+////            cell.
+//        })
+//        return collection.collectionView
+//    }()
+//    private lazy var
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {

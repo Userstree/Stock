@@ -484,13 +484,13 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		F88437DCC6AFF37FCA1B4C58 /* Repositories */ = {
+		F88437DCC6AFF37FCA1B4C58 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
 				F8843790CB87FABEACD1C679 /* DataRepository.swift */,
 				F88433D0D99CCC38507B8FC9 /* Protocols */,
 			);
-			path = Repositories;
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		F88438D8EE2AE3ACC2132FB6 /* Coordinators */ = {
@@ -627,7 +627,7 @@
 			children = (
 				F88436F33E2CF1A38D34DB41 /* Network */,
 				F88430D67410748B956DED83 /* PersistentContainer */,
-				F88437DCC6AFF37FCA1B4C58 /* Repositories */,
+				F88437DCC6AFF37FCA1B4C58 /* Repository */,
 			);
 			path = DataMappingLayer;
 			sourceTree = "<group>";

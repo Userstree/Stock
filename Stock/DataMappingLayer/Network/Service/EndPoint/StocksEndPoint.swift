@@ -25,8 +25,8 @@ extension StocksEndPoint: NetworkEndPointProtocol {
 
     var baseString: String {
         switch self {
-        case .exchanges, .logo, .stocksList: Type.api.baseURLString
-        case .priceWebSocket: Type.webSocket.baseURLString
+        case .exchanges, .logo, .stocksList: return Type.api.baseURLString
+        case .priceWebSocket: return Type.webSocket.baseURLString
         }
     }
 

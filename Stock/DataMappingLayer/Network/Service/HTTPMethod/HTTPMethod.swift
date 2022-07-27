@@ -3,6 +3,6 @@
 //
 
 enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
+    case GET = "GET"
+    case POST = "POST"
 }

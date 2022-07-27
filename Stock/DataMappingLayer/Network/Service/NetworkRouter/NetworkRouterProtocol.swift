@@ -5,5 +5,5 @@
 
 protocol NetworkRouterProtocol {
     associatedtype EndPoint: NetworkEndPointProtocol
-    func request(route: EndPoint, queryParameters: QueryParameters?) -> URLRequest
+    func request(route: EndPoint, queryParameters: QueryParams?) -> URLRequest
 }

@@ -3,7 +3,7 @@
 //
 
 
-typealias QueryParameters = [String : String]
+typealias QueryParams = [String : String]
 
 enum QueryParametersOptions {
     case symbol(String)
@@ -11,7 +11,7 @@ enum QueryParametersOptions {
 }
 
 extension QueryParametersOptions {
-    var queries: QueryParameters {
+    var queries: QueryParams {
         switch self {
         case .apiKey: return ["apikey" : "349fabdc272c4af5a5193f8a6f76eec6"]
         case .symbol(let value): return ["symbol" : value]
