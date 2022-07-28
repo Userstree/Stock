@@ -9,7 +9,7 @@
 
 // MARK: View Output (Presenter -> View)
 protocol HomeViewType: AnyObject {
-   var presenter: HomePresenterType { get set }
+    var presenter: HomePresenterType? { get set }
 }
 
 
@@ -29,18 +29,20 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-    
+
 }
 
 
 // MARK: Router Input (Presenter -> Router)
 protocol HomeRouterType: AnyObject {
-    
+
 }
 
 
 // MARK: Networking
 protocol StocksRemoteDataManagerProtocol: AnyObject {
-    func fetchStocks<A: Decodable>(for query: String, completion: @escaping ([A]) -> ())
+//    func fetchStocks<A: Decodable>(for query: String, completion: @escaping ([A]) -> ())
+    associatedtype A: Decodable
+    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
 }
 

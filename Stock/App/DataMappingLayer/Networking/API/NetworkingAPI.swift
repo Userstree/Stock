@@ -31,6 +31,6 @@ class NetworkingApi: NetworkingService {
 }
 
 fileprivate
-struct SearchResponse<A>: Decodable {
+struct SearchResponse<A: Decodable>: Decodable {
     let items: [A]
 }

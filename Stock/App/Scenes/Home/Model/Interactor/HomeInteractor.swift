@@ -6,18 +6,17 @@
 //  
 //
 
-
 class HomeInteractor: HomeInteractorInputType {
 
     // MARK: - Dependencies
-    private let dataManager: StocksRemoteDataManager
+    private let dataManager: StocksRemoteDataManager<StockDetails>
     private let validator = ThrottledTextValidator()
 
     // MARK: Properties
     weak var presenter: HomeInteractorOutputType?
 
     // MARK: - Init
-    init(dataManager: StocksRemoteDataManager = StocksRemoteDataManager()) {
+    init(dataManager: StocksRemoteDataManager<StockDetails> = StocksRemoteDataManager<StockDetails>()) {
         self.dataManager = dataManager
     }
 }
