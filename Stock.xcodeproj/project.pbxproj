@@ -64,6 +64,7 @@
 		F88434C616F1AA0C1AEC9938 /* UISegmentedControl+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88438B41E0EC0B20CE91282 /* UISegmentedControl+ext.swift */; };
 		F8843E81357C2A5A22002ACA /* UIFont+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88433EE0301C20DEEB3BE28 /* UIFont+ext.swift */; };
 		F8843EA82277262F06E35A65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8843E41EAFD2FE88EAE653B /* Main.storyboard */; };
+		F8843EE7423BDAD8803B8C36 /* StocksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F884362F4DBDC5ABA6389215 /* StocksTableViewCell.swift */; };
 		F8843F55B02A57E1EC68C1E1 /* StockDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F884323FE4717B94F93CDFC6 /* StockDetails.swift */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +130,7 @@
 		C47552D34E845DBB859096A2 /* Pods-Stock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.debug.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.debug.xcconfig"; sourceTree = "<group>"; };
 		F884323FE4717B94F93CDFC6 /* StockDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDetails.swift; sourceTree = "<group>"; };
 		F88433EE0301C20DEEB3BE28 /* UIFont+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+ext.swift"; sourceTree = "<group>"; };
+		F884362F4DBDC5ABA6389215 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
 		F8843799106ECE74E53143C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F88438B41E0EC0B20CE91282 /* UISegmentedControl+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+ext.swift"; sourceTree = "<group>"; };
 		F8843E41EAFD2FE88EAE653B /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 			children = (
 				615B40CC7CE53A4166E2A54B /* HomeViewController.swift */,
 				615B4D5520ABFA7F5D2ECE2F /* CollectionViewCell */,
+				F884327119923B78F367D827 /* TableViewCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -710,6 +713,14 @@
 				C2660F09288715C400D8EA16 /* Stock-Bridging-Header.h */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F884327119923B78F367D827 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				F884362F4DBDC5ABA6389215 /* StocksTableViewCell.swift */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -901,6 +912,7 @@
 				F88434C616F1AA0C1AEC9938 /* UISegmentedControl+ext.swift in Sources */,
 				F8843F55B02A57E1EC68C1E1 /* StockDetails.swift in Sources */,
 				F8843E81357C2A5A22002ACA /* UIFont+ext.swift in Sources */,
+				F8843EE7423BDAD8803B8C36 /* StocksTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

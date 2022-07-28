@@ -10,6 +10,12 @@
 // MARK: View Output (Presenter -> View)
 protocol HomeViewType: AnyObject {
     var presenter: HomePresenterType? { get set }
+
+    // MARK: - Methods
+    func showLoading()
+    func didReceiveStocksList()
+    func hideLoading()
+//    func displayAlert()
 }
 
 
@@ -18,6 +24,15 @@ protocol HomePresenterType: AnyObject {
     var view: HomeViewType? { get set }
     var interactor: HomeInteractorInputType? { get set }
     var router: HomeRouterType? { get set }
+
+    // MARK: - Methods
+    func onViewDidLoad()
+    func didChangeQuery(_ query: String?)
+    func didSelectRow(_ index: IndexPath)
+
+    func numberOfStocksItems() -> Int
+    func stockListItems() -> [StockViewModel]
+    func stockListItem(at index: Int) -> StockViewModel
 }
 
 

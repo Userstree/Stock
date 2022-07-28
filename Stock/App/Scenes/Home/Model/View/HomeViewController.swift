@@ -9,34 +9,58 @@
 
 class HomeViewController: UIViewController, HomeViewType {
 
-    // MARK: - HomeViewType protocol
+    // MARK: - HomeViewType Properties
     var presenter: HomePresenterType?
-    
+
+    // MARK: - HomeViewType Methods
+    func showLoading() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+
+    func didReceiveStocksList() {
+        stocksTableView.tableView.reloadData()
+    }
+
+    func hideLoading() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+
 
     // MARK: - Vars & Lets
-
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
         return searchController
     }()
 
-    private var stocksSegmentedControl: UISegmentedControl = {
+    private var stocksSegmentedControlView: UISegmentedControl = {
         let items = ["Stocks", "Favorites"]
         var segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .clear
         segmentedControl.tintColor = .clear
-//        let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-
-        let font = UIFont.init(name: "TimesNewRomanPS-ItalicMT", size: 18)
-
-        let attributes = [NSAttributedString.Key.font: font]
-        segmentedControl.setTitleTextAttributes(attributes, for: .selected)
+        let normalStateFont = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        let normalStateAttributes = [NSAttributedString.Key.font: normalStateFont,
+                                     NSAttributedString.Key.foregroundColor: UIColor.systemGray3]
+        segmentedControl.setTitleTextAttributes(normalStateAttributes, for: .normal)
+        let selectedStateFont = UIFont.systemFont(ofSize: 28, weight: .semibold)
+        let selectedStateAttributes = [NSAttributedString.Key.font: selectedStateFont,
+                                       NSAttributedString.Key.foregroundColor: UIColor.black]
+        segmentedControl.setTitleTextAttributes(selectedStateAttributes, for: .selected)
         segmentedControl.removeBorders()
         return segmentedControl
     }()
-    
+
+    private var stocksTableView: UITableView = {
+        guard let presenter = presenter  else { return 0 }
+        let tableViewController = TableView(items: presenter.stockListItems()) { (stockViewModel, cell: StocksTableViewCell) in
+            cell.titleLabel = stockViewModel.title
+            cell.subTitleLabel = stockViewModel.subTitle
+            cell.priceLabel = "\(stockViewModel.price)"
+        }
+        return tableViewController.tableView
+    }()
+
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,23 +70,22 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     // MARK: - Configuration of the View
-
     private func configureNavigationItems() {
         searchBarController.searchResultsUpdater = self
         navigationItem.searchController = searchBarController
     }
 
     private func configureViews() {
-        [stocksSegmentedControl,
+        [stocksSegmentedControlView,
         ].forEach(view.addSubview)
         makeConstraints()
     }
 
-    private func makeConstraints(){
-        stocksSegmentedControl.snp.makeConstraints {
+    private func makeConstraints() {
+        stocksSegmentedControlView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view.snp.leading).offset(16)
-            $0.height.equalTo(44)
+            $0.height.equalTo(32)
         }
     }
 
@@ -74,11 +97,14 @@ class HomeViewController: UIViewController, HomeViewType {
     required init?(coder: NSCoder) {
         fatalError("init?(coder: NSCoder)")
     }
+
 }
 
 extension HomeViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
+        guard let text = searchController.searchBar.text else {
+            return
+        }
         print(text)
     }
 }
