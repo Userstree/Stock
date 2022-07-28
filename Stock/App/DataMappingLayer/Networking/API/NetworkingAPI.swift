@@ -18,20 +18,24 @@ class NetworkingApi: NetworkingService {
         if !query.isEmpty {
             stocksAPI.append("?symbol=")
             stocksAPI.append(query)
+            stocksAPI.append("&apikey=349fabdc272c4af5a5193f8a6f76eec6")
+        } else {
+            stocksAPI.append("?apikey=349fabdc272c4af5a5193f8a6f76eec6")
         }
         print(stocksAPI)
         let request = URLRequest(url: URL(string: stocksAPI)!)
         let task = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
-                print("the data is ", data)
-                print("the type of A is ", String(describing: A.self))
+//                print("the data is ", data)
+//                print("the type of A is ", String(describing: SearchResponse<A>.self))
                 guard let data = data,
-                      let response = try? JSONDecoder().decode(SearchResponse<A>.self, from: data) else {
+                      let response = try? JSONDecoder().decode(A.self, from: data)
+                else {
+                    fatalError("nil instead of response from API")
                     completion(nil)
                     return
                 }
-                print("Items are ", response.items)
-                completion(response.items)
+                completion(response)
             }
         }
         task.resume()

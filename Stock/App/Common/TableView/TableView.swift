@@ -23,7 +23,9 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: Cell.self), for: indexPath) as! Cell
         let item = items[indexPath.row]
+        print("before")
         configure(item, cell)
+        print("after")
         return cell
     }
 

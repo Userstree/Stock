@@ -18,7 +18,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     func didReceiveStocksList() {
-        stocksTableView.reloadData()
+        tableView.reloadData()
     }
 
     func hideLoading() {
@@ -51,15 +51,12 @@ class HomeViewController: UIViewController, HomeViewType {
         return segmentedControl
     }()
 
-    private lazy var stocksTableView: UITableView = {
-        guard let presenter = presenter else { fatalError("Could handle optional presenter in HomeView") }
-        let tableViewController = TableView(items: presenter.stockListItems()) { (stockViewModel: StockViewModel, cell: StocksTableViewCell) in
-            cell.titleLabel.text = stockViewModel.title
-            cell.subTitleLabel.text = stockViewModel.subTitle
-//            cell.priceLabel.text = "\(stockViewModel.price)"
-        }
-        tableViewController.tableView.backgroundColor = .gray
-        return tableViewController.tableView
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: String(describing: StocksTableViewCell.self))
+        tableView.dataSource = self
+        tableView.delegate = self
+        return tableView
     }()
 
     // MARK: - Lifecycle Methods
@@ -79,7 +76,7 @@ class HomeViewController: UIViewController, HomeViewType {
 
     private func configureViews() {
         [stocksSegmentedControlView,
-         stocksTableView
+         tableView,
         ].forEach(view.addSubview)
         makeConstraints()
     }
@@ -90,7 +87,7 @@ class HomeViewController: UIViewController, HomeViewType {
             $0.leading.equalTo(view.snp.leading).offset(16)
             $0.height.equalTo(32)
         }
-        stocksTableView.snp.makeConstraints {
+        tableView.snp.makeConstraints {
             $0.top.equalTo(stocksSegmentedControlView.snp.bottom).offset(6)
             $0.leading.equalTo(view.snp.leading).offset(16)
             $0.trailing.equalTo(view.snp.trailing).offset(-16)
@@ -115,5 +112,31 @@ extension HomeViewController: UISearchResultsUpdating {
             return
         }
         print(text)
+    }
+}
+
+extension HomeViewController: UITableViewDataSource {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let presenter = presenter else { return 0 }
+        return presenter.numberOfStocksItems()
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let presenter = presenter else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StocksTableViewCell.self),
+                for: indexPath) as! StocksTableViewCell
+        let index = indexPath.row
+        if index % 2 == 0 {
+            cell.backgroundColor = .systemGray3.withAlphaComponent(0.3)
+        }
+        cell.titleLabel.text = presenter.stockListItem(at: index).title
+        cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
+        return cell
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

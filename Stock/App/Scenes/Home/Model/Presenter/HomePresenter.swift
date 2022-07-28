@@ -23,7 +23,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     func stockListItems() -> [StockViewModel] {
-        let items = stocks.map { StockViewModel(stock: $0) }
+        let items = self.stocks.map { StockViewModel(stock: $0) }
         return items
     }
 
@@ -48,6 +48,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         self.stocks = stocks
         view?.hideLoading()
         view?.didReceiveStocksList()
+//        print(self.stocks)
     }
 
 }
@@ -55,15 +56,11 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 struct StockViewModel {
     let title: String
     let subTitle: String
-//    let price: Int
-//    let previousPrice: Int
 }
 
 extension StockViewModel {
     init(stock: StockDetails) {
         title = stock.title
         subTitle = stock.subTitle
-//        price = stock.price
-//        previousPrice = stock.
     }
 }

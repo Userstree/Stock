@@ -41,7 +41,6 @@ class HomeInteractor: HomeInteractorInputType {
         dataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
             guard let strongSelf = self else { return }
             strongSelf.presenter?.didRetrieveStocksList(stockDetailsList.data)
-            print("The completion result ", stockDetailsList.data)
         }
     }
 }
