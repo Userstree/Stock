@@ -2,8 +2,6 @@
 // Created by Dossymkhan Zhulamanov on 27.07.2022.
 //
 
-import RxSwift
-import RxCocoa
 
 struct NetworkManager {
 

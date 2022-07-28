@@ -7,14 +7,14 @@
 //
 
 
-class HomeRouter: PresenterToRouterHomeProtocol {
+class HomeRouter: HomeRouterType {
     
     // MARK: Static methods
     static func createModule() -> UIViewController {
         
         let viewController = HomeViewController()
         
-        let presenter: ViewToPresenterHomeProtocol & InteractorToPresenterHomeProtocol = HomePresenter()
+        let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
         
         viewController.presenter = presenter
         viewController.presenter?.router = HomeRouter()

@@ -25,7 +25,9 @@ class HomeViewController: UIViewController {
         return searchController
     }()
 
-    private var stocksListChanger: UISegmentedControl = {}()
+//    private var stocksListChanger: UISegmentedControl = {
+//
+//    }()
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -36,7 +38,7 @@ class HomeViewController: UIViewController {
     }
 
     // MARK: - Properties
-    var presenter: ViewToPresenterHomeProtocol?
+    var presenter: HomePresenterType?
 
     // MARK: - Configuration of the View
 
@@ -64,7 +66,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: PresenterToViewHomeProtocol{
+extension HomeViewController: HomeViewType{
     // TODO: Implement View Output Methods
 }
 

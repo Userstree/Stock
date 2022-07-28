@@ -6,7 +6,7 @@
 final class ViewControllerFactory {
     func instantiateHomeViewController() -> HomeViewController {
         let viewController = HomeViewController()
-        let presenter: ViewToPresenterHomeProtocol & InteractorToPresenterHomeProtocol = HomePresenter()
+        let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
         viewController.presenter = presenter
         viewController.presenter?.router = HomeRouter()
         viewController.presenter?.interactor = HomeInteractor()
