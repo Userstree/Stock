@@ -5,11 +5,16 @@
 
 final class ViewControllerFactory {
     func instantiateHomeViewController() -> HomeViewController {
-        let viewController = HomeViewController()
+        let view = HomeViewController()
         let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
-        viewController.presenter = presenter
-        viewController.presenter?.router = HomeRouter()
-        viewController.presenter?.interactor = HomeInteractor()
-        return viewController
+        let interactor: HomeInteractorInputType = HomeInteractor()
+        let router: HomeRouterType = HomeRouter()
+
+        view.presenter = presenter
+        presenter.view = view
+        presenter.router = router
+        presenter.interactor = interactor
+        interactor.presenter = presenter
+        return view
     }
 }

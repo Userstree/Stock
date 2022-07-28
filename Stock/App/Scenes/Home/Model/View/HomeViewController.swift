@@ -14,15 +14,15 @@ class HomeViewController: UIViewController, HomeViewType {
 
     // MARK: - HomeViewType Methods
     func showLoading() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        showSpinner()
     }
 
     func didReceiveStocksList() {
-        stocksTableView.tableView.reloadData()
+        stocksTableView.reloadData()
     }
 
     func hideLoading() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        hideSpinner()
     }
 
 
@@ -51,13 +51,14 @@ class HomeViewController: UIViewController, HomeViewType {
         return segmentedControl
     }()
 
-    private var stocksTableView: UITableView = {
-        guard let presenter = presenter  else { return 0 }
-        let tableViewController = TableView(items: presenter.stockListItems()) { (stockViewModel, cell: StocksTableViewCell) in
-            cell.titleLabel = stockViewModel.title
-            cell.subTitleLabel = stockViewModel.subTitle
-            cell.priceLabel = "\(stockViewModel.price)"
+    private lazy var stocksTableView: UITableView = {
+        guard let presenter = presenter else { fatalError("Could handle optional presenter in HomeView") }
+        let tableViewController = TableView(items: presenter.stockListItems()) { (stockViewModel: StockViewModel, cell: StocksTableViewCell) in
+            cell.titleLabel.text = stockViewModel.title
+            cell.subTitleLabel.text = stockViewModel.subTitle
+//            cell.priceLabel.text = "\(stockViewModel.price)"
         }
+        tableViewController.tableView.backgroundColor = .gray
         return tableViewController.tableView
     }()
 
@@ -67,6 +68,7 @@ class HomeViewController: UIViewController, HomeViewType {
         view.backgroundColor = R.color.backgroundColor()
         configureNavigationItems()
         configureViews()
+        presenter?.onViewDidLoad()
     }
 
     // MARK: - Configuration of the View
@@ -77,6 +79,7 @@ class HomeViewController: UIViewController, HomeViewType {
 
     private func configureViews() {
         [stocksSegmentedControlView,
+         stocksTableView
         ].forEach(view.addSubview)
         makeConstraints()
     }
@@ -86,6 +89,12 @@ class HomeViewController: UIViewController, HomeViewType {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view.snp.leading).offset(16)
             $0.height.equalTo(32)
+        }
+        stocksTableView.snp.makeConstraints {
+            $0.top.equalTo(stocksSegmentedControlView.snp.bottom).offset(6)
+            $0.leading.equalTo(view.snp.leading).offset(16)
+            $0.trailing.equalTo(view.snp.trailing).offset(-16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
 

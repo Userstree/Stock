@@ -15,7 +15,6 @@ protocol HomeViewType: AnyObject {
     func showLoading()
     func didReceiveStocksList()
     func hideLoading()
-//    func displayAlert()
 }
 
 
@@ -39,12 +38,16 @@ protocol HomePresenterType: AnyObject {
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol HomeInteractorInputType: AnyObject {
     var presenter: HomeInteractorOutputType? { get set }
+
+    // MARK: - Methods
+    func fetchStocks(for query: String)
+    func fetchInitialStocks()
 }
 
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-
+    func didRetrieveStocksList(_ stocks: [StockDetails])
 }
 
 
@@ -56,8 +59,7 @@ protocol HomeRouterType: AnyObject {
 
 // MARK: Networking
 protocol StocksRemoteDataManagerProtocol: AnyObject {
-//    func fetchStocks<A: Decodable>(for query: String, completion: @escaping ([A]) -> ())
     associatedtype A: Decodable
-    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
+    func fetchStocks(for query: String, completion: @escaping (A) -> ())
 }
 

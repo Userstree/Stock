@@ -34,6 +34,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
     func onViewDidLoad() {
         view?.showLoading()
+        interactor?.fetchInitialStocks()
     }
 
     func didChangeQuery(_ query: String?) {
@@ -43,12 +44,18 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomeInteractorOutputType Protocol
+    func didRetrieveStocksList(_ stocks: [StockDetails]) {
+        self.stocks = stocks
+        view?.hideLoading()
+        view?.didReceiveStocksList()
+    }
+
 }
 
 struct StockViewModel {
     let title: String
     let subTitle: String
-    let price: Int
+//    let price: Int
 //    let previousPrice: Int
 }
 
@@ -56,7 +63,7 @@ extension StockViewModel {
     init(stock: StockDetails) {
         title = stock.title
         subTitle = stock.subTitle
-        price = stock.price
+//        price = stock.price
 //        previousPrice = stock.
     }
 }
