@@ -58,7 +58,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 }
 
-protocol ViewModellable {}
 
 struct StockViewModel{
     var title: String

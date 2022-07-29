@@ -7,3 +7,8 @@ protocol StockDetailsModellable: Decodable {
     var title: String { get set }
     var subTitle: String { get set }
 }
+
+//protocol RemoteDataViewModellable {
+//    typealias T
+//    var container: []
+//}

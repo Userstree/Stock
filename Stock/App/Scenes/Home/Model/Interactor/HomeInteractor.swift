@@ -37,7 +37,7 @@ class HomeInteractor: HomeInteractorInputType {
         }
     }
 
-//    func fetch<T:StockDetailsModellable>(for query: String) {
+//    func fetch<T: StockDetailsModellable>(for query: String) {
 //        let remoteDataManager = StocksRemoteDataManager<T>()
 //    }
 
