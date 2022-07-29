@@ -37,6 +37,10 @@ class HomeInteractor: HomeInteractorInputType {
         }
     }
 
+//    func fetch<T:StockDetailsModellable>(for query: String) {
+//        let remoteDataManager = StocksRemoteDataManager<T>()
+//    }
+
     func fetchInitialStocks() {
         startFetchingStocksList(for: "")
     }

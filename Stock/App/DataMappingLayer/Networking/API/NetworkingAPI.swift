@@ -68,15 +68,15 @@ class NetworkingApi: NetworkingService {
         let task = session.dataTask(with: request) { (data, _,_) in
             DispatchQueue.main.async {
                 guard let data = data,
-                      let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
+                      let response = try? JSONDecoder().decode(A.self, from: data)
                 else {
-                    completion([])
+//                    completion()
                     return
                 }
-                completion(response.result)
+                completion(response)
             }
         }
-        task.resume
+        task.resume()
         return task
     }
 }
