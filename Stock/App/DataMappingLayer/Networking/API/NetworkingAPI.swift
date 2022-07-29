@@ -29,7 +29,6 @@ class NetworkingApi: NetworkingService {
                 guard let data = data,
                       let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
                 else {
-                    fatalError("nil instead of response from API")
                     completion([])
                     return
                 }

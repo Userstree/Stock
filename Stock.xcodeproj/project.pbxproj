@@ -59,7 +59,9 @@
 		C2FE87D1288945FF0032E3B7 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FE87D0288945FF0032E3B7 /* R.generated.swift */; };
 		F8843133FB3EE1A18AF91DFB /* UIFont+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F884376A859C17B1DCFFE1CF /* UIFont+ext.swift */; };
 		F88431A16C12CFC29E45A090 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8843799106ECE74E53143C9 /* LaunchScreen.storyboard */; };
+		F88433C92D75E828139F2833 /* SearchedStockDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F884368B801CE69EB5398BFF /* SearchedStockDetails.swift */; };
 		F88433E8AD03522130DAA403 /* UIViewController+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843413175E2473075DD500 /* UIViewController+ext.swift */; };
+		F8843576106B85616C1A5538 /* StockDetailsModellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88434EBD080FC5A60BEE3FB /* StockDetailsModellable.swift */; };
 		F884364D139B6D193081F122 /* UISegmentedControl+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843EE643095BB810B64D73 /* UISegmentedControl+ext.swift */; };
 		F8843DF0E5CC5C547765D697 /* UIStackView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88433CFB887E73E4DCA00FD /* UIStackView+ext.swift */; };
 		F8843EA82277262F06E35A65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8843E41EAFD2FE88EAE653B /* Main.storyboard */; };
@@ -129,8 +131,10 @@
 		F884323FE4717B94F93CDFC6 /* StockDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDetails.swift; sourceTree = "<group>"; };
 		F88433CFB887E73E4DCA00FD /* UIStackView+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+ext.swift"; sourceTree = "<group>"; };
 		F8843413175E2473075DD500 /* UIViewController+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ext.swift"; sourceTree = "<group>"; };
+		F88434EBD080FC5A60BEE3FB /* StockDetailsModellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDetailsModellable.swift; sourceTree = "<group>"; };
 		F884359788243B3D5601FFCD /* UIViewController+Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Coordinator.swift"; sourceTree = "<group>"; };
 		F884362F4DBDC5ABA6389215 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
+		F884368B801CE69EB5398BFF /* SearchedStockDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchedStockDetails.swift; sourceTree = "<group>"; };
 		F88436D53EB78EE52C2E7390 /* UILabel+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ext.swift"; sourceTree = "<group>"; };
 		F884376A859C17B1DCFFE1CF /* UIFont+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+ext.swift"; sourceTree = "<group>"; };
 		F8843799106ECE74E53143C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -643,6 +647,8 @@
 			isa = PBXGroup;
 			children = (
 				F884323FE4717B94F93CDFC6 /* StockDetails.swift */,
+				F88434EBD080FC5A60BEE3FB /* StockDetailsModellable.swift */,
+				F884368B801CE69EB5398BFF /* SearchedStockDetails.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -957,6 +963,8 @@
 				F8843133FB3EE1A18AF91DFB /* UIFont+ext.swift in Sources */,
 				F8843FCCF9A5636FB792F001 /* UILabel+ext.swift in Sources */,
 				F88433E8AD03522130DAA403 /* UIViewController+ext.swift in Sources */,
+				F8843576106B85616C1A5538 /* StockDetailsModellable.swift in Sources */,
+				F88433C92D75E828139F2833 /* SearchedStockDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

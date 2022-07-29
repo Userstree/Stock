@@ -14,7 +14,7 @@ class HomeViewController: UIViewController, HomeViewType {
 
     // MARK: - HomeViewType Methods
     func showLoading() {
-        showSpinner()
+        displayAnimatedActivityIndicatorView()
     }
 
     func didReceiveStocksList() {
@@ -22,7 +22,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     func hideLoading() {
-        hideSpinner()
+        hideAnimatedActivityIndicatorView()
     }
 
 
@@ -31,6 +31,7 @@ class HomeViewController: UIViewController, HomeViewType {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
         searchController.definesPresentationContext = true
+        searchController.obscuresBackgroundDuringPresentation = false
         return searchController
     }()
 
@@ -58,6 +59,7 @@ class HomeViewController: UIViewController, HomeViewType {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
+        tableView.rowHeight = 54
         return tableView
     }()
 
@@ -68,6 +70,7 @@ class HomeViewController: UIViewController, HomeViewType {
         configureNavigationItems()
         configureViews()
         presenter?.onViewDidLoad()
+
     }
 
     // MARK: - Configuration of the View
@@ -127,13 +130,11 @@ extension HomeViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StocksTableViewCell.self),
                 for: indexPath) as! StocksTableViewCell
         let index = indexPath.row
-        if index % 2 == 0 {
-            cell.backgroundColor = .systemGray3.withAlphaComponent(0.3)
-        }
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
         return cell
     }
+
 }
 
 extension HomeViewController: UITableViewDelegate {

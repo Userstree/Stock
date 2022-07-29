@@ -47,7 +47,7 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-    func didRetrieveStocksList(_ stocks: [StockDetails])
+    func didRetrieveStocksList(_ stocks: [StockDetailsModellable])
 }
 
 
@@ -61,5 +61,6 @@ protocol HomeRouterType: AnyObject {
 protocol StocksRemoteDataManagerProtocol: AnyObject {
     associatedtype A: Decodable
     func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
+    func searchStocks(for query: String, completion: @escaping ([A]) -> ())
 }
 

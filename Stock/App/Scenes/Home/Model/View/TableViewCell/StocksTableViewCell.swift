@@ -18,17 +18,15 @@ class StocksTableViewCell: UITableViewCell {
 
     // MARK: - Vars & Lets
     var stockImageIcon: UIImageView = {
-        var imageView = UIImageView()
-        imageView.layer.cornerRadius = 15
-        imageView.layer.cornerCurve = .continuous
+        var imageView = UIImageView(image: UIImage(named: "no-Image")!)
+        imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     private var starImageView: UIImageView = {
-        let imageView = UIImageView(image: .init(systemName: "star"))
+        let imageView = UIImageView(image: UIImage(systemName: "star"))
         imageView.tintColor = .systemYellow
-        imageView.backgroundColor = .systemYellow
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -41,9 +39,11 @@ class StocksTableViewCell: UITableViewCell {
 
     var priceLabel = UILabel()
             .font(ofSize: 18, weight: .semibold)
+            .text("$???")
 
     var priceDifferenceLabel = UILabel()
             .font(ofSize: 12, weight: .regular)
+            .text("???")
 
     // MARK: - Controller lifecycle
     override func layoutSubviews() {
@@ -57,7 +57,6 @@ class StocksTableViewCell: UITableViewCell {
 
     @objc
     func starImageTapped(_ tapGestureRecognizer: UITapGestureRecognizer) {
-//        let tappedImage = tapGestureRecognizer.view as! UIImageView
         isFavorite = !isFavorite
     }
 
@@ -75,12 +74,12 @@ class StocksTableViewCell: UITableViewCell {
 
     private func makeConstraints() {
         stockImageIcon.snp.makeConstraints {
-            $0.leading.equalTo(contentView.snp.leading).offset(2)
-            $0.top.equalTo(contentView.snp.top).offset(2)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(2)
+            $0.leading.equalTo(contentView.snp.leading).offset(6)
+            $0.size.equalTo(CGSize(width: 40, height: 40))
+            $0.centerY.equalTo(contentView.snp.centerY)
         }
         titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(stockImageIcon.snp.trailing).offset(6)
+            $0.leading.equalTo(stockImageIcon.snp.trailing).offset(12)
             $0.top.equalTo(stockImageIcon.snp.top).offset(2)
         }
         subTitleLabel.snp.makeConstraints {

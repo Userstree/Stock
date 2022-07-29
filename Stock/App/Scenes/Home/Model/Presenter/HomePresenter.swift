@@ -15,7 +15,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     var router: HomeRouterType?
 
     // MARK: - Vars & Lets
-    private var stocks = [StockDetails]()
+    private var stocks = [StockDetailsModellable]()
 
     // MARK: - HomePresenterType Protocol
     func numberOfStocksItems() -> Int {
@@ -47,7 +47,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomeInteractorOutputType Protocol
-    func didRetrieveStocksList(_ stocks: [StockDetails]) {
+    func didRetrieveStocksList(_ stocks: [StockDetailsModellable]) {
         self.stocks = stocks
         view?.hideLoading()
         view?.didReceiveStocksList()
@@ -55,13 +55,13 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
 }
 
-struct StockViewModel {
-    let title: String
-    let subTitle: String
+struct StockViewModel{
+    var title: String
+    var subTitle: String
 }
 
 extension StockViewModel {
-    init(stock: StockDetails) {
+    init(stock: StockDetailsModellable) {
         title = stock.title
         subTitle = stock.subTitle
     }

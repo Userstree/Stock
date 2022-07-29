@@ -9,15 +9,18 @@
 class HomeInteractor: HomeInteractorInputType {
 
     // MARK: - Dependencies
-    private let dataManager: StocksRemoteDataManager<StockDetails>
+    private let getAllDataManager: StocksRemoteDataManager<StockDetails>
+//    private let searchManager: StocksRemoteDataManager<
     private let validator = ThrottledTextValidator()
 
     // MARK: HomeInteractorInputType Properties
     weak var presenter: HomeInteractorOutputType?
 
     // MARK: - Init
-    init(dataManager: StocksRemoteDataManager<StockDetails> = StocksRemoteDataManager<StockDetails>()) {
-        self.dataManager = dataManager
+    init(getAllDataManager: StocksRemoteDataManager<StockDetails> = StocksRemoteDataManager<StockDetails>()
+//         searchDataManager: StocksRemoteDataManager<
+    ) {
+        self.getAllDataManager = getAllDataManager
     }
 
     // MARK: - HomeInteractorInputType Protocol
@@ -38,7 +41,7 @@ class HomeInteractor: HomeInteractorInputType {
     }
 
     private func startFetching(for query: String) {
-        dataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
+        getAllDataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
             guard let strongSelf = self else { return }
             strongSelf.presenter?.didRetrieveStocksList(stockDetailsList)
         }

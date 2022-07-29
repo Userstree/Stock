@@ -2,11 +2,11 @@
 // Created by Dossymkhan Zhulamanov on 28.07.2022.
 //
 
-struct StocksListDetails: Decodable {
-    var data: [StockDetails]
+struct StocksListDetails<A: StockDetailsModellable>: Decodable {
+    var data: [A]
 }
 
-struct StockDetails: Decodable {
+struct StockDetails: StockDetailsModellable {
     var title: String
     var subTitle: String
 
@@ -14,4 +14,5 @@ struct StockDetails: Decodable {
         case title = "symbol"
         case subTitle = "description"
     }
+
 }

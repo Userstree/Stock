@@ -13,4 +13,8 @@ final class StocksRemoteDataManager<A: Decodable>: StocksRemoteDataManagerProtoc
     func fetchStocks(for query: String, completion: @escaping ([A]) -> ()) {
         networkingService.fetchStocks(withQuery: query, completion: completion)
     }
+
+    func searchStocks(for query: String, completion: @escaping ([A]) -> ()) {
+        networkingService.searchStocks(withQuery: query, completion: completion)
+    }
 }
