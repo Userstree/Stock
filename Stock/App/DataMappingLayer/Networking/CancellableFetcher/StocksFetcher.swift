@@ -5,7 +5,7 @@
 
 
 protocol CancellableStocksFetchable {
-    func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping (A) -> ())
+    func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping ([A]) -> ())
 }
 
 final class CancellableStocksFetcher: CancellableStocksFetchable {
@@ -16,11 +16,16 @@ final class CancellableStocksFetcher: CancellableStocksFetchable {
         self.networkingService = networkingService
     }
 
-    func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping (A) -> ()) {
+    func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping ([A]) -> ()) {
         currentSearchNetworkTask?.cancel() 
-
-        _ = currentSearchNetworkTask = networkingService.searchStocks(withQuery: query) { repos in
-            completion(repos!)
+        if query.isEmpty {
+            _ = currentSearchNetworkTask = networkingService.getAllStocksList { stocks in
+                completion(stocks)
+            }
+        } else {
+            _ = currentSearchNetworkTask = networkingService.searchStocks(with: query) { stocks in
+                completion(stocks)
+            }
         }
     }
 }

@@ -38,6 +38,9 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     func didChangeQuery(_ query: String?) {
+        guard let query = query else { return }
+        view?.showLoading()
+        interactor?.fetchStocks(for: query)
     }
 
     func didSelectRow(_ index: IndexPath) {
@@ -48,7 +51,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         self.stocks = stocks
         view?.hideLoading()
         view?.didReceiveStocksList()
-//        print(self.stocks)
     }
 
 }

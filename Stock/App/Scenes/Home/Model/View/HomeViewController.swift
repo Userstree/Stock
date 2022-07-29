@@ -30,6 +30,7 @@ class HomeViewController: UIViewController, HomeViewType {
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
+        searchController.definesPresentationContext = true
         return searchController
     }()
 
@@ -56,6 +57,7 @@ class HomeViewController: UIViewController, HomeViewType {
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: String(describing: StocksTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
 
@@ -108,11 +110,10 @@ class HomeViewController: UIViewController, HomeViewType {
 
 extension HomeViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {
-            return
-        }
-        print(text)
+        presenter?.didChangeQuery(searchController.searchBar.text)
+//        tableView.reloadData()
     }
+
 }
 
 extension HomeViewController: UITableViewDataSource {

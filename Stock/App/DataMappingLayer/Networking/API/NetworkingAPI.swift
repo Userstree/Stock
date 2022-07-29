@@ -5,7 +5,9 @@
 
 protocol NetworkingService {
     @discardableResult
-    func searchStocks<A: Decodable>(withQuery query: String, completion: @escaping (A?) -> ()) -> URLSessionDataTask
+    func getAllStocksList<A: Decodable>(completion: @escaping ([A]) -> ()) -> URLSessionDataTask
+    @discardableResult
+    func searchStocks<A: Decodable>(with query: String, completion: @escaping ([A]) -> ()) -> URLSessionDataTask
 }
 
 final
@@ -13,26 +15,42 @@ class NetworkingApi: NetworkingService {
     private let session = URLSession.shared
 
     @discardableResult
-    func searchStocks<A: Decodable>(withQuery query: String, completion: @escaping (A?) -> ()) -> URLSessionDataTask {
-        var stocksAPI = "https://api.twelvedata.com/stocks"
+    func searchStocks<A: Decodable>(with query: String, completion: @escaping ([A]) -> ()) -> URLSessionDataTask {
+        var finhubAPI = "https://finnhub.io/api/v1/search?q="
         if !query.isEmpty {
-            stocksAPI.append("?symbol=")
-            stocksAPI.append(query)
-            stocksAPI.append("&apikey=349fabdc272c4af5a5193f8a6f76eec6")
+            finhubAPI.append(query)
+            finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
         } else {
-            stocksAPI.append("?apikey=349fabdc272c4af5a5193f8a6f76eec6")
+            finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
         }
-        print(stocksAPI)
+        let request = URLRequest(url: URL(string: finhubAPI)!)
+        let task = session.dataTask(with: request) { (data, _, _) in
+            DispatchQueue.main.async {
+                guard let data = data,
+                      let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
+                else {
+                    fatalError("nil instead of response from API")
+                    completion([])
+                    return
+                }
+                completion(response.result)
+            }
+        }
+        task.resume()
+        return task
+    }
+
+    @discardableResult
+    func getAllStocksList<A: Decodable>(completion: @escaping ([A]) -> ()) -> URLSessionDataTask {
+        var stocksAPI = "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cbhd3eaad3i0blffqelg"
         let request = URLRequest(url: URL(string: stocksAPI)!)
         let task = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
-//                print("the data is ", data)
-//                print("the type of A is ", String(describing: SearchResponse<A>.self))
                 guard let data = data,
-                      let response = try? JSONDecoder().decode(A.self, from: data)
+                      let response = try? JSONDecoder().decode([A].self, from: data)
                 else {
                     fatalError("nil instead of response from API")
-                    completion(nil)
+                    completion([])
                     return
                 }
                 completion(response)
@@ -45,5 +63,12 @@ class NetworkingApi: NetworkingService {
 
 fileprivate
 struct SearchResponse<A: Decodable>: Decodable {
-    let items: A
+    let items: [A]
+}
+
+
+fileprivate
+struct SearchedStocks<A: Decodable>: Decodable {
+    var count: Int
+    var result: [A]
 }

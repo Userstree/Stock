@@ -60,6 +60,6 @@ protocol HomeRouterType: AnyObject {
 // MARK: Networking
 protocol StocksRemoteDataManagerProtocol: AnyObject {
     associatedtype A: Decodable
-    func fetchStocks(for query: String, completion: @escaping (A) -> ())
+    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
 }
 
