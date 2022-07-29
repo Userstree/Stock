@@ -6,6 +6,4 @@
 struct SearchedStockDetails: StockDetailsModellable {
     var title: String = ""
     var subTitle: String = ""
-
-
 }

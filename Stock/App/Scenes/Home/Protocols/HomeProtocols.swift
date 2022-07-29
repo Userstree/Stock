@@ -62,5 +62,6 @@ protocol StocksRemoteDataManagerProtocol: AnyObject {
     associatedtype A: Decodable
     func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
     func searchStocks(for query: String, completion: @escaping ([A]) -> ())
+    func getStockImage(completion: @escaping (A) -> ())
 }
 

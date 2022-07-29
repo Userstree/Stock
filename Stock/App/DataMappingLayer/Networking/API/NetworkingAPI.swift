@@ -6,8 +6,12 @@
 protocol NetworkingService {
     @discardableResult
     func getAllStocksList<A: Decodable>(completion: @escaping ([A]) -> ()) -> URLSessionDataTask
+
     @discardableResult
     func searchStocks<A: Decodable>(with query: String, completion: @escaping ([A]) -> ()) -> URLSessionDataTask
+
+    @discardableResult
+    func getStockImage<A: Decodable>(completion: @escaping (A) -> ()) -> URLSessionTask
 }
 
 final
@@ -19,10 +23,8 @@ class NetworkingApi: NetworkingService {
         var finhubAPI = "https://finnhub.io/api/v1/search?q="
         if !query.isEmpty {
             finhubAPI.append(query)
-            finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
-        } else {
-            finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
         }
+        finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
         let request = URLRequest(url: URL(string: finhubAPI)!)
         let task = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
@@ -56,6 +58,25 @@ class NetworkingApi: NetworkingService {
             }
         }
         task.resume()
+        return task
+    }
+
+    @discardableResult
+    func getStockImage<A: Decodable>(completion: @escaping (A) -> ()) -> URLSessionTask {
+        var twelveDataAPI = "https://api.twelvedata.com/symbol_search?symbol="
+        let request = URLRequest(url: URL(string: twelveDataAPI)!)
+        let task = session.dataTask(with: request) { (data, _,_) in
+            DispatchQueue.main.async {
+                guard let data = data,
+                      let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
+                else {
+                    completion([])
+                    return
+                }
+                completion(response.result)
+            }
+        }
+        task.resume
         return task
     }
 }

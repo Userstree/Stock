@@ -16,6 +16,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
     // MARK: - Vars & Lets
     private var stocks = [StockDetailsModellable]()
+    private var stocksImageURLStrings = [String]()
 
     // MARK: - HomePresenterType Protocol
     func numberOfStocksItems() -> Int {
@@ -52,7 +53,9 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         view?.hideLoading()
         view?.didReceiveStocksList()
     }
+    func didRetrieveStocksImageURLStrings(){
 
+    }
 }
 
 struct StockViewModel{

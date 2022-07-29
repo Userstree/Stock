@@ -7,6 +7,7 @@
 protocol CancellableStocksFetchable {
     func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping ([A]) -> ())
     func searchStocks<A: Decodable>(withQuery query: String, completion: @escaping ([A]) -> ())
+    func fetchStockimage<A: Decodable>(completion: @escaping (A) -> ())
 }
 
 final class CancellableStocksFetcher: CancellableStocksFetchable {
@@ -37,4 +38,9 @@ final class CancellableStocksFetcher: CancellableStocksFetchable {
         }
     }
 
+    func fetchStockimage<A: Decodable>(completion: @escaping (A) -> ()) {
+        currentSearchNetworkTask?.cancel()
+
+//        _ = currentSearchNetworkTask = networkingService
+    }
 }
