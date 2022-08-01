@@ -41,13 +41,12 @@ class HomeInteractor: HomeInteractorInputType {
     }
 
 
-    func fetchInitialStocks() {
+    @MainActor func fetchInitialStocks() {
         Task {
             let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
             print("works ", stockViewModels.count)
             presenter?.didRetrieveStocksList(stockViewModels)
         }
-//        startFetchingStocksList(for: "")
     }
 
     private func startFetchingStocksList(for query: String) {

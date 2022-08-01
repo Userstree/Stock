@@ -131,7 +131,7 @@ extension HomeViewController: UITableViewDataSource {
         let index = indexPath.row
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
-        cell.stockImageIcon.image = presenter.stockListItem(at: index).logo
+        cell.stockImageIcon.loadImage(urlString: presenter.stockListItem(at: index).logoUrlString)
         return cell
     }
 

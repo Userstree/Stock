@@ -36,7 +36,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     func onViewDidLoad() {
         view?.showLoading()
         interactor?.fetchInitialStocks()
-
     }
 
     func didChangeQuery(_ query: String?) {
@@ -52,12 +51,9 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     // MARK: - HomeInteractorOutputType Protocol
 
     func didRetrieveStocksList(_ stocks: [SingleStockViewModel]) {
-        DispatchQueue.main.async { [weak self, weak view] in
-            guard let self = self else { return }
             self.stocks = stocks
             view?.hideLoading()
             view?.didReceiveStocksList()
-        }
     }
 
     func didRetrieveStocksImageURLStrings() {
