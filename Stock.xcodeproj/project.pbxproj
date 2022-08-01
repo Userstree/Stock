@@ -20,6 +20,7 @@
 		615B443D305C324107345716 /* SearchProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B41952FBFCBCF2671AE7B /* SearchProtocols.swift */; };
 		615B443D944E1E1E40EDF8D6 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B47754568435E43B1C2E4 /* Paths.swift */; };
 		615B44F3D0F300C47FDEEC1A /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B42A938E0BB9C76751F29 /* URLBuilder.swift */; };
+		615B4510C52553D7F4DB3FAC /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B49AD3A230FEBCBD63487 /* Base.swift */; };
 		615B4547C5272CBA159FE00B /* ThottledTextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B411BC05FB82D15C94D45 /* ThottledTextValidator.swift */; };
 		615B4618A736928539E9FE65 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4C203112C9FFA7E020A3 /* SearchRouter.swift */; };
 		615B4663C17A416ACB0AAD96 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4FDBD26335665CBA8039 /* TableView.swift */; };
@@ -100,6 +101,7 @@
 		615B494DA0559A94E8E9CC80 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		615B49602B0606625A1CD9FB /* HomePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		615B49667431D067B387BCE1 /* APIKEYS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIKEYS.swift; sourceTree = "<group>"; };
+		615B49AD3A230FEBCBD63487 /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		615B4A4AF478CBD489EFED48 /* RemoteAPIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteAPIRequest.swift; sourceTree = "<group>"; };
 		615B4B156D1EE7331179C7D9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		615B4B412250798462B7D5AB /* StocksEndPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksEndPoint.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				615B48C248B59579B3F1CF4A /* Queries.swift */,
 				615B49667431D067B387BCE1 /* APIKEYS.swift */,
 				615B4E90AF5C6FD4FCD948CE /* RemoteAPIError.swift */,
+				615B49AD3A230FEBCBD63487 /* Base.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -925,6 +928,7 @@
 				615B409A5D5E3451C0EFF04A /* APIKEYS.swift in Sources */,
 				615B47E025F26F6E2134B13D /* RemoteAPIRequest.swift in Sources */,
 				615B407366E8C2618D89FEBD /* RemoteAPIError.swift in Sources */,
+				615B4510C52553D7F4DB3FAC /* Base.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

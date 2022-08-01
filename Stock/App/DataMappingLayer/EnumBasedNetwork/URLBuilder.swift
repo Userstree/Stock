@@ -13,7 +13,7 @@ extension URLBuilder {
 
     fileprivate var basePath: String {
         switch self {
-        case .fetchImage:               return "https://api.twelvedata.com"
+        case .fetchImage:               return "https://finnhub.io/api/v1"
         case .getAllStocks:             return "https://finnhub.io/api/v1"
         case .searchForSymbol:          return "https://api.twelvedata.com"
         }
@@ -21,7 +21,7 @@ extension URLBuilder {
 
     fileprivate var path: String {
         switch self {
-        case .fetchImage:               return TwelveDataPaths.logo.rawValue
+        case .fetchImage:               return FinHubPaths.logo.rawValue
         case .getAllStocks:             return FinHubPaths.allStocks.rawValue
         case .searchForSymbol:          return TwelveDataPaths.symbolSearch.rawValue
         }
@@ -42,7 +42,7 @@ extension URLBuilder {
         case .getAllStocks:
             urlString.append(basePath + path + APIKEYS.finHub.rawValue)
         case .fetchImage:
-            urlString.append(basePath + path + endPoint + APIKEYS.twelveData.rawValue)
+            urlString.append(basePath + path + endPoint + APIKEYS.finHub.rawValue)
         case .searchForSymbol:
             urlString.append(basePath + path + endPoint)
         }
