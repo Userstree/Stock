@@ -31,25 +31,32 @@ class HomeInteractor: HomeInteractorInputType {
         } else {
             validator.validate(query: query) { [weak self] query in
                 guard let strongSelf = self,
-                      let query = query else { return }
+                      let query = query
+                else {
+                    return
+                }
                 strongSelf.startFetchingStocksList(for: query)
             }
         }
     }
 
-//    func fetch<T: StockDetailsModellable>(for query: String) {
-//        let remoteDataManager = StocksRemoteDataManager<T>()
-//    }
 
     func fetchInitialStocks() {
-        startFetchingStocksList(for: "")
+        Task {
+            let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
+            print("works ", stockViewModels.count)
+            presenter?.didRetrieveStocksList(stockViewModels)
+        }
+//        startFetchingStocksList(for: "")
     }
 
     private func startFetchingStocksList(for query: String) {
-        getAllDataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
-            guard let strongSelf = self else { return }
-            strongSelf.presenter?.didRetrieveStocksList(stockDetailsList)
-        }
+//        getAllDataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
+//            guard let strongSelf = self else {
+//                return
+//            }
+//            strongSelf.presenter?.didRetrieveStocksList(stockDetailsList)
+//        }
     }
 
     private func startFetchingImageStrings(for query: String) {

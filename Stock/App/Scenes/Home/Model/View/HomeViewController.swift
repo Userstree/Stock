@@ -26,7 +26,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
 
-    // MARK: - Vars & Lets
+    // MARK: - Properties
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -114,7 +114,6 @@ class HomeViewController: UIViewController, HomeViewType {
 extension HomeViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         presenter?.didChangeQuery(searchController.searchBar.text)
-//        tableView.reloadData()
     }
 
 }
@@ -132,6 +131,7 @@ extension HomeViewController: UITableViewDataSource {
         let index = indexPath.row
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
+        cell.stockImageIcon.image = presenter.stockListItem(at: index).logo
         return cell
     }
 

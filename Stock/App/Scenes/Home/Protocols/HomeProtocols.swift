@@ -30,8 +30,8 @@ protocol HomePresenterType: AnyObject {
     func didSelectRow(_ index: IndexPath)
 
     func numberOfStocksItems() -> Int
-    func stockListItems() -> [StockViewModel]
-    func stockListItem(at index: Int) -> StockViewModel
+    func stockListItems() -> [SingleStockViewModel]
+    func stockListItem(at index: Int) -> SingleStockViewModel
 }
 
 
@@ -47,7 +47,7 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-    func didRetrieveStocksList(_ stocks: [StockDetailsModellable])
+    func didRetrieveStocksList(_ stocks: [SingleStockViewModel])
 }
 
 

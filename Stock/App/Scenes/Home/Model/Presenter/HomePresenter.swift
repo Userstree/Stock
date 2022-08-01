@@ -15,32 +15,34 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     var router: HomeRouterType?
 
     // MARK: - Vars & Lets
-    private var stocks = [StockDetailsModellable]()
+    private var stocks = [SingleStockViewModel]()
     private var stocksImageURLStrings = [String]()
 
     // MARK: - HomePresenterType Protocol
+
     func numberOfStocksItems() -> Int {
         stocks.count
     }
 
-    func stockListItems() -> [StockViewModel] {
-        let items = self.stocks.map { StockViewModel(stock: $0) }
-        return items
+    func stockListItems() -> [SingleStockViewModel] {
+        stocks
     }
 
-    func stockListItem(at index: Int) -> StockViewModel {
-        let item = stocks.map { StockViewModel(stock: $0) }[index]
+    func stockListItem(at index: Int) -> SingleStockViewModel {
+        let item = stocks[index]
         return item
     }
 
     func onViewDidLoad() {
         view?.showLoading()
         interactor?.fetchInitialStocks()
+
     }
 
     func didChangeQuery(_ query: String?) {
-        guard let query = query else { return }
-        view?.showLoading()
+        guard let query = query else {
+            return
+        }
         interactor?.fetchStocks(for: query)
     }
 
@@ -48,18 +50,24 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomeInteractorOutputType Protocol
-    func didRetrieveStocksList(_ stocks: [StockDetailsModellable]) {
-        self.stocks = stocks
-        view?.hideLoading()
-        view?.didReceiveStocksList()
+
+    func didRetrieveStocksList(_ stocks: [SingleStockViewModel]) {
+        DispatchQueue.main.async { [weak self, weak view] in
+            guard let self = self else { return }
+            self.stocks = stocks
+            view?.hideLoading()
+            view?.didReceiveStocksList()
+        }
     }
-    func didRetrieveStocksImageURLStrings(){
+
+    func didRetrieveStocksImageURLStrings() {
 
     }
+
 }
 
 
-struct StockViewModel{
+struct StockViewModel {
     var title: String
     var subTitle: String
 }

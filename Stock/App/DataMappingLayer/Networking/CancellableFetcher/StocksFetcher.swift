@@ -21,12 +21,17 @@ final class CancellableStocksFetcher: CancellableStocksFetchable {
     func fetchStocks<A: Decodable>(withQuery query: String, completion: @escaping ([A]) -> ()) {
         currentSearchNetworkTask?.cancel()
         if query.isEmpty {
-            _ = currentSearchNetworkTask = networkingService.getAllStocksList { stocks in
-                completion(stocks)
+            DispatchQueue.global().async { [weak self] in
+                self?.networkingService.getAllStocksList { stocks in
+                    completion(stocks)
+                }
             }
         } else {
-            _ = currentSearchNetworkTask = networkingService.searchStocks(with: query) { stocks in
-                completion(stocks)
+
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.networkingService.searchStocks(with: query) { stocks in
+                    completion(stocks)
+                }
             }
         }
     }

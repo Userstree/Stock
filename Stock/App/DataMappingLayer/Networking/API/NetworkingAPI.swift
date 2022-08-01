@@ -27,15 +27,13 @@ class NetworkingApi: NetworkingService {
         finhubAPI.append("&token=cbhd3eaad3i0blffqelg")
         let request = URLRequest(url: URL(string: finhubAPI)!)
         let task = session.dataTask(with: request) { (data, _, _) in
-            DispatchQueue.main.async {
-                guard let data = data,
-                      let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
-                else {
-                    completion([])
-                    return
-                }
-                completion(response.result)
+            guard let data = data,
+                  let response = try? JSONDecoder().decode(SearchedStocks<A>.self, from: data)
+            else {
+                completion([])
+                return
             }
+            completion(response.result)
         }
         task.resume()
         return task
@@ -43,19 +41,15 @@ class NetworkingApi: NetworkingService {
 
     @discardableResult
     func getAllStocksList<A: Decodable>(completion: @escaping ([A]) -> ()) -> URLSessionDataTask {
-        var stocksAPI = "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cbhd3eaad3i0blffqelg"
+        let stocksAPI = "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cbhd3eaad3i0blffqelg"
         let request = URLRequest(url: URL(string: stocksAPI)!)
         let task = session.dataTask(with: request) { (data, _, _) in
-            DispatchQueue.main.async {
-                guard let data = data,
-                      let response = try? JSONDecoder().decode([A].self, from: data)
-                else {
-                    fatalError("nil instead of response from API")
-                    completion([])
-                    return
-                }
-                completion(response)
+            guard let data = data,
+                  let response = try? JSONDecoder().decode([A].self, from: data)
+            else {
+                fatalError("nil instead of response from API")
             }
+            completion(response)
         }
         task.resume()
         return task
@@ -65,7 +59,7 @@ class NetworkingApi: NetworkingService {
     func getStockImage<A: Decodable>(completion: @escaping (A) -> ()) -> URLSessionTask {
         var twelveDataAPI = "https://api.twelvedata.com/symbol_search?symbol="
         let request = URLRequest(url: URL(string: twelveDataAPI)!)
-        let task = session.dataTask(with: request) { (data, _,_) in
+        let task = session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 guard let data = data,
                       let response = try? JSONDecoder().decode(A.self, from: data)

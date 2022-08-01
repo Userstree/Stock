@@ -3,3 +3,4 @@
 @import RxSwift;
 @import RxCocoa;
 @import MagicalRecord;
+@import Foundation;

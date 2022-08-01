@@ -14,5 +14,4 @@ struct StockDetails: StockDetailsModellable {
         case title = "symbol"
         case subTitle = "description"
     }
-
 }
