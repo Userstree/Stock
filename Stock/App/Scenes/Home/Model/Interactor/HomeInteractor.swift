@@ -9,19 +9,15 @@
 class HomeInteractor: HomeInteractorInputType {
 
     // MARK: - Dependencies
-    private let getAllDataManager: StocksRemoteDataManager<StockDetails>
-    private let twelveDataImageManager: StocksRemoteDataManager<StockImageURLStr>
     private let validator = ThrottledTextValidator()
 
     // MARK: HomeInteractorInputType Properties
     weak var presenter: HomeInteractorOutputType?
 
     // MARK: - Init
-    init(getAllDataManager: StocksRemoteDataManager<StockDetails> = StocksRemoteDataManager<StockDetails>(),
-         twelveDataImageManager: StocksRemoteDataManager<StockImageURLStr> = StocksRemoteDataManager<StockImageURLStr>()
+    init(
+
     ) {
-        self.getAllDataManager = getAllDataManager
-        self.twelveDataImageManager = twelveDataImageManager
     }
 
     // MARK: - HomeInteractorInputType Protocol
@@ -41,7 +37,8 @@ class HomeInteractor: HomeInteractorInputType {
     }
 
 
-    @MainActor func fetchInitialStocks() {
+    @MainActor
+    func fetchInitialStocks() {
         Task {
             let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
             print("works ", stockViewModels.count)
@@ -50,12 +47,7 @@ class HomeInteractor: HomeInteractorInputType {
     }
 
     private func startFetchingStocksList(for query: String) {
-//        getAllDataManager.fetchStocks(for: query) { [weak self] stockDetailsList in
-//            guard let strongSelf = self else {
-//                return
-//            }
-//            strongSelf.presenter?.didRetrieveStocksList(stockDetailsList)
-//        }
+
     }
 
     private func startFetchingImageStrings(for query: String) {

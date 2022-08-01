@@ -34,27 +34,24 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
                 stockViewModels.append(SingleStockViewModel(title: item.title, subTitle: item.subTitle, logoUrlString: imageStrings[index]))
             }
             stockViewModels.forEach {
-                print($0.title)
+                print($0.title, " and ", $0.logoUrlString)
             }
             return stockViewModels
         }
     }
 
     func fetchStockImage(for symbol: String) async throws -> String {
-        if symbol.isEmpty { return "https://stock.adobe.com/search/images?k=no%20image%20available" }
+        if symbol.isEmpty { return "" }
         let urlString = URLBuilder.fetchImage(symbol).makeString()
-        print(urlString)
         let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
-        guard data.count > 2 else { return "https://stock.adobe.com/search/images?k=no%20image%20available" }
+        guard data.count > 2 else { return "" }
         let dataResponse = try JSONDecoder().decode(TwelveDataImage.self, from: data)
         if dataResponse.logo.isEmpty {
-            return "https://stock.adobe.com/search/images?k=no%20image%20available"
+            return ""
         }
-        print(dataResponse.logo)
         return dataResponse.logo
     }
 }
-
 
 struct SingleStockViewModel {
     var title: String

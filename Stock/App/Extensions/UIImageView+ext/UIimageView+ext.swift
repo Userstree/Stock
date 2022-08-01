@@ -4,7 +4,6 @@
 
 extension UIImageView {
     func loadImage(urlString: String) {
-        print("String is ", urlString)
         guard let url = URL(string: urlString) else { return }
 
         DispatchQueue.main.async { [weak self] in
