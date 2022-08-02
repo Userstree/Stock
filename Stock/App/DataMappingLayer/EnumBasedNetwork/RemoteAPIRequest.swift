@@ -7,6 +7,7 @@ protocol RemoteAPIRequestType {
     func fetchStockImage(for symbol: String) async throws -> String
 }
 
+@MainActor
 struct RemoteAPIRequest: RemoteAPIRequestType {
 
     // MARK: - RemoteAPIRequestType
@@ -18,7 +19,7 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
             throw(RemoteAPIError.invalidHttpResponseCode)
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
-        let stocksDetailsList = dataResponse[..<25]
+        let stocksDetailsList = dataResponse.prefix(25)
 
         return try await withThrowingTaskGroup(of: (String).self, returning: [SingleStockViewModel].self) { (taskGroup) in
             for stock in stocksDetailsList {

@@ -6,6 +6,7 @@
 //  
 //
 
+
 class HomeInteractor: HomeInteractorInputType {
 
     // MARK: - Dependencies
@@ -37,7 +38,6 @@ class HomeInteractor: HomeInteractorInputType {
     }
 
 
-    @MainActor
     func fetchInitialStocks() {
         Task {
             let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
