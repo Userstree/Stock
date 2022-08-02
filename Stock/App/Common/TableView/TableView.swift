@@ -6,7 +6,7 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     // MARK: - Vars & Lets
     var items: [Item] = []
     var didSelect: (Item) -> Void = { _ in }
-    var configure: (Item, Cell) -> Void
+    var configure: (Cell, Item) -> Void
 
     // MARK: - TableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -24,7 +24,7 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: Cell.self), for: indexPath) as! Cell
         let item = items[indexPath.row]
         print("before")
-        configure(item, cell)
+        configure(cell, item)
         print("after")
         return cell
     }
@@ -36,13 +36,13 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     }
 
     // MARK: - Init
-    init(style: UITableView.Style? = .plain,
+    init(
          items: [Item],
-         configure: (Item, Cell) -> ()
+         configure: @escaping (Cell, Item) -> ()
     ) {
         self.items = items
         self.configure = configure
-        super.init(style: style!)
+        super.init(style: .plain)
     }
 
     required init?(coder: NSCoder) {

@@ -65,19 +65,6 @@ class HomeViewController: UIViewController, HomeViewType {
         return tableView
     }()
 
-    private lazy var xtableView: UITableView = {
-        let tableView = TableView<SingleStockViewModel, StocksTableViewCell>(items: presenter?.stockListItems()) { (stock: SingleStockViewModel, cell: StocksTableViewCell) in
-            cell.titleLabel.text = stock.title
-            cell.subTitleLabel.text = stock.subTitle
-            let logo = stock.logoUrlString
-            if logo.isEmpty {
-                cell.stockImageIcon.image = UIImage(named: "no-Image")
-            }
-            cell.stockImageIcon.loadImage(urlString: logo)
-        }
-        return tableView
-    }()
-
     // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
