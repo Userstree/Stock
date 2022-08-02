@@ -9,7 +9,4 @@ class DataRepository<T: Codable> {
         fatalError("getAll() has not been implemented")
     }
 
-    func get(objectWith symbol: String) -> Observable<T> {
-        NetworkManager().sendExchangesRequest()
-    }
 }

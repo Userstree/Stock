@@ -38,7 +38,7 @@ class TableView<Item, Cell: UITableViewCell>: UITableViewController {
     // MARK: - Init
     init(style: UITableView.Style? = .plain,
          items: [Item],
-         configure: @escaping (Item, Cell) -> ()
+         configure: (Item, Cell) -> ()
     ) {
         self.items = items
         self.configure = configure

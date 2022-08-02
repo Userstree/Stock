@@ -13,6 +13,7 @@ class HomeViewController: UIViewController, HomeViewType {
     var presenter: HomePresenterType?
 
     // MARK: - HomeViewType Methods
+
     func showLoading() {
         displayAnimatedActivityIndicatorView()
     }
@@ -27,6 +28,7 @@ class HomeViewController: UIViewController, HomeViewType {
 
 
     // MARK: - Properties
+
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -63,7 +65,21 @@ class HomeViewController: UIViewController, HomeViewType {
         return tableView
     }()
 
+    private lazy var xtableView: UITableView = {
+        let tableView = TableView<SingleStockViewModel, StocksTableViewCell>(items: presenter?.stockListItems()) { (stock: SingleStockViewModel, cell: StocksTableViewCell) in
+            cell.titleLabel.text = stock.title
+            cell.subTitleLabel.text = stock.subTitle
+            let logo = stock.logoUrlString
+            if logo.isEmpty {
+                cell.stockImageIcon.image = UIImage(named: "no-Image")
+            }
+            cell.stockImageIcon.loadImage(urlString: logo)
+        }
+        return tableView
+    }()
+
     // MARK: - Lifecycle Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.backgroundColor()
@@ -74,6 +90,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     // MARK: - Configuration of the View
+
     private func configureNavigationItems() {
         searchBarController.searchResultsUpdater = self
         navigationItem.searchController = searchBarController
@@ -101,6 +118,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     // MARK: - Init
+
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -119,13 +137,17 @@ extension HomeViewController: UISearchResultsUpdating {
 }
 
 extension HomeViewController: UITableViewDataSource {
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let presenter = presenter else { return 0 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let presenter = presenter else {
+            return 0
+        }
         return presenter.numberOfStocksItems()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let presenter = presenter else { return UITableViewCell() }
+        guard let presenter = presenter else {
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StocksTableViewCell.self),
                 for: indexPath) as! StocksTableViewCell
         let index = indexPath.row
