@@ -30,8 +30,24 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
             for try await image in taskGroup {
                 imageStrings.append(image)
             }
+//            taskGroup.ca
+//            var marketDataList = [MarketInfoResponse]()
+//            for stock in stocksDetailsList {
+//                taskGroup.addTask {
+//                    try await fetchMarketInfo(stock.title)
+//                }
+//            }
+//            for try await marketInfo in taskGroup {
+//                marketDataList.append(marketInfo)
+//            }
             for (index, item) in stocksDetailsList.enumerated() {
-                stockViewModels.append(SingleStockViewModel(title: item.title, subTitle: item.subTitle, logoUrlString: imageStrings[index]))
+                stockViewModels.append(
+                        SingleStockViewModel(
+                                title: item.title,
+                                subTitle: item.subTitle,
+                                logoUrlString: imageStrings[index]
+//                                currentPrice: marketDataList.map {Int($0.open)}[index]
+                        ))
             }
             stockViewModels.forEach {
                 print($0.title, " and ", $0.logoUrlString)
@@ -40,25 +56,50 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         }
     }
 
+    func fetchStockPrice(for symbol: String) async throws -> Int {
+        if symbol.isEmpty {
+            return -1
+        }
+        let urlString = URLBuilder.fetchQuote(symbol).makeString()
+        let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
+        let dataResponse = try JSONDecoder().decode(QuoteResponse.self, from: data)
+        return dataResponse.currentPrice
+    }
+
+    func fetchMarketInfo(_ symbol: String, numberOfDays: TimeInterval = 3) async throws -> MarketInfoResponse {
+        let urlString = URLBuilder.fetchMarketData(symbol, numberOfDays).makeString()
+        print(urlString)
+        let dataResponse = try await makeRequest(using: URL(string: urlString)!, responseModel: MarketInfoResponse.self)
+        return dataResponse!
+    }
+
     func fetchStockImage(for symbol: String) async throws -> String {
-        if symbol.isEmpty { return "" }
+        if symbol.isEmpty {
+            return ""
+        }
         let urlString = URLBuilder.fetchImage(symbol).makeString()
         let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
-        guard data.count > 2 else { return "" }
-        let dataResponse = try JSONDecoder().decode(TwelveDataImage.self, from: data)
+        guard data.count > 2 else {
+            return ""
+        }
+        let dataResponse = try JSONDecoder().decode(TwelveDataImageResponse.self, from: data)
         if dataResponse.logo.isEmpty {
             return ""
         }
         return dataResponse.logo
     }
+
+    func makeRequest<T: Decodable>(using url: URL, responseModel: T.Type) async throws -> T? {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        guard data.count > 2 else {
+            return nil
+        }
+        let dataResponse = try JSONDecoder().decode(T.self, from: data)
+        return dataResponse
+    }
+
 }
 
-struct SingleStockViewModel {
-    var title: String
-    var subTitle: String
-    var logoUrlString: String
-}
 
-struct TwelveDataImage: Decodable {
-    var logo: String
-}
+
+

@@ -56,7 +56,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }()
 
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: String(describing: StocksTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
@@ -125,6 +125,10 @@ extension HomeViewController: UISearchResultsUpdating {
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    public func numberOfSections(in tableView: UITableView) -> Int {
         guard let presenter = presenter else {
             return 0
         }
@@ -137,7 +141,7 @@ extension HomeViewController: UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StocksTableViewCell.self),
                 for: indexPath) as! StocksTableViewCell
-        let index = indexPath.row
+        let index = indexPath.section
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
         let logo = presenter.stockListItem(at: index).logoUrlString
@@ -146,6 +150,55 @@ extension HomeViewController: UITableViewDataSource {
         }
         cell.stockImageIcon.loadImage(urlString: logo)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        60
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let presenter = presenter else {
+            return UITableViewCell()
+        }
+        let header = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        header.backgroundColor = R.color.cellHeaderBackground()
+        let titleLabel = UILabel()
+                .text(presenter.stockListItem(at: section).title)
+                .textColor(R.color.cellTitleLabelColor()!)
+                .font(ofSize: 18, weight: .bold)
+
+        let subTitleLabel = UILabel()
+                .text(presenter.stockListItem(at: section).subTitle)
+                .textColor(R.color.cellTitleLabelColor()!)
+                .font(ofSize: 11, weight: .regular)
+
+        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -25, unit: .degrees),options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
+        let labelImageView = UIImageView(image: priceView!)
+                .tintColor(R.color.cellLabelBackground()!)
+                .contentMode(.scaleToFill)
+
+        [titleLabel,
+         subTitleLabel,
+         labelImageView
+        ].forEach(header.addSubview)
+
+        titleLabel.snp.makeConstraints {
+            $0.leading.equalTo(header.snp.leading).offset(8)
+            $0.top.equalTo(header.snp.top).offset(8)
+        }
+        
+        subTitleLabel.snp.makeConstraints {
+            $0.leading.equalTo(titleLabel.snp.leading)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+        }
+
+        labelImageView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.top)
+            $0.trailing.equalTo(header.snp.trailing).offset(-10)
+            $0.bottom.equalTo(subTitleLabel.snp.bottom)
+        }
+
+        return header
     }
 
 }

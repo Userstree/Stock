@@ -11,4 +11,6 @@ enum TwelveDataPaths: String {
 enum FinHubPaths: String {
     case logo = "/stock/profile2?symbol="
     case allStocks = "/stock/symbol?exchange=US"
+    case quote = "/quote?symbol="
+    case marketData = "/stock/candle"
 }
