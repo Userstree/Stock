@@ -31,16 +31,6 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
             for try await image in taskGroup {
                 imageStrings.append(image)
             }
-//            taskGroup.ca
-//            var marketDataList = [MarketInfoResponse]()
-//            for stock in stocksDetailsList {
-//                taskGroup.addTask {
-//                    try await fetchMarketInfo(stock.title)
-//                }
-//            }
-//            for try await marketInfo in taskGroup {
-//                marketDataList.append(marketInfo)
-//            }
             for (index, item) in stocksDetailsList.enumerated() {
                 stockViewModels.append(
                         SingleStockViewModel(
@@ -50,12 +40,14 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
 //                                currentPrice: marketDataList.map {Int($0.open)}[index]
                         ))
             }
-            stockViewModels.forEach {
-                print($0.title, " and ", $0.logoUrlString)
-            }
             return stockViewModels
         }
     }
+
+//    fileprivate func fetchStockImage(_ symbol: String) async throws -> UIImage? {
+//        if symbol.isEmpty { return nil }
+//
+//    }
 
     func fetchStockPrice(for symbol: String) async throws -> Int {
         if symbol.isEmpty {
