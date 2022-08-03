@@ -5,15 +5,15 @@
 
 actor DataRepository {
 
-    let remoteAPi = RemoteAPIRequest()
+//    let remoteAPi = RemoteAPIRequest()
 
     // MARK: - Remote Repository
-    @MainActor func getAll() async {
-            do {
-                try await remoteAPi.getAllStocksList()
-            } catch {
-                "Could not execute the detached task"
-            }
-    }
+//    @MainActor func getAll() async {
+//            do {
+//                try await remoteAPi.getAllStocksList()
+//            } catch {
+//                "Could not execute the detached task"
+//            }
+//    }
 
 }

@@ -4,14 +4,14 @@
 
 protocol RemoteAPIRequestType {
     func getAllStocksList() async throws -> [SingleStockViewModel]
-    func fetchStockImage(for symbol: String) async throws -> String
+//    func fetchStockImageUrlString(for symbol: String) async throws -> String
 }
 
-
+@MainActor
 struct RemoteAPIRequest: RemoteAPIRequestType {
 
     // MARK: - RemoteAPIRequestType
-    @MainActor func getAllStocksList() async throws -> [SingleStockViewModel] {
+    func getAllStocksList() async throws -> [SingleStockViewModel] {
         var stockViewModels = [SingleStockViewModel]()
         let urlString = URLBuilder.getAllStocks.makeString()
         let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
@@ -19,58 +19,107 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
             throw "Invalid HttpResponseCode"
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
-        let stocksDetailsList = dataResponse.prefix(25)
-        let stocksImagesURLStrings = stocksDetailsList.map { try await fetchStockImage(for: $0.title) }
-
-        enum MediaType {
-            case image, marketData
+        let stocksDetailsList = dataResponse[..<25]
+        let stockSymbolsList = stocksDetailsList.map {
+            $0.title
         }
 
-        struct Descriptor {
-            let stockSymbol: String
-            let type: MediaType
+        let imageUrlStringsDict = try await fetchStockImageUrlStringsList(for: stockSymbolsList)
+        let nonEmptyImageUrlStringsList = imageUrlStringsDict.filter {
+            !$0.value.isEmpty
+        }
+        var descriptors = [Descriptor]()
+        for (index, item) in nonEmptyImageUrlStringsList.enumerated() {
+            print(item.value)
+            descriptors.append(
+                    Descriptor(
+                            stockSymbol: item.key,
+                            stockImageUrlString: nonEmptyImageUrlStringsList[item.key]!,
+                            type: .image)
+            )
         }
 
-        enum TaskResult {
-            case image(UIImage)
-            case marketData(MarketInfoResponse)
+        let taskResultsDict = try await fetchGroupedStocksInfo(descriptors: descriptors)
+        for item in taskResultsDict {
+            switch item.value {
+            case .image(let image):
+                    stockViewModels.append(
+                        SingleStockViewModel(title: item.key, subTitle: "123", logoImage: image)
+                    )
+            default:
+                break
+            }
         }
+        return stockViewModels
+    }
 
-        return try await withThrowingTaskGroup(of: (String, UIImage).self, returning: [SingleStockViewModel].self) { (taskGroup) in
-            for imageString in stocksImagesURLStrings {
-                taskGroup.addTask { [self] in
-                    try await fetchStockImageTuple(.init(string: imageString)!)
+    fileprivate func fetchGroupedStocksInfo(descriptors: [Descriptor]) async throws -> [String: TaskResult] {
+        try await withThrowingTaskGroup(of: (String, TaskResult).self, returning: [String: TaskResult].self) { group in
+            for descriptor in descriptors {
+                group.addTask { [self] in
+                    switch descriptor.type {
+                    case .image:
+                        let (_, image) = try await self.fetchStockImageTuple(descriptor.stockImageUrlString)
+                        return (descriptor.stockSymbol, TaskResult.image(image))
+                    case .marketData:
+                        let marketResponse = try await self.fetchMarketInfo(descriptor.stockSymbol)
+                        return (descriptor.stockSymbol, TaskResult.marketData(marketResponse))
+                    }
                 }
             }
-
-            var imageStrings = Set<String> = []
-            var imagesQueue = ImagesQueue()
-
-            for try await imageURLString in taskGroup {
-                imageStrings.insert(imageURLString)
-                Task.detached {
-                    try await imagesQueue.process(fetchStockImageTuple(URL(string: imageURLString)!))
-                }
+            return try await group.reduce(into: [:]) {
+                $0[$1.0] = $1.1
             }
-            for (index, item) in stocksDetailsList.enumerated() {
-                stockViewModels.append(
-                        SingleStockViewModel(
-                                title: item.title,
-                                subTitle: item.subTitle,
-                                logoUrlString: imageStrings[index]
-//                currentPrice: imagesQueue.finished[stockDetailsImageURLs[]]
-                        ))
-            }
-            return stockViewModels
         }
     }
 
-    fileprivate func fetchStockImageTuple(_ symbol: URL) async throws -> (String, UIImage) {
-        if symbol.isEmpty {
-            return []
+    fileprivate func getImagesListFrom(_ urlStrings: [String]) async throws -> [String: UIImage] {
+        try await withThrowingTaskGroup(of: (String, UIImage).self, returning: [String: UIImage].self) { group in
+            for imageString in urlStrings {
+                group.addTask { [self] in
+                    try await fetchStockImageTuple(imageString)
+                }
+            }
+            return try await group.reduce(into: [:]) {
+                $0[$1.0] = $1.1
+            }
         }
+    }
 
-        return try await withThrowing
+    fileprivate func fetchStockImageTuple(_ symbol: String) async throws -> (String, UIImage) {
+
+        let symbolUrl = URL(string: symbol)!
+        let (data, _) = try await URLSession.shared.data(from: symbolUrl)
+        return (symbolUrl.absoluteString, UIImage(data: data)!)
+    }
+
+    func fetchStockImageUrlStringsList(for symbols: [String]) async throws -> [String: String] {
+        try await withThrowingTaskGroup(of: (String, String).self, returning: [String: String].self) { group in
+            for symbol in symbols {
+                group.addTask {
+                    try await fetchStockImageUrlString(for: symbol)
+                }
+            }
+            return try await group.reduce(into: [:]) {
+                $0[$1.0] = $1.1
+            }
+        }
+    }
+
+    func fetchStockImageUrlString(for symbol: String) async throws -> (String, String) {
+        if symbol.isEmpty {
+            return (symbol, "")
+        }
+        let urlString = URLBuilder.fetchImage(symbol).makeString()
+        let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
+        guard data.count > 2 else {
+            return (symbol, "")
+        }
+        let dataResponse = try JSONDecoder().decode(LogoURLString.self, from: data)
+        if dataResponse.logo.isEmpty {
+            return (symbol, "")
+        }
+        return (symbol, dataResponse.logo)
     }
 
     func fetchStockPrice(for symbol: String) async throws -> Int {
@@ -83,27 +132,24 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         return dataResponse.currentPrice
     }
 
+    func fetchMarketInfoList(_ symbols: [String]) async throws -> [MarketInfoResponse] {
+        try await withThrowingTaskGroup(of: MarketInfoResponse.self, returning: [MarketInfoResponse].self) { group in
+            for symbol in symbols {
+                group.addTask {
+                    try await fetchMarketInfo(symbol)
+                }
+            }
+            return try await group.reduce(into: []) {
+                $0.append($1)
+            }
+        }
+    }
+
     func fetchMarketInfo(_ symbol: String, numberOfDays: TimeInterval = 3) async throws -> MarketInfoResponse {
         let urlString = URLBuilder.fetchMarketData(symbol, numberOfDays).makeString()
         print(urlString)
         let dataResponse = try await makeRequest(using: URL(string: urlString)!, responseModel: MarketInfoResponse.self)
         return dataResponse!
-    }
-
-    func fetchStockImage(for symbol: String) async throws -> String {
-        if symbol.isEmpty {
-            return ""
-        }
-        let urlString = URLBuilder.fetchImage(symbol).makeString()
-        let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
-        guard data.count > 2 else {
-            return ""
-        }
-        let dataResponse = try JSONDecoder().decode(TwelveDataImageResponse.self, from: data)
-        if dataResponse.logo.isEmpty {
-            return ""
-        }
-        return dataResponse.logo
     }
 
     func makeRequest<T: Decodable>(using url: URL, responseModel: T.Type) async throws -> T? {
@@ -117,6 +163,23 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
 
 }
 
+enum MediaType {
+    case image, marketData
+}
 
+struct Descriptor {
+    let stockSymbol: String
+    let stockImageUrlString: String
+    let type: MediaType
 
+    init(stockSymbol: String, stockImageUrlString: String, type: MediaType) {
+        self.type = type
+        self.stockSymbol = stockSymbol
+        self.stockImageUrlString = stockImageUrlString
+    }
+}
 
+enum TaskResult {
+    case image(UIImage)
+    case marketData(MarketInfoResponse)
+}

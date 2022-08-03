@@ -3,6 +3,6 @@
 //
 
 
-struct TwelveDataImageResponse: Decodable {
+struct LogoURLString: Decodable {
     var logo: String
 }

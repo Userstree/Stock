@@ -3,7 +3,7 @@
 //
 
 
-actor ImagesQueue {
+actor ImageStringQueue {
     var pending: Set<URL> = []
     var inProgress: Set<URL> = []
     var finished: [URL: UIImage] = [:]
@@ -27,6 +27,6 @@ actor ImagesQueue {
 
 }
 
-extension ImagesQueue {
+extension ImageStringQueue {
 
 }

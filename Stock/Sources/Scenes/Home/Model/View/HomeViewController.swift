@@ -144,14 +144,11 @@ extension HomeViewController: UITableViewDataSource {
         let index = indexPath.section
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
-        let logo = presenter.stockListItem(at: index).logoUrlString
-        if logo.isEmpty {
-            cell.stockImageIcon.image = UIImage(named: "no-Image")
-        }
-        cell.stockImageIcon.loadImage(urlString: logo)
+        let logo = presenter.stockListItem(at: index).logoImage
+        cell.stockImageIcon.image = logo
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         60
     }
@@ -172,7 +169,7 @@ extension HomeViewController: UITableViewDataSource {
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 11, weight: .regular)
 
-        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -25, unit: .degrees),options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
+        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -25, unit: .degrees), options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
         let labelImageView = UIImageView(image: priceView!)
                 .tintColor(R.color.cellLabelBackground()!)
                 .contentMode(.scaleToFill)
@@ -186,7 +183,7 @@ extension HomeViewController: UITableViewDataSource {
             $0.leading.equalTo(header.snp.leading).offset(8)
             $0.top.equalTo(header.snp.top).offset(8)
         }
-        
+
         subTitleLabel.snp.makeConstraints {
             $0.leading.equalTo(titleLabel.snp.leading)
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
