@@ -72,7 +72,6 @@
 
 /* Begin PBXFileReference section */
 		05B0E10528913A6F005BDA8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		05B466DD288E985D0094940F /* testRxSwift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = testRxSwift.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		4BDA12EF28C984F43E4F3F2C /* Pods_Stock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		615B408705D3F6EB46029D56 /* ImageQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageQueue.swift; sourceTree = "<group>"; };
 		615B40CC7CE53A4166E2A54B /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -169,14 +168,6 @@
 				F8843E41EAFD2FE88EAE653B /* Main.storyboard */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		05B466DC288E98050094940F /* Playgrounds */ = {
-			isa = PBXGroup;
-			children = (
-				05B466DD288E985D0094940F /* testRxSwift.playground */,
-			);
-			path = Playgrounds;
 			sourceTree = "<group>";
 		};
 		173267D272348BF581DC2077 /* Pods */ = {
@@ -635,7 +626,6 @@
 		C2660EED2887143F00D8EA16 /* Stock */ = {
 			isa = PBXGroup;
 			children = (
-				05B466DC288E98050094940F /* Playgrounds */,
 				05078D1C2888032A002C6223 /* Resources */,
 				C2660F052887144800D8EA16 /* Supporting Files */,
 				05B0E10528913A6F005BDA8D /* ViewController.swift */,

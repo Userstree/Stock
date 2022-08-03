@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SearchPresenter: ViewToPresenterSearchProtocol {
+final class SearchPresenter: ViewToPresenterSearchProtocol {
 
     // MARK: Properties
     var view: PresenterToViewSearchProtocol?

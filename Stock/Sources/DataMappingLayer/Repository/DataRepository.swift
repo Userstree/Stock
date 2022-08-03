@@ -3,17 +3,17 @@
 //
 
 
-class DataRepository {
+actor DataRepository {
+
     let remoteAPi = RemoteAPIRequest()
-    // MARK: - Repository
-//    @MainActor func getAll() -> [SingleStockViewModel] {
-//        Task.detached {
-//            do {
-//                return try remoteAPi.getAllStocksList()
-//            } catch {
-//                "Could not execute the detached task"
-//            }
-//        }
-//    }
+
+    // MARK: - Remote Repository
+    @MainActor func getAll() async {
+            do {
+                try await remoteAPi.getAllStocksList()
+            } catch {
+                "Could not execute the detached task"
+            }
+    }
 
 }

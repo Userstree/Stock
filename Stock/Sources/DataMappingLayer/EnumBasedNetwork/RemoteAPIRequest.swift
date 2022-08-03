@@ -16,20 +16,41 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         let urlString = URLBuilder.getAllStocks.makeString()
         let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-            throw(RemoteAPIError.invalidHttpResponseCode)
+            throw "Invalid HttpResponseCode"
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
         let stocksDetailsList = dataResponse.prefix(25)
+        let stocksImagesURLStrings = stocksDetailsList.map { try await fetchStockImage(for: $0.title) }
 
-        return try await withThrowingTaskGroup(of: (String).self, returning: [SingleStockViewModel].self) { (taskGroup) in
-            for stock in stocksDetailsList {
+        enum MediaType {
+            case image, marketData
+        }
+
+        struct Descriptor {
+            let stockSymbol: String
+            let type: MediaType
+        }
+
+        enum TaskResult {
+            case image(UIImage)
+            case marketData(MarketInfoResponse)
+        }
+
+        return try await withThrowingTaskGroup(of: (String, UIImage).self, returning: [SingleStockViewModel].self) { (taskGroup) in
+            for imageString in stocksImagesURLStrings {
                 taskGroup.addTask { [self] in
-                    try await fetchStockImage(for: stock.title)
+                    try await fetchStockImageTuple(.init(string: imageString)!)
                 }
             }
-            var imageStrings = [String]()
-            for try await image in taskGroup {
-                imageStrings.append(image)
+
+            var imageStrings = Set<String> = []
+            var imagesQueue = ImagesQueue()
+
+            for try await imageURLString in taskGroup {
+                imageStrings.insert(imageURLString)
+                Task.detached {
+                    try await imagesQueue.process(fetchStockImageTuple(URL(string: imageURLString)!))
+                }
             }
             for (index, item) in stocksDetailsList.enumerated() {
                 stockViewModels.append(
@@ -37,17 +58,20 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
                                 title: item.title,
                                 subTitle: item.subTitle,
                                 logoUrlString: imageStrings[index]
-//                                currentPrice: marketDataList.map {Int($0.open)}[index]
+//                currentPrice: imagesQueue.finished[stockDetailsImageURLs[]]
                         ))
             }
             return stockViewModels
         }
     }
 
-//    fileprivate func fetchStockImage(_ symbol: String) async throws -> [UIImage] {
-//        if symbol.isEmpty { return [] }
-//        return try await withThrowing
-//    }
+    fileprivate func fetchStockImageTuple(_ symbol: URL) async throws -> (String, UIImage) {
+        if symbol.isEmpty {
+            return []
+        }
+
+        return try await withThrowing
+    }
 
     func fetchStockPrice(for symbol: String) async throws -> Int {
         if symbol.isEmpty {

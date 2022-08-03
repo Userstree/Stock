@@ -7,7 +7,7 @@
 //
 
 
-class HomeInteractor: HomeInteractorInputType {
+class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
 
     // MARK: - Dependencies
     private let validator = ThrottledTextValidator()
@@ -39,8 +39,8 @@ class HomeInteractor: HomeInteractorInputType {
             do {
                 let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
                 presenter?.didRetrieveStocksList(stockViewModels)
-            } catch let error {
-                print(error)
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }
