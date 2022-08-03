@@ -63,14 +63,3 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 }
 
 
-struct StockViewModel {
-    var title: String
-    var subTitle: String
-}
-
-extension StockViewModel {
-    init(stock: StockDetailsModellable) {
-        title = stock.title
-        subTitle = stock.subTitle
-    }
-}

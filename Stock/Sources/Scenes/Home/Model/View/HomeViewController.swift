@@ -144,6 +144,7 @@ extension HomeViewController: UITableViewDataSource {
         let index = indexPath.section
         cell.titleLabel.text = presenter.stockListItem(at: index).title
         cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
+        cell.priceLabel.text = String(format: "%.2f", presenter.stockListItem(at: index).currentPrice)
         let logo = presenter.stockListItem(at: index).logoImage
         cell.stockImageIcon.image = logo
         return cell
@@ -159,6 +160,19 @@ extension HomeViewController: UITableViewDataSource {
         }
         let header = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
         header.backgroundColor = R.color.cellHeaderBackground()
+        header.clipsToBounds = true
+
+        // MARK: - Star State
+        var isFavorite: Bool = false {
+            didSet {
+                if isFavorite {
+                    starImageView.image = UIImage(systemName: "star.fill")
+                } else {
+                    starImageView.image = UIImage(systemName: "star")
+                }
+            }
+        }
+
         let titleLabel = UILabel()
                 .text(presenter.stockListItem(at: section).title)
                 .textColor(R.color.cellTitleLabelColor()!)
@@ -169,14 +183,39 @@ extension HomeViewController: UITableViewDataSource {
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 11, weight: .regular)
 
-        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -25, unit: .degrees), options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
-        let labelImageView = UIImageView(image: priceView!)
+        var starImageView: UIImageView = {
+            let imageView = UIImageView(image: UIImage(systemName: "star"))
+            imageView.tintColor = .systemYellow
+            imageView.isUserInteractionEnabled = true
+            return imageView
+        }()
+
+        let priceLabel = UILabel()
+                .text(String(format: "%.2f", presenter.stockListItem(at: section).currentPrice))
+                .textColor(.white)
+                .font(ofSize: 15, weight: .bold)
+        priceLabel.transform = CGAffineTransform(rotationAngle: 0.56)
+
+//        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -38, unit: .degrees), options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
+//        let priceView = UIImage(systemName: "seal.fill")
+        let priceBackgroundImage = UIImage(systemName: "app.badge.fill")
+        let labelImageView = UIImageView(image: priceBackgroundImage!)
                 .tintColor(R.color.cellLabelBackground()!)
                 .contentMode(.scaleToFill)
 
+        // MARK: - Actions
+//        private lazy var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(starImageTapped(_:)))
+
+//        @objc
+//        func starImageTapped(_ tapGestureRecognizer: UITapGestureRecognizer) {
+//            isFavorite = !isFavorite
+//        }
+
         [titleLabel,
          subTitleLabel,
-         labelImageView
+         labelImageView,
+         priceLabel,
+         starImageView,
         ].forEach(header.addSubview)
 
         titleLabel.snp.makeConstraints {
@@ -189,10 +228,24 @@ extension HomeViewController: UITableViewDataSource {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
         }
 
+        starImageView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.top).offset(-2)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(6)
+            $0.bottom.equalTo(titleLabel.snp.bottom)
+//            $0.width.equalTo(80)
+        }
+
         labelImageView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.top)
-            $0.trailing.equalTo(header.snp.trailing).offset(-10)
-            $0.bottom.equalTo(subTitleLabel.snp.bottom)
+            $0.trailing.equalTo(header.snp.trailing).offset(10)
+            $0.top.equalTo(header.snp.top).offset(-10)
+            $0.bottom.equalTo(header.snp.bottom).offset(-15)
+            $0.width.equalTo(70)
+        }
+
+        priceLabel.snp.makeConstraints {
+//            $0.centerX.equalTo(labelImageView.snp.centerX).offset(3)
+//            $0.centerY.equalTo(labelImageView.snp.centerY)
+            $0.center.equalTo(labelImageView.snp.center)
         }
 
         return header

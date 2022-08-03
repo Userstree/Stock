@@ -5,7 +5,7 @@
 
 
 struct QuoteResponse: Decodable {
-    var currentPrice: Int
+    let currentPrice: Double
 
     enum CodingKeys: String, CodingKey {
         case currentPrice = "c"
