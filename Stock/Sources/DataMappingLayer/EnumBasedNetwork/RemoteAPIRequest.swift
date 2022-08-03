@@ -7,11 +7,11 @@ protocol RemoteAPIRequestType {
     func fetchStockImage(for symbol: String) async throws -> String
 }
 
-@MainActor
+
 struct RemoteAPIRequest: RemoteAPIRequestType {
 
     // MARK: - RemoteAPIRequestType
-    func getAllStocksList() async throws -> [SingleStockViewModel] {
+    @MainActor func getAllStocksList() async throws -> [SingleStockViewModel] {
         var stockViewModels = [SingleStockViewModel]()
         let urlString = URLBuilder.getAllStocks.makeString()
         let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
@@ -23,7 +23,7 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
 
         return try await withThrowingTaskGroup(of: (String).self, returning: [SingleStockViewModel].self) { (taskGroup) in
             for stock in stocksDetailsList {
-                taskGroup.addTask {
+                taskGroup.addTask { [self] in
                     try await fetchStockImage(for: stock.title)
                 }
             }
@@ -44,9 +44,9 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         }
     }
 
-//    fileprivate func fetchStockImage(_ symbol: String) async throws -> UIImage? {
-//        if symbol.isEmpty { return nil }
-//
+//    fileprivate func fetchStockImage(_ symbol: String) async throws -> [UIImage] {
+//        if symbol.isEmpty { return [] }
+//        return try await withThrowing
 //    }
 
     func fetchStockPrice(for symbol: String) async throws -> Int {

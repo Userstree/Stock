@@ -10,7 +10,7 @@
 class HomeRouter: HomeRouterType {
     
     // MARK: Static methods
-    static func createModule() -> UIViewController {
+    @MainActor static func createModule() -> UIViewController {
         let viewController = HomeViewController()
         let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
         

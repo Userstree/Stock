@@ -4,7 +4,7 @@
 
 
 final class ViewControllerFactory {
-    func instantiateHomeViewController() -> HomeViewController {
+    @MainActor func instantiateHomeViewController() -> HomeViewController {
         let view = HomeViewController()
         let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
         let interactor: HomeInteractorInputType = HomeInteractor()

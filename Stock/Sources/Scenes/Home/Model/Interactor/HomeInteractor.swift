@@ -16,10 +16,7 @@ class HomeInteractor: HomeInteractorInputType {
     weak var presenter: HomeInteractorOutputType?
 
     // MARK: - Init
-    init(
-
-    ) {
-    }
+    init() {}
 
     // MARK: - HomeInteractorInputType Protocol
     func fetchStocks(for query: String) {
@@ -37,11 +34,14 @@ class HomeInteractor: HomeInteractorInputType {
         }
     }
 
-
     func fetchInitialStocks() {
         Task {
-            let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
-            presenter?.didRetrieveStocksList(stockViewModels)
+            do {
+                let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
+                presenter?.didRetrieveStocksList(stockViewModels)
+            } catch let error {
+                print(error)
+            }
         }
     }
 

@@ -59,6 +59,7 @@
 		F884347FF154249951A6DB0D /* SearchProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88438010B07670643681D69 /* SearchProtocols.swift */; };
 		F8843576106B85616C1A5538 /* StockDetailsModellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88434EBD080FC5A60BEE3FB /* StockDetailsModellable.swift */; };
 		F88436DFF8B54B3456850A30 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88433FF0C0BE8602B5AD034 /* SearchRouter.swift */; };
+		F88436E6D848CED93F7EB5C2 /* String+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843342AD0C62B385F7ABDE /* String+ext.swift */; };
 		F88437ADEEC5F56645C32BC9 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843E4D7D6A7E744BDC3287 /* SearchInteractor.swift */; };
 		F88437E951C30FA8DEACE770 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8843E00654D9B8D6EA8D3CE /* SearchViewController.swift */; };
 		F88438AB2E1409C6D01739F9 /* UIImageView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88438CAA7913E061A05EE06 /* UIImageView+ext.swift */; };
@@ -124,6 +125,7 @@
 		C47552D34E845DBB859096A2 /* Pods-Stock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.debug.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.debug.xcconfig"; sourceTree = "<group>"; };
 		F88430D9053C3DD5ECA1156F /* StockImageURLStr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockImageURLStr.swift; sourceTree = "<group>"; };
 		F884323FE4717B94F93CDFC6 /* StockDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDetails.swift; sourceTree = "<group>"; };
+		F8843342AD0C62B385F7ABDE /* String+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+ext.swift"; sourceTree = "<group>"; };
 		F88433FF0C0BE8602B5AD034 /* SearchRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		F88434EBD080FC5A60BEE3FB /* StockDetailsModellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDetailsModellable.swift; sourceTree = "<group>"; };
 		F884362F4DBDC5ABA6389215 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
@@ -273,7 +275,7 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		615B4439D0AB90E1CA514E72 /* App */ = {
+		615B4439D0AB90E1CA514E72 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				615B4871BD1B00B15C3D718F /* Common */,
@@ -283,7 +285,7 @@
 				615B455E25F5630E903BBE36 /* Utils */,
 				615B443E3B1B4F98098F1E8E /* ApplicationLayer */,
 			);
-			path = App;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		615B443E3B1B4F98098F1E8E /* ApplicationLayer */ = {
@@ -471,6 +473,7 @@
 				615B4A064E17A1BBCEE43BF5 /* SegmentedControl+ext */,
 				615B42F6A7A6516BE2511398 /* UIImage+ext */,
 				615B4FC39A50242EBCD09D5E /* ViewController+ext */,
+				F8843342AD0C62B385F7ABDE /* String+ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -636,7 +639,7 @@
 				05078D1C2888032A002C6223 /* Resources */,
 				C2660F052887144800D8EA16 /* Supporting Files */,
 				05B0E10528913A6F005BDA8D /* ViewController.swift */,
-				615B4439D0AB90E1CA514E72 /* App */,
+				615B4439D0AB90E1CA514E72 /* Sources */,
 			);
 			path = Stock;
 			sourceTree = "<group>";
@@ -917,6 +920,7 @@
 				615B422882F2404D97378912 /* UIImage+ext.swift in Sources */,
 				615B4FED64DE105A0553AE7D /* UIViewController+ext.swift in Sources */,
 				615B447ABA70E76709E31632 /* ImageQueue.swift in Sources */,
+				F88436E6D848CED93F7EB5C2 /* String+ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

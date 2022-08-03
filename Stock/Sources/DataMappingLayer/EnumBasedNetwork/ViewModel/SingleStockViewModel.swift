@@ -3,7 +3,7 @@
 //
 
 
-struct SingleStockViewModel {
+struct SingleStockViewModel: Sendable {
     var title: String
     var subTitle: String
     var logoUrlString: String

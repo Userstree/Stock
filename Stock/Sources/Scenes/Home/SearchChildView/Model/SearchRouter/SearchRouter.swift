@@ -12,7 +12,7 @@ import UIKit
 class SearchRouter: PresenterToRouterSearchProtocol {
     
     // MARK: Static methods
-    static func createModule() -> UIViewController {
+    @MainActor static func createModule() -> UIViewController {
         
         let viewController = SearchViewController()
         
