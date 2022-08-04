@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, HomeViewType {
     // MARK: - HomeViewType Methods
 
     func showLoading() {
-        displayAnimatedActivityIndicatorView()
+//        displayAnimatedActivityIndicatorView()
     }
 
     func didReceiveStocksList() {
@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     func hideLoading() {
-        hideAnimatedActivityIndicatorView()
+//        hideAnimatedActivityIndicatorView()
     }
 
 
@@ -62,6 +62,7 @@ class HomeViewController: UIViewController, HomeViewType {
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 54
+        tableView.layer.cornerRadius = 12
         return tableView
     }()
 

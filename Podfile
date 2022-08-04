@@ -8,7 +8,7 @@ target 'Stock' do
   # Pods for Stock
   pod 'SnapKit', '~> 5.6.0'
   pod 'R.swift'
-
+  pod 'Charts'
   pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord'
 
 end

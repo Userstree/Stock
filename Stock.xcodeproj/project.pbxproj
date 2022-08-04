@@ -51,6 +51,7 @@
 		615B4DD2DD44C76610329E08 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B40CC7CE53A4166E2A54B /* HomeViewController.swift */; };
 		615B4E2C637796F35DF52A13 /* Stock.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 615B4647860DCB8A85D9014A /* Stock.xcdatamodeld */; };
 		615B4E54E0021AECBFA9E35B /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B428FDF4D634EB21062B8 /* Throttle.swift */; };
+		615B4EC3B0D9400FD7A71CCA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B46A7AAA42D54F45D4E74 /* ChartView.swift */; };
 		615B4F4F337509FFA6B9C59C /* StocksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4A29CA6C8033FA457533 /* StocksService.swift */; };
 		615B4FC3F87B77AED161C86D /* StocksRemoteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4213949CAB21A2CE0008 /* StocksRemoteDataManager.swift */; };
 		615B4FED64DE105A0553AE7D /* UIViewController+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B4BC19B2A65DC2F03C8DB /* UIViewController+ext.swift */; };
@@ -98,6 +99,7 @@
 		615B45F125127B0E959443C6 /* StocksFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StocksFetcher.swift; sourceTree = "<group>"; };
 		615B4608F986D63731482F57 /* NetworkingAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingAPI.swift; sourceTree = "<group>"; };
 		615B460FB88EF38F5FBFBEFF /* UIFont+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+ext.swift"; sourceTree = "<group>"; };
+		615B46A7AAA42D54F45D4E74 /* ChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		615B46AC29E3CE721FF587BF /* Stock.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Stock.xcdatamodel; sourceTree = "<group>"; };
 		615B46AE0B3FD639AA13A9EA /* LogoURLString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoURLString.swift; sourceTree = "<group>"; };
 		615B477404E8AC6407B8514E /* UIStackView+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+ext.swift"; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 			children = (
 				615B400235AA67DD6DE6405D /* CollectionView */,
 				615B42ABE864486AB3490F98 /* TableView */,
+				615B4A41141E15267BC6E04B /* ChartView */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -459,6 +462,14 @@
 				615B43E2F701258BA4EF2DE4 /* HomeInteractor.swift */,
 			);
 			path = Interactor;
+			sourceTree = "<group>";
+		};
+		615B4A41141E15267BC6E04B /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				615B46A7AAA42D54F45D4E74 /* ChartView.swift */,
+			);
+			path = ChartView;
 			sourceTree = "<group>";
 		};
 		615B4A75FC3743454A5D337F /* View */ = {
@@ -943,6 +954,7 @@
 				615B458E518C295F46FC3470 /* Arrays+ext.swift in Sources */,
 				615B41C8D41B7AA825F211AA /* MarketDataService.swift in Sources */,
 				615B4F4F337509FFA6B9C59C /* StocksService.swift in Sources */,
+				615B4EC3B0D9400FD7A71CCA /* ChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

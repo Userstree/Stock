@@ -1,4 +1,7 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - MagicalRecord (2.4.0):
     - MagicalRecord/Core (= 2.4.0)
   - MagicalRecord/Core (2.4.0)
@@ -8,12 +11,14 @@ PODS:
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
+  - Charts
   - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord`)
   - R.swift
   - SnapKit (~> 5.6.0)
 
 SPEC REPOS:
   trunk:
+    - Charts
     - R.swift
     - R.swift.Library
     - SnapKit
@@ -28,11 +33,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/magicalpanda/MagicalRecord
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   MagicalRecord: 1f22a766156474d9f46a9b1e1ce59ca9e37830fc
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: a165c1bfb78feeaeec2b7a4f0d0a9d7caa29eb51
+PODFILE CHECKSUM: 5582e3e905eb4e6a8d2440c82a09516b89357f34
 
 COCOAPODS: 1.11.2
