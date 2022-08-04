@@ -4,8 +4,8 @@
 
 
 struct MarketInfoResponse: Decodable {
-    let high, close, low, open: [Double]
-    let timeIntervals: [TimeInterval]
+    let high, close, low, open: [Double]?
+    let timeIntervals: [TimeInterval]?
 
     enum CodingKeys: String, CodingKey {
         case high = "h"

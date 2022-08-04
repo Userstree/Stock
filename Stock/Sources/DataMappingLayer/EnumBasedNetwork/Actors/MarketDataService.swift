@@ -23,12 +23,20 @@ actor MarketDataService: MarketDataServiceable {
         }
     }
 
-    func fetchMarketInfo(_ symbol: String, numberOfDays: TimeInterval = 3) async throws -> (String, MarketInfoResponse) {
+    nonisolated func fetchMarketInfo(_ symbol: String, numberOfDays: TimeInterval = 3) async throws -> (String, MarketInfoResponse) {
         let urlString = URLBuilder.fetchMarketData(symbol, numberOfDays).makeString()
         let dataResponse = try await makeRequest(using: URL(string: urlString)!, responseModel: MarketInfoResponse.self)
-        return (symbol,dataResponse!)
-    }
 
+        let close = dataResponse.flatMap { $0.close }
+        let x = close?.flatMap { $0 }
+        let high = dataResponse.flatMap { $0.high }
+        let low = dataResponse.flatMap { $0.low }
+        let open = dataResponse.flatMap { $0.open }
+        let timeIntervals = dataResponse.flatMap { $0.timeIntervals }
+        print(x)
+
+        return (symbol, dataResponse!)
+    }
 
     private func makeRequest<T: Decodable>(using url: URL, responseModel: T.Type) async throws -> T? {
         let (data, _) = try await URLSession.shared.data(from: url)

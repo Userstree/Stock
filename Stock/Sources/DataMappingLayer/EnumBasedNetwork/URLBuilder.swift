@@ -36,7 +36,7 @@ extension URLBuilder {
         case .fetchImage(let imageSymbol):      return imageSymbol
         case .searchForSymbol(let symbol):      return symbol
         case .fetchQuote(let symbol):           return symbol
-        case .fetchMarketData(let symbol, _):   return symbol
+        case .fetchMarketData(let symbol, _):   return "?symbol=" + symbol
         default:
             return ""
         }

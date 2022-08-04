@@ -57,12 +57,13 @@ class HomeViewController: UIViewController, HomeViewType {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: String(describing: StocksTableViewCell.self))
+        tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = 54
         tableView.layer.cornerRadius = 12
+        tableView.backgroundColor = .clear
         return tableView
     }()
 
@@ -140,14 +141,10 @@ extension HomeViewController: UITableViewDataSource {
         guard let presenter = presenter else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StocksTableViewCell.self),
-                for: indexPath) as! StocksTableViewCell
-        let index = indexPath.section
-        cell.titleLabel.text = presenter.stockListItem(at: index).title
-        cell.subTitleLabel.text = presenter.stockListItem(at: index).subTitle
-        cell.priceLabel.text = String(format: "%.2f", presenter.stockListItem(at: index).currentPrice)
-        let logo = presenter.stockListItem(at: index).logoImage
-        cell.stockImageIcon.image = logo
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
+                for: indexPath) as! StockTableViewCell
+//        cell.configure(viewModel: .init(chartViewModel: presenter.stockListItem(at: indexPath.section).title))
+        cell.backgroundColor = R.color.cellBodyBackground()!
         return cell
     }
 

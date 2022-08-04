@@ -3,7 +3,7 @@
 //
 
 
-class StocksTableViewCell: UITableViewCell {
+class SearchStocksTableViewCell: UITableViewCell {
 
     // MARK: - Star State
     private lazy var isFavorite: Bool = false {

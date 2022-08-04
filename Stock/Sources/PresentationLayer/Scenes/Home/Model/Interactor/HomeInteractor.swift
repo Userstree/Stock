@@ -40,7 +40,7 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
                 let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
                 presenter?.didRetrieveStocksList(stockViewModels)
             } catch {
-                print(error.localizedDescription)
+                print("error is ", error.localizedDescription)
             }
         }
     }
