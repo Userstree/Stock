@@ -53,7 +53,7 @@ actor StocksService: StocksServiceable {
         for item in taskResultsDict {
             switch item.value {
             case .market(let chartModel):
-//                print(chartModel.filteredClose.
+                print(chartModel.candleSticks)
                 stockViewModels.append(
                         SingleStockViewModel(
                                 title: item.key,
