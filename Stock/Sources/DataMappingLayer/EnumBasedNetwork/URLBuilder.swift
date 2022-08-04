@@ -16,6 +16,7 @@ extension URLBuilder {
     fileprivate var basePath: String {
         switch self {
         case .searchForSymbol:          return "https://api.twelvedata.com"
+        case .fetchMarketData:          return "https://api.polygon.io/v2/aggs"
         default:
             return "https://finnhub.io/api/v1"
         }
@@ -27,7 +28,8 @@ extension URLBuilder {
         case .getAllStocks:             return FinHubPaths.allStocks.rawValue
         case .searchForSymbol:          return TwelveDataPaths.symbolSearch.rawValue
         case .fetchQuote:               return FinHubPaths.quote.rawValue
-        case .fetchMarketData:          return FinHubPaths.marketData.rawValue
+//        case .fetchMarketData:          return FinHubPaths.marketData.rawValue
+        case .fetchMarketData:          return "/v2/aggs"
         }
     }
 
@@ -36,7 +38,8 @@ extension URLBuilder {
         case .fetchImage(let imageSymbol):      return imageSymbol
         case .searchForSymbol(let symbol):      return symbol
         case .fetchQuote(let symbol):           return symbol
-        case .fetchMarketData(let symbol, _):   return "?symbol=" + symbol
+//        case .fetchMarketData(let symbol, _):   return "?symbol=" + symbol
+        case .fetchMarketData(let symbol, _):   return "/ticker/" + symbol
         default:
             return ""
         }
@@ -75,9 +78,16 @@ extension URLBuilder {
         case .fetchQuote:
             urlString.append(basePath + path + endPoint + APIKEYS.finHub.rawValue)
         case .fetchMarketData:
+//            urlString.append(basePath + path + endPoint + queryParams + APIKEYS.finHub.rawValue)
             urlString.append(basePath + path + endPoint + queryParams + APIKEYS.finHub.rawValue)
         }
         return urlString
     }
 }
 
+enum PolygonAPI: String {
+    case range = "/range/1"
+    case currentDate(String)
+    case previousDate(String)
+    case
+}

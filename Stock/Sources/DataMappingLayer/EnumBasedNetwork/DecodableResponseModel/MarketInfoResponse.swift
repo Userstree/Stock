@@ -14,4 +14,11 @@ struct MarketInfoResponse: Decodable {
         case open = "o"
         case timeIntervals = "t"
     }
+
+    var filteredClose: [Double] {
+        if let close = close, close.count > 10 {
+            return close
+        }
+        return []
+    }
 }

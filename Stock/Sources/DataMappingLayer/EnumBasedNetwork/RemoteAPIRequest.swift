@@ -30,22 +30,22 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
 }
 
 enum MediaType {
-    case image, marketData
+    case marketData
 }
 
 struct Descriptor {
     let stockSymbol: String
-    let stockImageUrlString: String
+//    let stockImageUrlString: String
     let type: MediaType
 
-    init(stockSymbol: String, stockImageUrlString: String, type: MediaType) {
+    init(stockSymbol: String, type: MediaType) {
         self.type = type
         self.stockSymbol = stockSymbol
-        self.stockImageUrlString = stockImageUrlString
+//        self.stockImageUrlString = stockImageUrlString
     }
 }
 
 enum TaskResult {
-    case image(UIImage)
-    case marketData(MarketInfoResponse)
+    case market(MarketInfoResponse)
+//    case marketData(MarketInfoResponse)
 }

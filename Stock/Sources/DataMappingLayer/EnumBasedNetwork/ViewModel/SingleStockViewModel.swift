@@ -6,6 +6,7 @@
 struct SingleStockViewModel: Sendable {
     var title: String
     var subTitle: String
-    var logoImage: UIImage
+    var logoImage: String
     var currentPrice: Double
+//    var chartViewModel: ChartViewModel
 }

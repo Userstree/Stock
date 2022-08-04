@@ -194,26 +194,18 @@ extension HomeViewController: UITableViewDataSource {
                 .font(ofSize: 15, weight: .bold)
         priceLabel.transform = CGAffineTransform(rotationAngle: 0.56)
 
-//        let priceView = UIImage(systemName: "tag.fill")?.rotated(by: Measurement(value: -38, unit: .degrees), options: .flipOnVerticalAxis)?.withTintColor(.tintColor)
-//        let priceView = UIImage(systemName: "seal.fill")
         let priceBackgroundImage = UIImage(systemName: "app.badge.fill")
         let labelImageView = UIImageView(image: priceBackgroundImage!)
                 .tintColor(R.color.cellLabelBackground()!)
                 .contentMode(.scaleToFill)
 
         // MARK: - Actions
-//        private lazy var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(starImageTapped(_:)))
-
-//        @objc
-//        func starImageTapped(_ tapGestureRecognizer: UITapGestureRecognizer) {
-//            isFavorite = !isFavorite
-//        }
-
-        [titleLabel,
-         subTitleLabel,
-         labelImageView,
-         priceLabel,
-         starImageView,
+        [
+            titleLabel,
+            subTitleLabel,
+            labelImageView,
+            priceLabel,
+            starImageView,
         ].forEach(header.addSubview)
 
         titleLabel.snp.makeConstraints {
@@ -230,7 +222,7 @@ extension HomeViewController: UITableViewDataSource {
             $0.top.equalTo(titleLabel.snp.top).offset(-2)
             $0.leading.equalTo(titleLabel.snp.trailing).offset(6)
             $0.bottom.equalTo(titleLabel.snp.bottom)
-//            $0.width.equalTo(80)
+            $0.width.equalTo(30)
         }
 
         labelImageView.snp.makeConstraints {
