@@ -19,7 +19,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     private var stocksImageURLStrings = [String]()
 
     // MARK: - HomePresenterType Protocol
-
     func numberOfStocksItems() -> Int {
         stocks.count
     }
@@ -49,7 +48,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomeInteractorOutputType Protocol
-
     func didRetrieveStocksList(_ stocks: [SingleStockViewModel]) {
             self.stocks = stocks
             view?.hideLoading()

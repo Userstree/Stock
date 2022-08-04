@@ -28,24 +28,3 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
     }
 
 }
-
-enum MediaType {
-    case marketData
-}
-
-struct Descriptor {
-    let stockSymbol: String
-//    let stockImageUrlString: String
-    let type: MediaType
-
-    init(stockSymbol: String, type: MediaType) {
-        self.type = type
-        self.stockSymbol = stockSymbol
-//        self.stockImageUrlString = stockImageUrlString
-    }
-}
-
-enum TaskResult {
-    case market(MarketInfoResponse)
-//    case marketData(MarketInfoResponse)
-}

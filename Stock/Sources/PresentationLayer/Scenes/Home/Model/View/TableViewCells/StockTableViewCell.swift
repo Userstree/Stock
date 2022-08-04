@@ -9,7 +9,7 @@ class StockTableViewCell: UITableViewCell {
         let chartViewModel: ChartViewModel
     }
 
-    lazy var chartView: StockChartView = {
+    lazy var chart: StockChartView = {
         let chart = StockChartView()
         chart.isUserInteractionEnabled = false
         chart.clipsToBounds = true
@@ -19,9 +19,7 @@ class StockTableViewCell: UITableViewCell {
     override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.clipsToBounds = true
-        [
-            chartView
-        ].forEach(addSubview)
+        contentView.addSubview(chart)
     }
 
     required init?(coder: NSCoder) {
@@ -36,7 +34,7 @@ class StockTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        chartView.reset()
+        chart.reset()
     }
 
     // MARK: - Configuration of the View
@@ -46,13 +44,13 @@ class StockTableViewCell: UITableViewCell {
     }
 
     private func makeConstraints() {
-        chartView.snp.makeConstraints {
+        chart.snp.makeConstraints {
             $0.edges.equalTo(contentView.snp.edges)
         }
     }
 
     func configure(viewModel: CellViewModel) {
-        chartView.configure(with: viewModel.chartViewModel)
+        chart.configure(with: viewModel.chartViewModel)
     }
 }
 

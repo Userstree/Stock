@@ -8,5 +8,5 @@ struct SingleStockViewModel: Sendable {
     var subTitle: String
     var logoImage: String
     var currentPrice: Double
-//    var chartViewModel: ChartViewModel
+    var candleSticks: [CandleStick]
 }

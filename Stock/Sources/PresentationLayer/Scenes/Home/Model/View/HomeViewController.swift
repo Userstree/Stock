@@ -61,7 +61,7 @@ class HomeViewController: UIViewController, HomeViewType {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
-        tableView.rowHeight = 54
+        tableView.rowHeight = 72
         tableView.layer.cornerRadius = 12
         tableView.backgroundColor = .clear
         return tableView
@@ -143,7 +143,13 @@ extension HomeViewController: UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
                 for: indexPath) as! StockTableViewCell
-//        cell.configure(viewModel: .init(chartViewModel: presenter.stockListItem(at: indexPath.section).title))
+        cell.configure(viewModel:
+        .init(chartViewModel: ChartViewModel(data: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.close },
+                showLegend: false,
+                showAxis: false,
+                fillColor: .systemRed,
+                timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.timeInterval }
+        )))
         cell.backgroundColor = R.color.cellBodyBackground()!
         return cell
     }
@@ -219,10 +225,10 @@ extension HomeViewController: UITableViewDataSource {
         }
 
         starImageView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.top).offset(-2)
+            $0.top.equalTo(titleLabel.snp.top).offset(0)
             $0.leading.equalTo(titleLabel.snp.trailing).offset(6)
             $0.bottom.equalTo(titleLabel.snp.bottom)
-            $0.width.equalTo(30)
+            $0.width.equalTo(25)
         }
 
         labelImageView.snp.makeConstraints {
@@ -233,8 +239,6 @@ extension HomeViewController: UITableViewDataSource {
         }
 
         priceLabel.snp.makeConstraints {
-//            $0.centerX.equalTo(labelImageView.snp.centerX).offset(3)
-//            $0.centerY.equalTo(labelImageView.snp.centerY)
             $0.center.equalTo(labelImageView.snp.center)
         }
 

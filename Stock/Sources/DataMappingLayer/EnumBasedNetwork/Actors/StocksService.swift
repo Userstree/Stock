@@ -26,7 +26,7 @@ actor StocksService: StocksServiceable {
             throw "Invalid HttpResponseCode"
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
-        let stocksDetailsList = dataResponse[..<25]
+        let stocksDetailsList = dataResponse[..<32]
         let stockSymbolsList = stocksDetailsList.map {
             $0.title
         }
@@ -50,31 +50,31 @@ actor StocksService: StocksServiceable {
         }
 
         let taskResultsDict = try await fetchGroupedStocksInfo(descriptors: chartDescriptors)
-        for item in taskResultsDict {
-            switch item.value {
-            case .market(let chartModel):
-                print(chartModel.candleSticks)
-                stockViewModels.append(
-                        SingleStockViewModel(
-                                title: item.key,
-                                subTitle: dataResponseDict[item.key]!.subTitle,
-                                logoImage: imageUrlStringsDict[item.key]!,
-                                currentPrice: stockPrices[item.key]!
-                        )
-                )
-            }
+        let dict = taskResultsDict.filter {
+            $1.candleSticks.count > 10
+        }
+        for item in dict {
+            stockViewModels.append(
+                    SingleStockViewModel(
+                            title: item.key,
+                            subTitle: dataResponseDict[item.key]!.subTitle,
+                            logoImage: imageUrlStringsDict[item.key]!,
+                            currentPrice: stockPrices[item.key]!,
+                            candleSticks: item.value.candleSticks
+                    )
+            )
         }
         return stockViewModels
     }
 
-    fileprivate func fetchGroupedStocksInfo(descriptors: [Descriptor]) async throws -> [String: TaskResult] {
-        try await withThrowingTaskGroup(of: (String, TaskResult).self, returning: [String: TaskResult].self) { group in
+    fileprivate func fetchGroupedStocksInfo(descriptors: [Descriptor]) async throws -> [String: MarketInfoResponse] {
+        try await withThrowingTaskGroup(of: (String, MarketInfoResponse).self, returning: [String: MarketInfoResponse].self) { group in
             for descriptor in descriptors {
                 group.addTask { [self] in
                     switch descriptor.type {
                     case .marketData:
-                        let (symbol, market) = try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol,numberOfDays: 3)
-                        return (symbol, TaskResult.market(market))
+                        let (symbol, market) = try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 3)
+                        return (symbol, market)
                     }
                 }
             }
@@ -95,4 +95,25 @@ actor StocksService: StocksServiceable {
         return dataResponse.currentPrice
     }
 
+}
+
+
+enum MediaType {
+    case marketData
+}
+
+struct Descriptor {
+    let stockSymbol: String
+    let type: MediaType
+
+    init(stockSymbol: String, type: MediaType) {
+        self.type = type
+        self.stockSymbol = stockSymbol
+//        self.stockImageUrlString = stockImageUrlString
+    }
+}
+
+enum TaskResult {
+    case market(MarketInfoResponse)
+//    case marketData(MarketInfoResponse)
 }

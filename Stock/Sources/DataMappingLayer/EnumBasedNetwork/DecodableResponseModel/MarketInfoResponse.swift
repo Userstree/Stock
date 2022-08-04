@@ -19,25 +19,26 @@ struct MarketInfoResponse: Decodable {
         var result = [CandleStick]()
         let today = Date().addingTimeInterval(-(Constants.day))
         let prior = today.addingTimeInterval(-(Constants.day * 3))
-        for index in 0..<open!.count {
-            result.append(.init(high: high[index],
-                    low: low[index],
-                    close: close[index],
-                    open: open[index],
-                    date: Date(timeIntervalSince1970: timeIntervals[index]),
-                    timeInterval: timeIntervals[index] - prior.timeIntervalSince1970
+        for index in 0..<(open?.count ?? 3) {
+            result.append(.init(high: high?[index] ?? 0,
+                                low: low?[index] ?? 0,
+                                open: open?[index] ?? 0,
+                                close: close?[index] ?? 0,
+                                date: Date(timeIntervalSince1970: timeIntervals?[index] ?? 0),
+                                timeInterval: timeIntervals?[index] ?? 0 - prior.timeIntervalSince1970
             ))
         }
-        return result
+        let sortedData = result.sorted(by: { $0.date > $1.date })
+        return sortedData
     }
 }
-
 
 struct CandleStick {
     let high: Double
     let low: Double
     let open : Double
     let close: Double
+    let date: Date
     let timeInterval: TimeInterval
 }
 

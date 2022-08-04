@@ -11,6 +11,7 @@ struct ChartViewModel {
     let showLegend: Bool
     let showAxis: Bool
     let fillColor: UIColor
+    let timeInterval: [TimeInterval]
 }
 
 class StockChartView: UIView {
@@ -50,12 +51,13 @@ class StockChartView: UIView {
         chartView.rightAxis.enabled = viewModel.showAxis
         chartView.legend.enabled = viewModel.showLegend
 
-        let dataSet = LineChartDataSet(entries: entries, label: "7 days ")
+        let dataSet = LineChartDataSet(entries: entries, label: "3 days ")
         dataSet.fillColor = viewModel.fillColor
         dataSet.drawFilledEnabled = true
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false
         dataSet.drawCirclesEnabled = false
+        dataSet.setColors(.green)
 
         let data = LineChartData(dataSet: dataSet)
         chartView.data = data
