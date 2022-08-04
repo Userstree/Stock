@@ -55,6 +55,9 @@ class HomeViewController: UIViewController, HomeViewType {
         return segmentedControl
     }()
 
+    // MARK: - TableViewDataManager
+
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
@@ -150,6 +153,8 @@ extension HomeViewController: UITableViewDataSource {
                 fillColor: .systemRed,
                 timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.timeInterval }
         )))
+        cell.layer.cornerRadius = 12
+        cell.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         cell.backgroundColor = R.color.cellBodyBackground()!
         return cell
     }
@@ -241,7 +246,8 @@ extension HomeViewController: UITableViewDataSource {
         priceLabel.snp.makeConstraints {
             $0.center.equalTo(labelImageView.snp.center)
         }
-
+        header.layer.cornerRadius = 12
+        header.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         return header
     }
 

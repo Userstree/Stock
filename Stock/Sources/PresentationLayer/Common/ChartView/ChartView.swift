@@ -4,7 +4,6 @@
 
 import Charts
 
-
 //    MARK: Render
 struct ChartViewModel {
     let data: [Double]

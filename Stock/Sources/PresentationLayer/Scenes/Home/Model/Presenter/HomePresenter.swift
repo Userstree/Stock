@@ -17,6 +17,12 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     // MARK: - Vars & Lets
     private var stocks = [SingleStockViewModel]()
     private var stocksImageURLStrings = [String]()
+    private var favoriteStocks = [SingleStockViewModel]()
+    private var isFavorites: Bool {
+        didSet {
+
+        }
+    }
 
     // MARK: - HomePresenterType Protocol
     func numberOfStocksItems() -> Int {
@@ -30,6 +36,15 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     func stockListItem(at index: Int) -> SingleStockViewModel {
         let item = stocks[index]
         return item
+    }
+
+    func favoriteStockListItem(at index: Int) -> SingleStockViewModel {
+        let item = favoriteStocks[index]
+        return item
+    }
+
+    func favoriteStockListItems() -> [SingleStockViewModel] {
+        favoriteStocks
     }
 
     func onViewDidLoad() {
@@ -52,10 +67,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
             self.stocks = stocks
             view?.hideLoading()
             view?.didReceiveStocksList()
-    }
-
-    func didRetrieveStocksImageURLStrings() {
-
     }
 
 }

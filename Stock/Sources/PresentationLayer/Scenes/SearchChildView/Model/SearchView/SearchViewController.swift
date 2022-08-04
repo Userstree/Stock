@@ -9,14 +9,16 @@
 import UIKit
 
 class SearchViewController: UIViewController {
+
+    // MARK: - Properties
+    var presenter: ViewToPresenterSearchProtocol?
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    // MARK: - Properties
-    var presenter: ViewToPresenterSearchProtocol?
+    
     
 }
 

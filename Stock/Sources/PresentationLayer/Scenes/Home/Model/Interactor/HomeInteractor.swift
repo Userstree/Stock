@@ -16,7 +16,8 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
     weak var presenter: HomeInteractorOutputType?
 
     // MARK: - Init
-    init() {}
+    init() {
+    }
 
     // MARK: - HomeInteractorInputType Protocol
     func fetchStocks(for query: String) {

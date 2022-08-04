@@ -32,6 +32,8 @@ protocol HomePresenterType: AnyObject {
     func numberOfStocksItems() -> Int
     func stockListItems() -> [SingleStockViewModel]
     func stockListItem(at index: Int) -> SingleStockViewModel
+    func favoriteStockListItem(at index: Int) -> SingleStockViewModel
+    func favoriteStockListItems() -> [SingleStockViewModel]
 }
 
 
