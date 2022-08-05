@@ -2,6 +2,8 @@
 // Created by Dossymkhan Zhulamanov on 04.08.2022.
 //
 
+import SkeletonView
+
 protocol DataViewModel {
     var allStocksList: [SingleStockViewModel] { get set }
     var favoritesStocksList: [SingleStockViewModel] { get set }
@@ -16,28 +18,52 @@ class DataViewModelImpl: DataViewModel {
     }
 }
 
+typealias TableViewDataManageable = UITableViewDataSource & UITableViewDelegate
+fileprivate typealias SkeletonableTableView = SkeletonTableViewDataSource & SkeletonTableViewDelegate
 
-class StocksTableViewDataSource: NSObject, UITableViewDataSource {
+class StocksTableViewDataSource: NSObject, TableViewDataManageable, SkeletonableTableView {
 
-    var viewModel: DataViewModel!
+    var viewModel: DataViewModel?
 
+
+    // MARK: - SkeletonTableViewDataSource
+    func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        String(describing: StockTableViewCell.self)
+    }
+
+    func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+        let cell = skeletonView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self), for: indexPath) as! StockTableViewCell
+
+        return cell
+    }
+
+    // MARK: - SkeletonTableViewDelegate
+    func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+        String(describing: StockTableViewCell.self)
+    }
+
+    // MARK: - TableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.allStocksList.count
+        viewModel?.allStocksList.count ?? 10
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
                 for: indexPath) as! StockTableViewCell
         cell.configure(viewModel: .init(chartViewModel: ChartViewModel(
-                data: viewModel.allStocksList[indexPath.section].candleSticks.reversed().map { $0.close },
+            data: viewModel?.allStocksList[indexPath.section].candleSticks.reversed().map { $0.close } ?? [],
                 showLegend: false,
                 showAxis: false,
                 fillColor: .green,
-                timeInterval: viewModel.allStocksList[indexPath.section].candleSticks.reversed().map { $0.timeInterval }
+            timeInterval: viewModel?.allStocksList[indexPath.section].candleSticks.reversed().map { $0.timeInterval } ?? []
         )))
         cell.layer.cornerRadius = 12
         cell.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
@@ -66,12 +92,12 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource {
         }
 
         let titleLabel = UILabel()
-                .text(viewModel.allStocksList[section].title)
+            .text(viewModel?.allStocksList[section].title ?? "loading...")
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 18, weight: .bold)
 
         let subTitleLabel = UILabel()
-                .text(viewModel.allStocksList[section].subTitle)
+            .text(viewModel?.allStocksList[section].subTitle ?? "loading..." )
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 11, weight: .regular)
 
@@ -83,7 +109,7 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource {
         }()
 
         let priceLabel = UILabel()
-                .text(String(format: "%.2f", viewModel.allStocksList[section].currentPrice))
+            .text(String(format: "%.2f", viewModel?.allStocksList[section].currentPrice ?? "loading..."))
                 .textColor(.white)
                 .font(ofSize: 15, weight: .bold)
         priceLabel.transform = CGAffineTransform(rotationAngle: 0.56)
@@ -134,7 +160,17 @@ class StocksTableViewDataSource: NSObject, UITableViewDataSource {
         return header
     }
 
-    init(viewModel: DataViewModel = DataViewModelImpl()) {
+    // MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    }
+
+    override init() {
+        super.init()
+    }
+
+    convenience init(viewModel: DataViewModel = DataViewModelImpl()) {
+        self.init()
         self.viewModel = viewModel
     }
 

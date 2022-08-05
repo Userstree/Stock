@@ -12,7 +12,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data stack
-    nonisolated lazy var coreDataStack: CoreDataStack = .init(modelName: "Model")
+    nonisolated lazy var coreDataStack: CoreDataStack = .init(modelName: "Stock")
 
     static let sharedAppDelegate: AppDelegate = {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {

@@ -11,7 +11,7 @@ class CoreDataStack {
     init(modelName: String) {
         self.modelName = modelName
     }
-
+    
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
         container.loadPersistentStores { _, error in
@@ -19,6 +19,7 @@ class CoreDataStack {
                 print("Unresolved error \(error), \(error.userInfo)")
             }
         }
+//        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return container
     }()
 

@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Candle" representedClassName="Candle" syncable="YES">
-        <attribute name="close" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="String"/>
-        <attribute name="high" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="low" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="open" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="timeInterval" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="ofViewModel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteStockViewModel" inverseName="candleSticks" inverseEntity="FavoriteStockViewModel"/>
-    </entity>
     <entity name="FavoriteStockViewModel" representedClassName="FavoriteStockViewModel" syncable="YES">
         <attribute name="currentPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="logoImage" attributeType="String"/>
         <attribute name="subTitle" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="candleSticks" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Candle" inverseName="ofViewModel" inverseEntity="Candle"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="title"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="FavoriteStockViewModel" positionX="-292.84375" positionY="-60.4921875" width="128" height="103"/>
-        <element name="Candle" positionX="54.4765625" positionY="30.23046875" width="128" height="58"/>
+        <element name="FavoriteStockViewModel" positionX="-54" positionY="-27" width="128" height="89"/>
     </elements>
 </model>

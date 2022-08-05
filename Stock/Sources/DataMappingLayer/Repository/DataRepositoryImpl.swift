@@ -19,11 +19,8 @@ class DataRepositoryImpl: NSObject, DataRepository, NSFetchedResultsControllerDe
     private var stocks: [SingleStockViewModel] = []
     private var favoriteStocks: [SingleStockViewModel] = []
 
-    var allStocks: ([SingleStockViewModel]) -> Void = { _ in
-    }
-
-    // MARK: - Networking Operations
-    func runAsync() {
+    // MARK: - DataRepository Protocol
+    func loadViewModelsFromWeb() {
         Task(priority: .userInitiated) {
             do {
                 let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
@@ -39,22 +36,33 @@ class DataRepositoryImpl: NSObject, DataRepository, NSFetchedResultsControllerDe
         stocks
     }
 
-    func loadFavoriteStocks() {
+    var allStocks: ([SingleStockViewModel]) -> Void = { _ in
 
     }
 
     // MARK: - Persitence Operations
+    //         NSFetchedResultsControllerDelegate
+    func loadFavoriteStocks() {
+//        guard let favoriteStockViewModels = favoriteStocksProvider.fetchedResultsController.fetchedObjects else { return }
+//        self.favoriteStocks = favoriteStockViewModels.map {
+//            SingleStockViewModel(title: $0.title!,
+//                    subTitle: $0.subTitle!,
+//                    logoImage: $0.logoImage!,
+//                    currentPrice: $0.currentPrice,
+//                    candleSticks: $0.candleArray.map {
+//                        CandleStick(high: $0.high, low: $0.low, open: $0.open, close: $0.close, date: Date(timeIntervalSince1970: TimeInterval($0.timeInterval)), timeInterval: $0.timeInterval) //MUST CHANGE DATE
+//                    })
+//        }
+    }
+
     func fetchFavouriteStocks() -> [SingleStockViewModel] {
         favoriteStocks
     }
 
     // MARK: - Init
-
     override init() {
         super.init()
-        runAsync()
+        loadViewModelsFromWeb()
         loadFavoriteStocks()
-//        favoriteStocksProvider = FavoriteStocksPersistenceViewModelManager(with: managedContext,
-//                fetchedResultsControllerDelegate: self)
     }
 }

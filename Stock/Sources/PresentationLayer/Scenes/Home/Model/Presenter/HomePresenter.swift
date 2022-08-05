@@ -6,7 +6,7 @@
 //  
 //
 
-
+@MainActor
 class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
     // MARK: HomePresenterType Properties
@@ -18,7 +18,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     private var stocksDataSource = StocksTableViewDataSource()
     private var stocks = [SingleStockViewModel]()
     private var favoriteStocks = [SingleStockViewModel]()
-    private var stocksImageURLStrings = [String]()
     private var isFavorites: Bool = false {
         didSet {
             if isFavorites {
@@ -30,6 +29,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomePresenterType Protocol
+
     func numberOfStocksItems() -> Int {
         stocks.count
     }
@@ -76,12 +76,16 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     // MARK: - HomeInteractorOutputType Protocol
+
     func didRetrieveStocksList(_ stocks: [SingleStockViewModel]) {
-            self.stocks = stocks
-            view?.hideLoading()
-            view?.didReceiveStocksList()
+        self.stocks = stocks
+        view?.hideLoading()
+        view?.didReceiveStocksList()
     }
 
+    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel) {
+        stocksDataSource.viewModel = viewModel
+    }
 }
 
 

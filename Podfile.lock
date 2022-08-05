@@ -8,12 +8,14 @@ PODS:
   - R.swift (6.1.0):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
+  - SkeletonView (1.29.2)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
   - Charts
   - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord`)
   - R.swift
+  - SkeletonView
   - SnapKit (~> 5.6.0)
 
 SPEC REPOS:
@@ -21,6 +23,7 @@ SPEC REPOS:
     - Charts
     - R.swift
     - R.swift.Library
+    - SkeletonView
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -37,8 +40,9 @@ SPEC CHECKSUMS:
   MagicalRecord: 1f22a766156474d9f46a9b1e1ce59ca9e37830fc
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
+  SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 5582e3e905eb4e6a8d2440c82a09516b89357f34
+PODFILE CHECKSUM: 73db80af67cf807860dce6323a20fb3678dea2ab
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

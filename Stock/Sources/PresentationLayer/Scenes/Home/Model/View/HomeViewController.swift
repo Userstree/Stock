@@ -64,6 +64,8 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     // MARK: - TableViewDataManager
+    private var stocksTableViewDataSource = StocksTableViewDataSource()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))

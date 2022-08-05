@@ -8,6 +8,7 @@ protocol MarketDataServiceable {
 }
 
 actor MarketDataService: MarketDataServiceable {
+
     var marketDataList = [MarketInfoResponse]()
 
     func processMarketInfoList(_ symbols: [String]) async throws -> [String: MarketInfoResponse] {

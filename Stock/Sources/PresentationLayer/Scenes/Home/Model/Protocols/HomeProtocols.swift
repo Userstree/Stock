@@ -42,6 +42,7 @@ protocol HomePresenterType: AnyObject {
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol HomeInteractorInputType: AnyObject {
     var presenter: HomeInteractorOutputType? { get set }
+    var dataSourceViewModel: DataViewModel? { get set }
 
     // MARK: - Methods
     func fetchStocks(for query: String)
@@ -52,6 +53,7 @@ protocol HomeInteractorInputType: AnyObject {
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
     func didRetrieveStocksList(_ stocks: [SingleStockViewModel])
+    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel)
 }
 
 

@@ -7,18 +7,14 @@
 //
 
 
-class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
+class HomeInteractor: HomeInteractorInputType{
 
     // MARK: - Dependencies
-    private let validator = ThrottledTextValidator()
     private var dataRepository: DataRepository = DataRepositoryImpl()
 
     // MARK: HomeInteractorInputType Properties
     weak var presenter: HomeInteractorOutputType?
-
-    // MARK: - Init
-    init() {
-    }
+    var dataSourceViewModel: DataViewModel?
 
     // MARK: - HomeInteractorInputType Protocol
     func fetchStocks(for query: String) {
@@ -39,6 +35,7 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
     func fetchInitialStocks() {
         dataRepository.allStocks = { [weak self] viewModels in
             self?.presenter?.didRetrieveStocksList(viewModels)
+            self?.dataSourceViewModel?.allStocksList = viewModels
         }
     }
 
@@ -48,6 +45,14 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
 
     private func startFetchingImageStrings(for query: String) {
 //        twelveDataImageManager.searchStocks(for: "", completion: <#T##@escaping ([StockImageURLStr]) -> ()##@escaping ([Stock.StockImageURLStr]) -> ()#>)
+    }
+
+    private func prepareStocksViewModel() {
+
+    }
+
+    // MARK: - Init
+    init() {
     }
 
 }

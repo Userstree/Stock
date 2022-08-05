@@ -10,5 +10,6 @@ target 'Stock' do
   pod 'R.swift'
   pod 'Charts'
   pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord'
+  pod 'SkeletonView'
 
 end

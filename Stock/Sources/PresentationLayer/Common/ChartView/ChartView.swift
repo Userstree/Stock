@@ -50,13 +50,21 @@ class StockChartView: UIView {
         chartView.rightAxis.enabled = viewModel.showAxis
         chartView.legend.enabled = viewModel.showLegend
 
+        let gradientColors = [UIColor.systemRed.cgColor, UIColor.clear.cgColor] as CFArray
+        let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
+
         let dataSet = LineChartDataSet(entries: entries, label: "3 days ")
-        dataSet.fillColor = viewModel.fillColor
+        dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90)
+        dataSet.colors = ChartColorTemplates.liberty()
+        dataSet.fillAlpha = 0.2
+        dataSet.lineWidth = 1
+//        dataSet.fillColor = viewModel.fillColor
         dataSet.drawFilledEnabled = true
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false
         dataSet.drawCirclesEnabled = false
-        dataSet.setColors(.green)
+        dataSet.setColors(.red)
 
         let data = LineChartData(dataSet: dataSet)
         chartView.data = data

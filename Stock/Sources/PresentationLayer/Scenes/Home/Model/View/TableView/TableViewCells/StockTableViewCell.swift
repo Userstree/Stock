@@ -3,6 +3,9 @@
 //
 
 
+import SkeletonView
+
+
 class StockTableViewCell: UITableViewCell {
     // MARK: - ViewModel
     struct CellViewModel{
@@ -13,18 +16,9 @@ class StockTableViewCell: UITableViewCell {
         let chart = StockChartView()
         chart.isUserInteractionEnabled = false
         chart.clipsToBounds = true
+        chart.isSkeletonable = true
         return chart
     }()
-
-    override init(style: CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.clipsToBounds = true
-        contentView.addSubview(chart)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("required init?(coder: NSCoder) in cell")
-    }
 
     // MARK: - Controller lifecycle
     override func layoutSubviews() {
@@ -51,6 +45,9 @@ class StockTableViewCell: UITableViewCell {
 
     func configure(viewModel: CellViewModel) {
         chart.configure(with: viewModel.chartViewModel)
+        contentView.clipsToBounds = true
+        contentView.addSubview(chart)
     }
+
 }
 
