@@ -12,8 +12,10 @@ class DataRepositoryImpl: NSObject, DataRepository, NSFetchedResultsControllerDe
 
     // MARK: - Properties aka Vars & Lets>
     private var managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
-    private let favoriteStocksProvider: FavoriteStockViewModelProvidable = FavoriteStocksPersistenceViewModelManager(with: managedContext,
-                                                                                        fetchedResultsControllerDelegate: self)
+    private lazy var favoriteStocksProvider: FavoriteStockViewModelProvidable = {
+        let manager = FavoriteStocksPersistenceViewModelManager(with: managedContext, fetchedResultsControllerDelegate: self)
+        return manager
+    }()
     private var stocks: [SingleStockViewModel] = []
     private var favoriteStocks: [SingleStockViewModel] = []
 
@@ -49,7 +51,10 @@ class DataRepositoryImpl: NSObject, DataRepository, NSFetchedResultsControllerDe
     // MARK: - Init
 
     override init() {
+        super.init()
         runAsync()
         loadFavoriteStocks()
+//        favoriteStocksProvider = FavoriteStocksPersistenceViewModelManager(with: managedContext,
+//                fetchedResultsControllerDelegate: self)
     }
 }
