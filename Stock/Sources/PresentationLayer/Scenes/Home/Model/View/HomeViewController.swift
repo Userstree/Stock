@@ -178,9 +178,9 @@ extension HomeViewController: UITableViewDataSource {
         var isFavorite: Bool = false {
             didSet {
                 if isFavorite {
-                    starImageView.image = UIImage(systemName: "star.fill")
+                    starImageView.setImage(UIImage(systemName: "star.fill")!)
                 } else {
-                    starImageView.image = UIImage(systemName: "star")
+                    starImageView.setImage(UIImage(systemName: "star")!)
                 }
             }
         }
@@ -198,10 +198,11 @@ extension HomeViewController: UITableViewDataSource {
                 .font(ofSize: 11, weight: .regular)
                 .isSkeletonable(true)
 
-
-        var starImageView = UIImageView(image: UIImage(systemName: "star"))
+        let starImageView = UIButton()
+                .setImage(UIImage(systemName: "star")!)
                 .tintColor(.systemYellow)
-                .isUserInteractionEnabled(true)
+                .target(self, action: #selector(didTappedStarButton(_:)), for: .touchUpInside)
+                .tag(section)
                 .isSkeletonable(true)
 
         let priceLabel = UILabel()
@@ -215,11 +216,6 @@ extension HomeViewController: UITableViewDataSource {
                 .tintColor(R.color.cellLabelBackground()!)
                 .contentMode(.scaleToFill)
                 .isSkeletonable(true)
-
-        // MARK: - Actions
-        @objc func starDidTapped() {
-
-        }
 
         // MARK: - Actions
         [
@@ -262,6 +258,11 @@ extension HomeViewController: UITableViewDataSource {
         return header
     }
 
+    // MARK: - Actions
+    @objc func didTappedStarButton(_ sender: UIButton) {
+        print(sender.tag)
+
+    }
 }
 
 extension HomeViewController: UITableViewDelegate {
