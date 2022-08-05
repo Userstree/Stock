@@ -3,17 +3,35 @@
 //
 
 
-actor DataRepository {
+class DataRepository {
+    
+    private var stocks: [SingleStockViewModel] = []
+    private var favoriteStocks: [SingleStockViewModel] = []
+    var allStocks: ([SingleStockViewModel]) -> Void = { _ in }
 
-//    let remoteAPi = RemoteAPIRequest()
+    init() {
+        runAsync()
+    }
+    
+    func runAsync() {
+        Task(priority: .userInitiated) {
+            do {
+                let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
+                self.allStocks(stockViewModels)
+                self.stocks = stockViewModels
+            } catch {
+                print("error is ", error.localizedDescription)
+            }
+        }
+    }
 
-    // MARK: - Remote Repository
-//    @MainActor func getAll() async {
-//            do {
-//                try await remoteAPi.getAllStocksList()
-//            } catch {
-//                "Could not execute the detached task"
-//            }
-//    }
+    func getAllStocks() -> [SingleStockViewModel] {
+        stocks
+    }
+
+
+    func favouriteStocks() -> [SingleStockViewModel] {
+        favoriteStocks
+    }
 
 }

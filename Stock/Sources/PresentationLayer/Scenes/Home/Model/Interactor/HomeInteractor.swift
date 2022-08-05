@@ -11,6 +11,7 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
 
     // MARK: - Dependencies
     private let validator = ThrottledTextValidator()
+    private let dataRepository = DataRepository()
 
     // MARK: HomeInteractorInputType Properties
     weak var presenter: HomeInteractorOutputType?
@@ -36,14 +37,14 @@ class HomeInteractor: HomeInteractorInputType, @unchecked Sendable {
     }
 
     func fetchInitialStocks() {
-        Task {
-            do {
-                let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
-                presenter?.didRetrieveStocksList(stockViewModels)
-            } catch {
-                print("error is ", error.localizedDescription)
+//        Task(priority: .userInitiated) {
+//            await dataRepository.runAsync()
+//            let stockViewModels = dataRepository.getAllStocks()
+            dataRepository.allStocks = { [weak self] viewModels in
+                self?.presenter?.didRetrieveStocksList(viewModels)
             }
-        }
+//            presenter?.didRetrieveStocksList(stockViewModels)
+//        }
     }
 
     private func startFetchingStocksList(for query: String) {

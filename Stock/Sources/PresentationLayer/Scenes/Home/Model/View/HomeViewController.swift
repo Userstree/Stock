@@ -26,9 +26,16 @@ class HomeViewController: UIViewController, HomeViewType {
 //        hideAnimatedActivityIndicatorView()
     }
 
+    func changeDataSourceToFavoriteStocks() {
+
+    }
+
+    func changeDataSourceToAllStocks() {
+
+    }
+
 
     // MARK: - Properties
-
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -37,7 +44,7 @@ class HomeViewController: UIViewController, HomeViewType {
         return searchController
     }()
 
-    private var stocksSegmentedControlView: UISegmentedControl = {
+    private lazy var stocksSegmentedControlView: UISegmentedControl = {
         let items = ["Stocks", "Favorites"]
         var segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
@@ -52,12 +59,20 @@ class HomeViewController: UIViewController, HomeViewType {
                                        NSAttributedString.Key.foregroundColor: UIColor.black]
         segmentedControl.setTitleTextAttributes(selectedStateAttributes, for: .selected)
         segmentedControl.removeBorders()
+        segmentedControl.addTarget(self, action: #selector(didchangedToFavorites(_:)), for: .valueChanged)
         return segmentedControl
     }()
 
+    // MARK: - Actions
+    @objc private func didchangedToFavorites(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 1 {
+            presenter?.segmentedControlValueDidChanged(to: 1)
+        } else {
+            presenter?.segmentedControlValueDidChanged(to: 0)
+        }
+    }
+
     // MARK: - TableViewDataManager
-
-
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
@@ -71,18 +86,15 @@ class HomeViewController: UIViewController, HomeViewType {
     }()
 
     // MARK: - Lifecycle Methods
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.backgroundColor()
         configureNavigationItems()
         configureViews()
         presenter?.onViewDidLoad()
-
     }
 
     // MARK: - Configuration of the View
-
     private func configureNavigationItems() {
         searchBarController.searchResultsUpdater = self
         navigationItem.searchController = searchBarController
@@ -110,7 +122,6 @@ class HomeViewController: UIViewController, HomeViewType {
     }
 
     // MARK: - Init
-
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,7 +129,6 @@ class HomeViewController: UIViewController, HomeViewType {
     required init?(coder: NSCoder) {
         fatalError("init?(coder: NSCoder)")
     }
-
 }
 
 extension HomeViewController: UISearchResultsUpdating {

@@ -33,7 +33,7 @@ struct MarketInfoResponse: Decodable {
     }
 }
 
-struct CandleStick {
+struct CandleStick: Sendable {
     let high: Double
     let low: Double
     let open : Double

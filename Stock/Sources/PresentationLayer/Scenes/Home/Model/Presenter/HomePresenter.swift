@@ -16,11 +16,15 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
     // MARK: - Vars & Lets
     private var stocks = [SingleStockViewModel]()
-    private var stocksImageURLStrings = [String]()
     private var favoriteStocks = [SingleStockViewModel]()
-    private var isFavorites: Bool {
+    private var stocksImageURLStrings = [String]()
+    private var isFavorites: Bool = false {
         didSet {
+            if isFavorites {
+                favoriteStockListItems()
+            } else {
 
+            }
         }
     }
 
@@ -29,7 +33,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         stocks.count
     }
 
-    func stockListItems() -> [SingleStockViewModel] {
+    func allStockListItems() -> [SingleStockViewModel] {
         stocks
     }
 
@@ -44,7 +48,16 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     func favoriteStockListItems() -> [SingleStockViewModel] {
-        favoriteStocks
+        view?.changeDataSourceToFavoriteStocks()
+        return favoriteStocks
+    }
+
+    func segmentedControlValueDidChanged(to val: Int) {
+        if val == 1 {
+            isFavorites = true
+        } else {
+            isFavorites = false
+        }
     }
 
     func onViewDidLoad() {

@@ -15,6 +15,8 @@ protocol HomeViewType: AnyObject {
     func showLoading()
     func didReceiveStocksList()
     func hideLoading()
+    func changeDataSourceToFavoriteStocks()
+    func changeDataSourceToAllStocks()
 }
 
 
@@ -30,10 +32,12 @@ protocol HomePresenterType: AnyObject {
     func didSelectRow(_ index: IndexPath)
 
     func numberOfStocksItems() -> Int
-    func stockListItems() -> [SingleStockViewModel]
+    func allStockListItems() -> [SingleStockViewModel]
     func stockListItem(at index: Int) -> SingleStockViewModel
     func favoriteStockListItem(at index: Int) -> SingleStockViewModel
     func favoriteStockListItems() -> [SingleStockViewModel]
+    func segmentedControlValueDidChanged(to val: Int)
+
 }
 
 
