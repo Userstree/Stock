@@ -2,13 +2,13 @@
 // Created by Dossymkhan Zhulamanov on 05.08.2022.
 //
 
-protocol FaforiteStockViewModelProvidable {
+protocol FavoriteStockViewModelProvidable {
     init(with managedObjectContext: NSManagedObjectContext, fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate)
     var fetchedResultsController: NSFetchedResultsController<FavoriteStockViewModel> { get set }
     var managedObjectContext: NSManagedObjectContext { get set }
 }
 
-class FavoriteStockViewModelProvider: FaforiteStockViewModelProvidable {
+class FavoriteStockViewModelProvider: FavoriteStockViewModelProvidable {
     // MARK: - Properties, aka Vars & Lets
     var managedObjectContext: NSManagedObjectContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
