@@ -15,6 +15,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     var router: HomeRouterType?
 
     // MARK: - Vars & Lets
+    private var stocksDataSource = StocksTableViewDataSource()
     private var stocks = [SingleStockViewModel]()
     private var favoriteStocks = [SingleStockViewModel]()
     private var stocksImageURLStrings = [String]()
@@ -48,8 +49,7 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     func favoriteStockListItems() -> [SingleStockViewModel] {
-        view?.changeDataSourceToFavoriteStocks()
-        return favoriteStocks
+        favoriteStocks
     }
 
     func segmentedControlValueDidChanged(to val: Int) {

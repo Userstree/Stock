@@ -5,22 +5,22 @@
 protocol DataRepository {
     var allStocks: ([SingleStockViewModel]) -> Void { get set }
     func getAllStocks() -> [SingleStockViewModel]
-    func favouriteStocks() -> [SingleStockViewModel]
+    func fetchFavouriteStocks() -> [SingleStockViewModel]
 }
 
-class DataRepositoryImpl: DataRepository {
+class DataRepositoryImpl: NSObject, DataRepository, NSFetchedResultsControllerDelegate {
 
-    private var fav: FavoriteStockViewModelProvidable = FavoriteStockViewModelProvider(with: <#T##NSManagedObjectContext##CoreData.NSManagedObjectContext#>,
-            fetchedResultsControllerDelegate: <#T##NSFetchedResultsControllerDelegate##CoreData.NSFetchedResultsControllerDelegate#>)
+    // MARK: - Properties aka Vars & Lets>
+    private var managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
+    private let favoriteStocksProvider: FavoriteStockViewModelProvidable = FavoriteStocksPersistenceViewModelManager(with: managedContext,
+                                                                                        fetchedResultsControllerDelegate: self)
     private var stocks: [SingleStockViewModel] = []
     private var favoriteStocks: [SingleStockViewModel] = []
+
     var allStocks: ([SingleStockViewModel]) -> Void = { _ in
     }
 
-    init() {
-        runAsync()
-    }
-
+    // MARK: - Networking Operations
     func runAsync() {
         Task(priority: .userInitiated) {
             do {
@@ -37,9 +37,19 @@ class DataRepositoryImpl: DataRepository {
         stocks
     }
 
+    func loadFavoriteStocks() {
 
-    func favouriteStocks() -> [SingleStockViewModel] {
+    }
+
+    // MARK: - Persitence Operations
+    func fetchFavouriteStocks() -> [SingleStockViewModel] {
         favoriteStocks
     }
 
+    // MARK: - Init
+
+    override init() {
+        runAsync()
+        loadFavoriteStocks()
+    }
 }

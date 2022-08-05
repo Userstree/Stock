@@ -3,7 +3,7 @@
 //
 
 
-final class StocksRemoteDataManager<A: Decodable>: StocksRemoteDataManagerProtocol {
+final class StocksRemoteDataManager<A: Decodable> {
     private let networkingService: CancellableStocksFetchable
 
     init(networkingService: CancellableStocksFetchable = CancellableStocksFetcher()) {

@@ -15,8 +15,6 @@ protocol HomeViewType: AnyObject {
     func showLoading()
     func didReceiveStocksList()
     func hideLoading()
-    func changeDataSourceToFavoriteStocks()
-    func changeDataSourceToAllStocks()
 }
 
 
@@ -64,10 +62,10 @@ protocol HomeRouterType: AnyObject {
 
 
 // MARK: Networking
-protocol StocksRemoteDataManagerProtocol: AnyObject {
-    associatedtype A: Decodable
-    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
-    func searchStocks(for query: String, completion: @escaping ([A]) -> ())
-    func getStockImage(completion: @escaping (A) -> ())
-}
+//protocol StocksRemoteDataManagerProtocol: AnyObject {
+//    associatedtype A: Decodable
+//    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
+//    func searchStocks(for query: String, completion: @escaping ([A]) -> ())
+//    func getStockImage(completion: @escaping (A) -> ())
+//}
 

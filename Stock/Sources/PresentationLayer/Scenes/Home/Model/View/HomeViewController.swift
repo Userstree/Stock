@@ -26,15 +26,6 @@ class HomeViewController: UIViewController, HomeViewType {
 //        hideAnimatedActivityIndicatorView()
     }
 
-    func changeDataSourceToFavoriteStocks() {
-
-    }
-
-    func changeDataSourceToAllStocks() {
-
-    }
-
-
     // MARK: - Properties
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
