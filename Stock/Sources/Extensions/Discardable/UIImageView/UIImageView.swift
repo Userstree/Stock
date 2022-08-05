@@ -25,4 +25,17 @@ extension UIImageView {
         return self
     }
 
+    @discardableResult
+    func isSkeletonable(_ value: Bool) -> Self {
+        isSkeletonable = value
+
+        return self
+    }
+
+    @discardableResult
+    func isUserInteractionEnabled(_ value: Bool) -> Self {
+        isUserInteractionEnabled = value
+
+        return self
+    }
 }

@@ -153,7 +153,6 @@ extension HomeViewController: UITableViewDataSource {
         .init(chartViewModel: ChartViewModel(data: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.close },
                 showLegend: false,
                 showAxis: false,
-                fillColor: .systemRed,
                 timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.timeInterval }
         )))
         cell.layer.cornerRadius = 12
@@ -174,6 +173,7 @@ extension HomeViewController: UITableViewDataSource {
         header.backgroundColor = R.color.cellHeaderBackground()
         header.clipsToBounds = true
 
+
         // MARK: - Star State
         var isFavorite: Bool = false {
             didSet {
@@ -185,33 +185,41 @@ extension HomeViewController: UITableViewDataSource {
             }
         }
 
+        // MARK: - Properties
         let titleLabel = UILabel()
                 .text(presenter.stockListItem(at: section).title)
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 18, weight: .bold)
+                .isSkeletonable(true)
 
         let subTitleLabel = UILabel()
                 .text(presenter.stockListItem(at: section).subTitle)
                 .textColor(R.color.cellTitleLabelColor()!)
                 .font(ofSize: 11, weight: .regular)
+                .isSkeletonable(true)
 
-        var starImageView: UIImageView = {
-            let imageView = UIImageView(image: UIImage(systemName: "star"))
-            imageView.tintColor = .systemYellow
-            imageView.isUserInteractionEnabled = true
-            return imageView
-        }()
+
+        var starImageView = UIImageView(image: UIImage(systemName: "star"))
+                .tintColor(.systemYellow)
+                .isUserInteractionEnabled(true)
+                .isSkeletonable(true)
 
         let priceLabel = UILabel()
                 .text(String(format: "%.2f", presenter.stockListItem(at: section).currentPrice))
                 .textColor(.white)
                 .font(ofSize: 15, weight: .bold)
-        priceLabel.transform = CGAffineTransform(rotationAngle: 0.56)
+                .rotated(by: 0.56)
+                .isSkeletonable(true)
 
-        let priceBackgroundImage = UIImage(systemName: "app.badge.fill")
-        let labelImageView = UIImageView(image: priceBackgroundImage!)
+        let labelImageView = UIImageView(image: UIImage(systemName: "app.badge.fill")!)
                 .tintColor(R.color.cellLabelBackground()!)
                 .contentMode(.scaleToFill)
+                .isSkeletonable(true)
+
+        // MARK: - Actions
+        @objc func starDidTapped() {
+
+        }
 
         // MARK: - Actions
         [

@@ -2,6 +2,7 @@
 // Created by Dossymkhan Zhulamanov on 24.07.2022.
 //
 
+import SkeletonView
 
 extension UILabel {
 
@@ -22,6 +23,13 @@ extension UILabel {
     @discardableResult
     func font(ofSize: CGFloat, weight: UIFont.Weight) -> Self {
         font = UIFont.systemFont(ofSize: ofSize, weight: weight)
+
+        return self
+    }
+
+    @discardableResult
+    func rotated(by value: CGFloat) -> Self {
+        transform = CGAffineTransform(rotationAngle: value)
 
         return self
     }
@@ -71,6 +79,13 @@ extension UILabel {
     @discardableResult
     func borderWidth(_ value: CGFloat) -> Self {
         layer.borderWidth = value
+
+        return self
+    }
+
+    @discardableResult
+    func isSkeletonable(_ value: Bool) -> Self {
+        isSkeletonable = value
 
         return self
     }

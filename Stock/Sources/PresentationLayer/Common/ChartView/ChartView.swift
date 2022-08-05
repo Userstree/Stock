@@ -9,7 +9,6 @@ struct ChartViewModel {
     let data: [Double]
     let showLegend: Bool
     let showAxis: Bool
-    let fillColor: UIColor
     let timeInterval: [TimeInterval]
 }
 
@@ -59,7 +58,6 @@ class StockChartView: UIView {
         dataSet.colors = ChartColorTemplates.liberty()
         dataSet.fillAlpha = 0.2
         dataSet.lineWidth = 1
-//        dataSet.fillColor = viewModel.fillColor
         dataSet.drawFilledEnabled = true
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false

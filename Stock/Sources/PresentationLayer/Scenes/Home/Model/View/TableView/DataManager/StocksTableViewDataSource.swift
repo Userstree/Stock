@@ -62,7 +62,6 @@ class StocksTableViewDataSource: NSObject, TableViewDataManageable, Skeletonable
             data: viewModel?.allStocksList[indexPath.section].candleSticks.reversed().map { $0.close } ?? [],
                 showLegend: false,
                 showAxis: false,
-                fillColor: .green,
             timeInterval: viewModel?.allStocksList[indexPath.section].candleSticks.reversed().map { $0.timeInterval } ?? []
         )))
         cell.layer.cornerRadius = 12
