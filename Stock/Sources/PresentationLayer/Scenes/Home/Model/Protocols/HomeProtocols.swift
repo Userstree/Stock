@@ -27,12 +27,6 @@ protocol HomePresenterType: AnyObject {
     func onViewDidLoad()
     func didChangeQuery(_ query: String?)
     func didSelectRow(_ index: IndexPath)
-
-//    func numberOfStocksItems() -> Int
-//    func allStockListItems() -> [SingleStockViewModel]
-//    func stockListItem(at index: Int) -> SingleStockViewModel
-//    func favoriteStockListItem(at index: Int) -> SingleStockViewModel
-//    func favoriteStockListItems() -> [SingleStockViewModel]
     func segmentedControlValueDidChanged(to val: Int)
 
 }
@@ -51,7 +45,6 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-//    func didRetrieveStocksList(_ stocks: [SingleStockViewModel])
     func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel)
 }
 
@@ -62,11 +55,4 @@ protocol HomeRouterType: AnyObject {
 }
 
 
-// MARK: Networking
-//protocol StocksRemoteDataManagerProtocol: AnyObject {
-//    associatedtype A: Decodable
-//    func fetchStocks(for query: String, completion: @escaping ([A]) -> ())
-//    func searchStocks(for query: String, completion: @escaping ([A]) -> ())
-//    func getStockImage(completion: @escaping (A) -> ())
-//}
 

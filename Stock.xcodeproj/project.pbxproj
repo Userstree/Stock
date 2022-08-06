@@ -268,19 +268,19 @@
 				615B4ED82EFA5BECBBA18C72 /* DataMappingLayer */,
 				615B4AA7E025D52F607C40EB /* Extensions */,
 				615B455E25F5630E903BBE36 /* Utils */,
-				615B443E3B1B4F98098F1E8E /* ApplicationLayer */,
+				615B443E3B1B4F98098F1E8E /* App-Settings */,
 				F88433537DD5136D366F200F /* PresentationLayer */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		615B443E3B1B4F98098F1E8E /* ApplicationLayer */ = {
+		615B443E3B1B4F98098F1E8E /* App-Settings */ = {
 			isa = PBXGroup;
 			children = (
 				615B4B708B7224B5730993DB /* SceneDelegate.swift */,
 				615B4B156D1EE7331179C7D9 /* AppDelegate.swift */,
 			);
-			path = ApplicationLayer;
+			path = "App-Settings";
 			sourceTree = "<group>";
 		};
 		615B451CBAA5F8C0F2BCD25F /* Label */ = {
