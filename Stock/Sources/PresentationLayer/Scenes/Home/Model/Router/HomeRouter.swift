@@ -16,7 +16,7 @@ class HomeRouter: HomeRouterType {
         
         viewController.presenter = presenter
         viewController.presenter?.router = HomeRouter()
-        viewController.presenter?.interactor = HomeInteractor()
+        viewController.presenter?.interactorInput = HomeInteractor()
 
         return viewController
     }

@@ -12,29 +12,27 @@ protocol HomeViewType: AnyObject {
     var presenter: HomePresenterType? { get set }
 
     // MARK: - Methods
-    func showLoading()
     func didReceiveStocksList()
-    func hideLoading()
-    func didPrepareDataManager(dataManager: StocksTableViewDataSource )
+    func didPrepareDataManager(dataManager: StocksTableViewDataSource)
 }
 
 
 // MARK: View Input (View -> Presenter)
 protocol HomePresenterType: AnyObject {
     var view: HomeViewType? { get set }
-    var interactor: HomeInteractorInputType? { get set }
+    var interactorInput: HomeInteractorInputType? { get set }
     var router: HomeRouterType? { get set }
 
     // MARK: - Methods
     func onViewDidLoad()
     func didChangeQuery(_ query: String?)
     func didSelectRow(_ index: IndexPath)
-    func numberOfStocksItems() -> Int
 
-    func allStockListItems() -> [SingleStockViewModel]
-    func stockListItem(at index: Int) -> SingleStockViewModel
-    func favoriteStockListItem(at index: Int) -> SingleStockViewModel
-    func favoriteStockListItems() -> [SingleStockViewModel]
+//    func numberOfStocksItems() -> Int
+//    func allStockListItems() -> [SingleStockViewModel]
+//    func stockListItem(at index: Int) -> SingleStockViewModel
+//    func favoriteStockListItem(at index: Int) -> SingleStockViewModel
+//    func favoriteStockListItems() -> [SingleStockViewModel]
     func segmentedControlValueDidChanged(to val: Int)
 
 }
@@ -42,7 +40,7 @@ protocol HomePresenterType: AnyObject {
 
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol HomeInteractorInputType: AnyObject {
-    var presenter: HomeInteractorOutputType? { get set }
+    var interactorOutput: HomeInteractorOutputType? { get set }
     var dataSourceViewModel: DataViewModel? { get set }
 
     // MARK: - Methods
@@ -53,7 +51,7 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-    func didRetrieveStocksList(_ stocks: [SingleStockViewModel])
+//    func didRetrieveStocksList(_ stocks: [SingleStockViewModel])
     func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel)
 }
 

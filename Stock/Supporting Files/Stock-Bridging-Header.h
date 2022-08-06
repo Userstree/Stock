@@ -2,3 +2,4 @@
 @import SnapKit;
 @import MagicalRecord;
 @import Foundation;
+@import SkeletonView;

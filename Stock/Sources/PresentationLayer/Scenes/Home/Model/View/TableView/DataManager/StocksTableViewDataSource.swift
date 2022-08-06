@@ -2,33 +2,63 @@
 // Created by Dossymkhan Zhulamanov on 04.08.2022.
 //
 
-import SkeletonView
 
 protocol DataViewModel {
+    // MARK: - Properties
     var allStocksList: [SingleStockViewModel] { get set }
     var favoritesStocksList: [SingleStockViewModel] { get set }
+
+    // MARK: - Methods
+//    func changeToFavorite()
+//    func changeToAll()
+    func appendToFavoriteStocksList(_ value: SingleStockViewModel)
+    func removeFromFavoriteStocksList(_ value: SingleStockViewModel)
+
 }
 
 class DataViewModelImpl: DataViewModel {
+
+    // MARK: - DataViewModel
     var allStocksList = [SingleStockViewModel]()
     var favoritesStocksList = [SingleStockViewModel]()
 
+
+    // MARK: - Methods
+    func appendToFavoriteStocksList(_ value: SingleStockViewModel) {
+        guard !favoritesStocksList.contains(value) else {
+            return
+        }
+        favoritesStocksList.append(value)
+    }
+
+    func removeFromFavoriteStocksList(_ value: SingleStockViewModel) {
+        guard favoritesStocksList.contains(value) else {
+            return
+        }
+        favoritesStocksList.removeAll {
+            $0 == value
+        }
+    }
+
+//    func changeToFavorite()
+//    func changeToAll()
+
+
+    // MARK: - Init
     init() {
 
     }
 }
 
 typealias TableViewDataSource = UITableViewDataSource & UITableViewDelegate
-fileprivate typealias SkeletonableTableView = SkeletonTableViewDataSource & SkeletonTableViewDelegate
 
-class StocksTableViewDataSource: NSObject, TableViewDataSource, SkeletonableTableView {
+class StocksTableViewDataSource: NSObject, TableViewDataSource {
 
-    var viewModel: DataViewModel? {
-        didSet {
-            data = viewModel!.allStocksList
-        }
-    }
+    // MARK: - Properties
+    var viewModel: DataViewModel?
+
     var data: [SingleStockViewModel] = []
+
 
     // MARK: - SkeletonTableViewDataSource
     func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,17 +75,19 @@ class StocksTableViewDataSource: NSObject, TableViewDataSource, SkeletonableTabl
         return cell
     }
 
+
     // MARK: - SkeletonTableViewDelegate
     func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
         String(describing: StockTableViewCell.self)
     }
+
 
     // MARK: - TableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
 
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         data.count
     }
 
@@ -88,25 +120,30 @@ class StocksTableViewDataSource: NSObject, TableViewDataSource, SkeletonableTabl
                 title: data[section].title,
                 subTitle: data[section].subTitle,
                 priceLabel: "\(data[section].currentPrice)"
-        )
-        )
-        headerView.clipsToBounds = true
-        headerView.isFavoriteCallBack = {[weak self] liked in
-            headerView.isFavorite = liked
-            print(liked, section)
+        ))
+        headerView.isLikedCallBack = { [weak self] value in
+            if value {
+                self?.viewModel?.appendToFavoriteStocksList(self!.data[section])
+            } else {
+                self?.viewModel?.removeFromFavoriteStocksList(self!.data[section])
+            }
         }
+        headerView.clipsToBounds = true
+        headerView.layer.cornerRadius = 12
+        headerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return headerView
     }
+
 
     // MARK: - Actions
     @objc func didTappedStarButton(_ sender: UIButton) {
         let value = sender.tag
-//        presenter?.segmentedControlValueDidChanged(to: value)
     }
+
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     override init() {
@@ -115,7 +152,6 @@ class StocksTableViewDataSource: NSObject, TableViewDataSource, SkeletonableTabl
 
     convenience init(viewModel: DataViewModel = DataViewModelImpl()) {
         self.init()
-        self.viewModel = viewModel
     }
 
 }

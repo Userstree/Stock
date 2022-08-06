@@ -2,8 +2,6 @@
 // Created by Dossymkhan Zhulamanov on 05.08.2022.
 //
 
-import SkeletonView
-
 
 extension UIButton {
 

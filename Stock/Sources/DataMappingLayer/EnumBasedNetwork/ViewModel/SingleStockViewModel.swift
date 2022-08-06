@@ -10,3 +10,9 @@ struct SingleStockViewModel: Sendable {
     var currentPrice: Double
     var candleSticks: [CandleStick]
 }
+
+extension SingleStockViewModel: Equatable {
+    public static func ==(lhs: SingleStockViewModel, rhs: SingleStockViewModel) -> Bool {
+        (lhs.title, lhs.subTitle, lhs.currentPrice) == (rhs.title, rhs.subTitle, rhs.currentPrice)
+    }
+}

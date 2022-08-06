@@ -6,15 +6,16 @@
 class StockTableViewHeaderView: UITableViewHeaderFooterView {
 
     // MARK: - Star State
-    var isFavorite: Bool = false {
+    lazy var isLiked: Bool = false {
         didSet {
-            if isFavorite {
+            if isLiked {
                 starImageView.setImage(UIImage(systemName: "star.fill")!)
             } else {
                 starImageView.setImage(UIImage(systemName: "star")!)
             }
         }
     }
+
 
     // MARK: - Properties
     private let titleLabel = UILabel()
@@ -44,12 +45,16 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
             .contentMode(.scaleToFill)
             .isSkeletonable(true)
 
+
     // MARK: - Controller lifecycle
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.backgroundColor = R.color.cellHeaderBackground()
+        contentView.isSkeletonable = true
+        contentView.isHiddenWhenSkeletonIsActive = true
         configureViews()
     }
+
 
     // MARK: - Configuring the Views
     private func configureViews() {
@@ -100,13 +105,17 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
         priceLabel.text = viewModel.priceLabel
     }
 
+
     // MARK: - Actions
     @objc private func didTappedStarButton(_ sender: UIButton) {
-        isFavoriteCallBack(!isFavorite)
+        self.isLiked = !isLiked
+        isLikedCallBack(!isLiked)
     }
 
-    var isFavoriteCallBack: (Bool) -> Void = { _ in }
+    var isLikedCallBack: (Bool) -> Void = { _ in }
 
+
+    // MARK: - Init
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
 
@@ -121,4 +130,8 @@ struct HeaderViewModel {
     var title: String
     var subTitle: String
     var priceLabel: String
+}
+
+extension HeaderViewModel: SkeletonaableViewModel {
+    private(set) static var skeletonable: Self = .init(title: "ergwngn", subTitle: "reonjn", priceLabel: "234")
 }

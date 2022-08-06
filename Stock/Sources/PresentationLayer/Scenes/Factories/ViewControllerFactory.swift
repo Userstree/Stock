@@ -14,8 +14,8 @@ final class ViewControllerFactory {
         view.presenter = presenter
         presenter.view = view
         presenter.router = router
-        presenter.interactor = interactor
-        interactor.presenter = presenter
+        presenter.interactorInput = interactor
+        interactor.interactorOutput = presenter
         interactor.dataSourceViewModel = dataViewModel
         return view
     }

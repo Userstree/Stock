@@ -6,7 +6,6 @@
 //  
 //
 
-import SkeletonView
 
 class HomeViewController: UIViewController, HomeViewType {
 
@@ -15,29 +14,21 @@ class HomeViewController: UIViewController, HomeViewType {
 
 
     // MARK: - HomeViewType Methods
-    func showLoading() {
-//        displayAnimatedActivityIndicatorView()
-    }
-
     func didReceiveStocksList() {
         tableView.reloadData()
     }
 
-    func hideLoading() {
-//        hideAnimatedActivityIndicatorView()
+    func didPrepareDataManager(dataManager: StocksTableViewDataSource) {
+        tableView.stopSkeletonAnimation()
+        tableView.hideSkeleton()
+        tableView.dataSource = dataManager
+        tableView.delegate = dataManager
+        tableView.reloadData()
+        print("new dataSource")
     }
 
-    // MARK: - Star State
-    var isFavorite: Bool = false {
-        didSet {
-            if isFavorite {
-//                starImageView.setImage(UIImage(systemName: "star.fill")!)
-            } else {
-//                starImageView.setImage(UIImage(systemName: "star")!)
-            }
-        }
-    }
 
+    // MARK: - Properties
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -61,17 +52,19 @@ class HomeViewController: UIViewController, HomeViewType {
                                        NSAttributedString.Key.foregroundColor: UIColor.black]
         segmentedControl.setTitleTextAttributes(selectedStateAttributes, for: .selected)
         segmentedControl.removeBorders()
-        segmentedControl.addTarget(self, action: #selector(didchangedToFavorites(_:)), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(changedToFavorites(_:)), for: .valueChanged)
         return segmentedControl
     }()
 
 
     // MARK: - Actions
-    @objc private func didchangedToFavorites(_ sender: UISegmentedControl) {
+    @objc private func changedToFavorites(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
             presenter?.segmentedControlValueDidChanged(to: 1)
+            tableView.reloadData()
         } else {
             presenter?.segmentedControlValueDidChanged(to: 0)
+            tableView.reloadData()
         }
     }
 
@@ -84,8 +77,8 @@ class HomeViewController: UIViewController, HomeViewType {
         tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
         tableView.register(StockTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: StockTableViewHeaderView.self))
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
+        tableView.isSkeletonable = true
         tableView.rowHeight = 72
         tableView.layer.cornerRadius = 12
         tableView.backgroundColor = .clear
@@ -97,15 +90,14 @@ class HomeViewController: UIViewController, HomeViewType {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.backgroundColor()
-        tableView.isSkeletonable = true
-        tableView.showSkeleton(usingColor: .wetAsphalt, transition: .crossDissolve(0.25))
         configureNavigationItems()
         configureViews()
         presenter?.onViewDidLoad()
+        tableView.showAnimatedGradientSkeleton()
     }
 
 
-    // MARK: - Configuration of the View
+    // MARK: - Configuration of the Views
     private func configureNavigationItems() {
         searchBarController.searchResultsUpdater = self
         navigationItem.searchController = searchBarController
@@ -136,38 +128,30 @@ class HomeViewController: UIViewController, HomeViewType {
     // MARK: - Init
     init() {
         super.init(nibName: nil, bundle: nil)
-
     }
 
     required init?(coder: NSCoder) {
         fatalError("init?(coder: NSCoder)")
     }
 
-    func didPrepareDataManager(dataManager: StocksTableViewDataSource) {
-        tableView.stopSkeletonAnimation()
-        tableView.hideSkeleton()
-        tableView.dataSource = dataManager
-        print("new dataSource")
-    }
 }
 
 extension HomeViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         presenter?.didChangeQuery(searchController.searchBar.text)
     }
-
 }
 
-extension HomeViewController: SkeletonTableViewDataSource {
+fileprivate typealias SkeletonableTableView = SkeletonTableViewDataSource & SkeletonTableViewDelegate
+
+extension HomeViewController: SkeletonableTableView {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        guard let presenter = presenter else {
-            return 0
-        }
-        return presenter.numberOfStocksItems()
+        10
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -177,16 +161,6 @@ extension HomeViewController: SkeletonTableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
                 for: indexPath) as! StockTableViewCell
-        cell.configure(viewModel:
-        .init(chartViewModel: ChartViewModel(data: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map {
-            $0.close
-        },
-                showLegend: false,
-                showAxis: false,
-                timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map {
-                    $0.timeInterval
-                }
-        )))
         cell.layer.cornerRadius = 12
         cell.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         cell.backgroundColor = R.color.cellBodyBackground()!
@@ -198,32 +172,28 @@ extension HomeViewController: SkeletonTableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let presenter = presenter else {
-            return UITableViewCell()
-        }
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: (StockTableViewHeaderView.self))) as! StockTableViewHeaderView
-        headerView.configure(with: HeaderViewModel(
-                title: presenter.stockListItem(at: section).title,
-                subTitle: presenter.stockListItem(at: section).subTitle,
-                priceLabel: "\(presenter.stockListItem(at: section).currentPrice)"
-        )
-        )
-        headerView.clipsToBounds = true
-        headerView.isFavoriteCallBack = { [weak self] liked in
-            headerView.isFavorite = liked
-            print(liked, section)
-        }
+        headerView.isSkeletonable = true
         return headerView
+    }
+
+    public func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        UITableView.automaticNumberOfSkeletonRows
+    }
+
+    public func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+        let cell = skeletonView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self), for: indexPath) as? StockTableViewCell
+        cell?.configure(viewModel: .skeletonable)
+        cell?.isSkeletonable = true
+        return cell
     }
 
     public func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
         String(describing: StockTableViewCell.self)
     }
-}
 
-extension HomeViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    public func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+        String(describing: StockTableViewHeaderView.self)
     }
 }
 

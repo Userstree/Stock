@@ -3,13 +3,16 @@
 //
 
 
-import SkeletonView
-
+protocol SkeletonaableViewModel {
+    associatedtype ViewModel = Self
+    static var skeletonable: ViewModel { get }
+}
 
 class StockTableViewCell: UITableViewCell {
     // MARK: - ViewModel
-    struct CellViewModel{
+    struct CellViewModel: SkeletonaableViewModel {
         let chartViewModel: ChartViewModel
+        static var skeletonable: Self = .init(chartViewModel: .init(data: [], showLegend: false, showAxis: false, timeInterval: []))
     }
 
     lazy var chart: StockChartView = {
@@ -33,7 +36,8 @@ class StockTableViewCell: UITableViewCell {
 
     // MARK: - Configuration of the View
     private func configureViews() {
-
+        contentView.addSubview(chart)
+        contentView.isSkeletonable = true
         makeConstraints()
     }
 
