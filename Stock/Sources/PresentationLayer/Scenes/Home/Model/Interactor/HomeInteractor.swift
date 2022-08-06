@@ -36,6 +36,7 @@ class HomeInteractor: HomeInteractorInputType{
         dataRepository.allStocks = { [weak self] viewModels in
             self?.presenter?.didRetrieveStocksList(viewModels)
             self?.dataSourceViewModel?.allStocksList = viewModels
+            self?.presenter?.didPrepareTableViewDataSourceVM(self!.dataSourceViewModel!)
         }
     }
 

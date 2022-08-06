@@ -15,6 +15,7 @@ protocol HomeViewType: AnyObject {
     func showLoading()
     func didReceiveStocksList()
     func hideLoading()
+    func didPrepareDataManager(dataManager: StocksTableViewDataSource )
 }
 
 
@@ -28,8 +29,8 @@ protocol HomePresenterType: AnyObject {
     func onViewDidLoad()
     func didChangeQuery(_ query: String?)
     func didSelectRow(_ index: IndexPath)
-
     func numberOfStocksItems() -> Int
+
     func allStockListItems() -> [SingleStockViewModel]
     func stockListItem(at index: Int) -> SingleStockViewModel
     func favoriteStockListItem(at index: Int) -> SingleStockViewModel

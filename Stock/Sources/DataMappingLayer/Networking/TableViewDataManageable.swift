@@ -3,7 +3,7 @@
 //
 
 
-final class StocksRemoteDataManager<A: Decodable> {
+final class TableViewDataManageable<A: Decodable> {
     private let networkingService: CancellableStocksFetchable
 
     init(networkingService: CancellableStocksFetchable = CancellableStocksFetcher()) {

@@ -14,22 +14,14 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     var interactor: HomeInteractorInputType?
     var router: HomeRouterType?
 
+
     // MARK: - Vars & Lets
     private var stocksDataSource = StocksTableViewDataSource()
     private var stocks = [SingleStockViewModel]()
     private var favoriteStocks = [SingleStockViewModel]()
-    private var isFavorites: Bool = false {
-        didSet {
-            if isFavorites {
-                favoriteStockListItems()
-            } else {
 
-            }
-        }
-    }
 
     // MARK: - HomePresenterType Protocol
-
     func numberOfStocksItems() -> Int {
         stocks.count
     }
@@ -52,14 +44,6 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         favoriteStocks
     }
 
-    func segmentedControlValueDidChanged(to val: Int) {
-        if val == 1 {
-            isFavorites = true
-        } else {
-            isFavorites = false
-        }
-    }
-
     func onViewDidLoad() {
         view?.showLoading()
         interactor?.fetchInitialStocks()
@@ -73,19 +57,27 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
     }
 
     func didSelectRow(_ index: IndexPath) {
+
     }
 
-    // MARK: - HomeInteractorOutputType Protocol
 
+    // MARK: - HomeInteractorOutputType Protocol
     func didRetrieveStocksList(_ stocks: [SingleStockViewModel]) {
         self.stocks = stocks
         view?.hideLoading()
         view?.didReceiveStocksList()
     }
 
-    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel) {
+    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel){
         stocksDataSource.viewModel = viewModel
+        view?.didPrepareDataManager(dataManager: stocksDataSource)
     }
+
+    func segmentedControlValueDidChanged(to val: Int) {
+        print("segmented control value is ", val)
+    }
+
 }
+
 
 

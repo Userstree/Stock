@@ -6,14 +6,15 @@
 //  
 //
 
+import SkeletonView
 
 class HomeViewController: UIViewController, HomeViewType {
 
     // MARK: - HomeViewType Properties
     var presenter: HomePresenterType?
 
-    // MARK: - HomeViewType Methods
 
+    // MARK: - HomeViewType Methods
     func showLoading() {
 //        displayAnimatedActivityIndicatorView()
     }
@@ -26,7 +27,17 @@ class HomeViewController: UIViewController, HomeViewType {
 //        hideAnimatedActivityIndicatorView()
     }
 
-    // MARK: - Properties
+    // MARK: - Star State
+    var isFavorite: Bool = false {
+        didSet {
+            if isFavorite {
+//                starImageView.setImage(UIImage(systemName: "star.fill")!)
+            } else {
+//                starImageView.setImage(UIImage(systemName: "star")!)
+            }
+        }
+    }
+
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -54,6 +65,7 @@ class HomeViewController: UIViewController, HomeViewType {
         return segmentedControl
     }()
 
+
     // MARK: - Actions
     @objc private func didchangedToFavorites(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
@@ -63,12 +75,14 @@ class HomeViewController: UIViewController, HomeViewType {
         }
     }
 
+
     // MARK: - TableViewDataManager
     private var stocksTableViewDataSource = StocksTableViewDataSource()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
+        tableView.register(StockTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: StockTableViewHeaderView.self))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
@@ -78,14 +92,18 @@ class HomeViewController: UIViewController, HomeViewType {
         return tableView
     }()
 
+
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.backgroundColor()
+        tableView.isSkeletonable = true
+        tableView.showSkeleton(usingColor: .wetAsphalt, transition: .crossDissolve(0.25))
         configureNavigationItems()
         configureViews()
         presenter?.onViewDidLoad()
     }
+
 
     // MARK: - Configuration of the View
     private func configureNavigationItems() {
@@ -114,13 +132,22 @@ class HomeViewController: UIViewController, HomeViewType {
         }
     }
 
+
     // MARK: - Init
     init() {
         super.init(nibName: nil, bundle: nil)
+
     }
 
     required init?(coder: NSCoder) {
         fatalError("init?(coder: NSCoder)")
+    }
+
+    func didPrepareDataManager(dataManager: StocksTableViewDataSource) {
+        tableView.stopSkeletonAnimation()
+        tableView.hideSkeleton()
+        tableView.dataSource = dataManager
+        print("new dataSource")
     }
 }
 
@@ -131,7 +158,7 @@ extension HomeViewController: UISearchResultsUpdating {
 
 }
 
-extension HomeViewController: UITableViewDataSource {
+extension HomeViewController: SkeletonTableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
@@ -147,13 +174,18 @@ extension HomeViewController: UITableViewDataSource {
         guard let presenter = presenter else {
             return UITableViewCell()
         }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
                 for: indexPath) as! StockTableViewCell
         cell.configure(viewModel:
-        .init(chartViewModel: ChartViewModel(data: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.close },
+        .init(chartViewModel: ChartViewModel(data: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map {
+            $0.close
+        },
                 showLegend: false,
                 showAxis: false,
-                timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map { $0.timeInterval }
+                timeInterval: presenter.stockListItem(at: indexPath.section).candleSticks.reversed().map {
+                    $0.timeInterval
+                }
         )))
         cell.layer.cornerRadius = 12
         cell.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
@@ -169,99 +201,23 @@ extension HomeViewController: UITableViewDataSource {
         guard let presenter = presenter else {
             return UITableViewCell()
         }
-        let header = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
-        header.backgroundColor = R.color.cellHeaderBackground()
-        header.clipsToBounds = true
-
-
-        // MARK: - Star State
-        var isFavorite: Bool = false {
-            didSet {
-                if isFavorite {
-                    starImageView.setImage(UIImage(systemName: "star.fill")!)
-                } else {
-                    starImageView.setImage(UIImage(systemName: "star")!)
-                }
-            }
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: (StockTableViewHeaderView.self))) as! StockTableViewHeaderView
+        headerView.configure(with: HeaderViewModel(
+                title: presenter.stockListItem(at: section).title,
+                subTitle: presenter.stockListItem(at: section).subTitle,
+                priceLabel: "\(presenter.stockListItem(at: section).currentPrice)"
+        )
+        )
+        headerView.clipsToBounds = true
+        headerView.isFavoriteCallBack = { [weak self] liked in
+            headerView.isFavorite = liked
+            print(liked, section)
         }
-
-        // MARK: - Properties
-        let titleLabel = UILabel()
-                .text(presenter.stockListItem(at: section).title)
-                .textColor(R.color.cellTitleLabelColor()!)
-                .font(ofSize: 18, weight: .bold)
-                .isSkeletonable(true)
-
-        let subTitleLabel = UILabel()
-                .text(presenter.stockListItem(at: section).subTitle)
-                .textColor(R.color.cellTitleLabelColor()!)
-                .font(ofSize: 11, weight: .regular)
-                .isSkeletonable(true)
-
-        let starImageView = UIButton()
-                .setImage(UIImage(systemName: "star")!)
-                .tintColor(.systemYellow)
-                .target(self, action: #selector(didTappedStarButton(_:)), for: .touchUpInside)
-                .tag(section)
-                .isSkeletonable(true)
-
-        let priceLabel = UILabel()
-                .text(String(format: "%.2f", presenter.stockListItem(at: section).currentPrice))
-                .textColor(.white)
-                .font(ofSize: 15, weight: .bold)
-                .rotated(by: 0.56)
-                .isSkeletonable(true)
-
-        let labelImageView = UIImageView(image: UIImage(systemName: "app.badge.fill")!)
-                .tintColor(R.color.cellLabelBackground()!)
-                .contentMode(.scaleToFill)
-                .isSkeletonable(true)
-
-        // MARK: - Actions
-        [
-            titleLabel,
-            subTitleLabel,
-            labelImageView,
-            priceLabel,
-            starImageView,
-        ].forEach(header.addSubview)
-
-        titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(header.snp.leading).offset(8)
-            $0.top.equalTo(header.snp.top).offset(8)
-        }
-
-        subTitleLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.leading)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-        }
-
-        starImageView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.top).offset(0)
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(6)
-            $0.bottom.equalTo(titleLabel.snp.bottom)
-            $0.width.equalTo(25)
-        }
-
-        labelImageView.snp.makeConstraints {
-            $0.trailing.equalTo(header.snp.trailing).offset(10)
-            $0.top.equalTo(header.snp.top).offset(-10)
-            $0.bottom.equalTo(header.snp.bottom).offset(-15)
-            $0.width.equalTo(70)
-        }
-
-        priceLabel.snp.makeConstraints {
-            $0.center.equalTo(labelImageView.snp.center)
-        }
-        header.layer.cornerRadius = 12
-        header.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        return header
+        return headerView
     }
 
-    // MARK: - Actions
-    @objc func didTappedStarButton(_ sender: UIButton) {
-        print(sender.tag)
-
+    public func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        String(describing: StockTableViewCell.self)
     }
 }
 
