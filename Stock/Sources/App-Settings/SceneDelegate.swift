@@ -8,14 +8,13 @@
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    private let viewControllerFactory = ViewControllerFactory()
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        let rootVC = viewControllerFactory.instantiateHomeViewController()
+        let rootVC = HomeModelAssembly.assemble()
         window.rootViewController = UINavigationController(rootViewController: rootVC)
         window.makeKeyAndVisible()
         self.window = window

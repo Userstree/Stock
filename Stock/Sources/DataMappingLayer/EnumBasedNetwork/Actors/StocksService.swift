@@ -8,7 +8,7 @@ protocol StocksServiceable {
 
 actor StocksService: StocksServiceable {
 
-    // MARK: - Properties, aka Vars & Lets
+    // MARK: - Properties
     var stocksViewModelList: [SingleStockViewModel] = []
     var stockPrices: [String: Double] = [:]
     var stockViewModels = [SingleStockViewModel]()

@@ -14,7 +14,7 @@ struct ChartViewModel {
 
 class StockChartView: UIView {
 
-    // MARK: - Properties, aka Vars & Lets
+    // MARK: - Properties
     lazy var chartView: LineChartView = {
         let chartView = LineChartView()
         chartView.pinchZoomEnabled = false

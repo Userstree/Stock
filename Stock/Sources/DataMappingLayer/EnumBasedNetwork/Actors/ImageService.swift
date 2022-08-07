@@ -5,7 +5,7 @@
 
 actor ImageService {
 
-    // MARK: - Properties, aka Vars & Lets
+    // MARK: - Properties
     let urlSession = URLSession.shared
 //    var pending: Set<String> = []
 //    var inProgress: Set<String> = []

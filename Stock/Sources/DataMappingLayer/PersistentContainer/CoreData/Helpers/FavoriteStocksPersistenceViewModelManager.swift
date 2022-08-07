@@ -10,7 +10,7 @@ protocol FavoriteStockViewModelProvidable {
 
 class FavoriteStocksPersistenceViewModelManager: FavoriteStockViewModelProvidable {
 
-    // MARK: - Properties, aka Vars & Lets
+    // MARK: - Properties
     var managedObjectContext: NSManagedObjectContext!
     private weak var fetchedResultsControllerDelegate: NSFetchedResultsControllerDelegate?
 
