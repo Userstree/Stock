@@ -9,14 +9,16 @@ final class ViewControllerFactory {
         let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
         let interactor: HomeInteractorInputType = HomeInteractor()
         let router: HomeRouterType = HomeRouter()
-        let dataViewModel: DataViewModel = DataViewModelImpl()
+        let dataViewModel: HomeEntity = HomeEntityImpl()
+        var remoteDataRepository: RemoteDataRepository = RemoteDataRepositoryImpl()
 
         view.presenter = presenter
         presenter.view = view
         presenter.router = router
         presenter.interactorInput = interactor
         interactor.interactorOutput = presenter
-        interactor.dataSourceViewModel = dataViewModel
+        interactor.homeEntity = dataViewModel
+        interactor.remoteDataRepository = remoteDataRepository
         return view
     }
 }

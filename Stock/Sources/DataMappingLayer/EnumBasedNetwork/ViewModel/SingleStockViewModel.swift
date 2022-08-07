@@ -9,6 +9,7 @@ struct SingleStockViewModel: Sendable {
     var logoImage: String
     var currentPrice: Double
     var candleSticks: [CandleStick]
+    var isLiked: Bool
 }
 
 extension SingleStockViewModel: Equatable {

@@ -10,12 +10,13 @@
 class HomeInteractor: HomeInteractorInputType{
 
     // MARK: - Dependencies
-    private var dataRepository: DataRepository = DataRepositoryImpl()
+    var remoteDataRepository: RemoteDataRepository?
+    var localDataRepository: LocalDataRepository?
 
 
     // MARK: HomeInteractorInputType Properties
     weak var interactorOutput: HomeInteractorOutputType?
-    var dataSourceViewModel: DataViewModel?
+    var homeEntity: HomeEntity?
 
 
     // MARK: - HomeInteractorInputType Protocol
@@ -35,10 +36,9 @@ class HomeInteractor: HomeInteractorInputType{
     }
 
     func fetchInitialStocks() {
-        dataRepository.allStocks = { [weak self] viewModels in
-//            self?.interactorOutput?.didRetrieveStocksList(viewModels)
-            self?.dataSourceViewModel?.allStocksList = viewModels
-            self?.interactorOutput?.didPrepareTableViewDataSourceVM(self!.dataSourceViewModel!)
+        remoteDataRepository?.allStocksCallBack = { [weak self] viewModels in
+            self?.homeEntity?.allStocksList = viewModels
+            self?.interactorOutput?.didPrepareTableViewDataSourceVM(self!.homeEntity!)
         }
     }
 

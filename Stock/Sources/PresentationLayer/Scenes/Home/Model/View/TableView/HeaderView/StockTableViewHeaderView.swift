@@ -9,9 +9,9 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
     lazy var isLiked: Bool = false {
         didSet {
             if isLiked {
-                starImageView.setImage(UIImage(systemName: "star.fill")!)
+                starButton.setImage(UIImage(systemName: "star.fill")!)
             } else {
-                starImageView.setImage(UIImage(systemName: "star")!)
+                starButton.setImage(UIImage(systemName: "star")!)
             }
         }
     }
@@ -28,7 +28,7 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
             .font(ofSize: 11, weight: .regular)
             .isSkeletonable(true)
 
-    private let starImageView = UIButton()
+    private let starButton = UIButton()
             .setImage(UIImage(systemName: "star")!)
             .tintColor(.systemYellow)
             .target(target: self, action: #selector(didTappedStarButton(_:)), for: .touchUpInside)
@@ -63,7 +63,7 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
             subTitleLabel,
             labelImageView,
             priceLabel,
-            starImageView,
+            starButton,
         ].forEach(contentView.addSubview)
         makeConstraints()
     }
@@ -80,7 +80,7 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
         }
 
-        starImageView.snp.makeConstraints {
+        starButton.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.top).offset(0)
             $0.leading.equalTo(titleLabel.snp.trailing).offset(6)
             $0.bottom.equalTo(titleLabel.snp.bottom)
@@ -103,13 +103,18 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
         titleLabel.text = viewModel.title
         subTitleLabel.text = viewModel.subTitle
         priceLabel.text = viewModel.priceLabel
+        if viewModel.isLiked {
+            starButton.setImage(UIImage(systemName: "star.fill")!)
+        } else {
+            starButton.setImage(UIImage(systemName: "star")!)
+        }
     }
 
 
     // MARK: - Actions
     @objc private func didTappedStarButton(_ sender: UIButton) {
         self.isLiked = !isLiked
-        isLikedCallBack(!isLiked)
+        isLikedCallBack(isLiked)
     }
 
     var isLikedCallBack: (Bool) -> Void = { _ in }
@@ -130,8 +135,9 @@ struct HeaderViewModel {
     var title: String
     var subTitle: String
     var priceLabel: String
+    var isLiked: Bool
 }
 
 extension HeaderViewModel: SkeletonaableViewModel {
-    private(set) static var skeletonable: Self = .init(title: "ergwngn", subTitle: "reonjn", priceLabel: "234")
+    private(set) static var skeletonable: Self = .init(title: "ergwngn", subTitle: "reonjn", priceLabel: "234", isLiked: false)
 }

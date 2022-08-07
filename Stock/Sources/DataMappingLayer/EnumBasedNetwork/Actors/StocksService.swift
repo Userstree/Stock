@@ -60,7 +60,8 @@ actor StocksService: StocksServiceable {
                             subTitle: dataResponseDict[item.key]!.subTitle,
                             logoImage: imageUrlStringsDict[item.key]!,
                             currentPrice: stockPrices[item.key]!,
-                            candleSticks: item.value.candleSticks
+                            candleSticks: item.value.candleSticks,
+                            isLiked: false
                     )
             )
         }

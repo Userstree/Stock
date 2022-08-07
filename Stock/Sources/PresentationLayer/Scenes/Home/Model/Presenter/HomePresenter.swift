@@ -17,32 +17,10 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
     // MARK: - Vars & Lets
     private var stocksDataSource = StocksTableViewDataSource()
-    private var viewModel: DataViewModel?
+    private var homeEntity: HomeEntity?
+
 
     // MARK: - HomePresenterType Protocol
-
-//    func numberOfStocksItems() -> Int {
-//        stocks.count
-//    }
-//
-//    func allStockListItems() -> [SingleStockViewModel] {
-//        stocks
-//    }
-//
-//    func stockListItem(at index: Int) -> SingleStockViewModel {
-//        let item = stocks[index]
-//        return item
-//    }
-//
-//    func favoriteStockListItem(at index: Int) -> SingleStockViewModel {
-//        let item = favoriteStocks[index]
-//        return item
-//    }
-//
-//    func favoriteStockListItems() -> [SingleStockViewModel] {
-//        favoriteStocks
-//    }
-
     func onViewDidLoad() {
         interactorInput?.fetchInitialStocks()
     }
@@ -60,20 +38,19 @@ class HomePresenter: HomePresenterType, HomeInteractorOutputType {
 
 
     // MARK: - HomeInteractorOutputType Protocol
-
-    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel){
-        stocksDataSource.data = viewModel.allStocksList
-        stocksDataSource.viewModel = viewModel
-        self.viewModel = viewModel
+    func didPrepareTableViewDataSourceVM(_ homeEntity: HomeEntity){
+        stocksDataSource.data = homeEntity.allStocksList
+        stocksDataSource.homeEntity = homeEntity
+        self.homeEntity = homeEntity
         view?.didPrepareDataManager(dataManager: stocksDataSource)
     }
 
     func segmentedControlValueDidChanged(to val: Int) {
         if val == 1 {
-            guard let favorites = viewModel?.favoritesStocksList else { return }
+            guard let favorites = homeEntity?.favoritesStocksList else { return }
             stocksDataSource.data = favorites
         } else {
-            guard let allStocks = viewModel?.allStocksList else { return }
+            guard let allStocks = homeEntity?.allStocksList else { return }
             stocksDataSource.data = allStocks
         }
     }

@@ -12,7 +12,6 @@ class HomeViewController: UIViewController, HomeViewType {
     // MARK: - HomeViewType Properties
     var presenter: HomePresenterType?
 
-
     // MARK: - HomeViewType Methods
     func didReceiveStocksList() {
         tableView.reloadData()
@@ -29,6 +28,7 @@ class HomeViewController: UIViewController, HomeViewType {
 
 
     // MARK: - Properties
+    let dataSourceObserver = Notification.Name(entityNotificationKey)
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "Find Company or Ticker"
@@ -56,6 +56,19 @@ class HomeViewController: UIViewController, HomeViewType {
         return segmentedControl
     }()
 
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
+        tableView.register(StockTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: StockTableViewHeaderView.self))
+        tableView.dataSource = self
+        tableView.showsVerticalScrollIndicator = false
+        tableView.isSkeletonable = true
+        tableView.rowHeight = 72
+        tableView.layer.cornerRadius = 12
+        tableView.backgroundColor = .clear
+        return tableView
+    }()
+
 
     // MARK: - Actions
     @objc private func changedToFavorites(_ sender: UISegmentedControl) {
@@ -72,19 +85,6 @@ class HomeViewController: UIViewController, HomeViewType {
     // MARK: - TableViewDataManager
     private var stocksTableViewDataSource = StocksTableViewDataSource()
 
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(StockTableViewCell.self, forCellReuseIdentifier: String(describing: StockTableViewCell.self))
-        tableView.register(StockTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: StockTableViewHeaderView.self))
-        tableView.dataSource = self
-        tableView.showsVerticalScrollIndicator = false
-        tableView.isSkeletonable = true
-        tableView.rowHeight = 72
-        tableView.layer.cornerRadius = 12
-        tableView.backgroundColor = .clear
-        return tableView
-    }()
-
 
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -94,6 +94,23 @@ class HomeViewController: UIViewController, HomeViewType {
         configureViews()
         presenter?.onViewDidLoad()
         tableView.showAnimatedGradientSkeleton()
+        createObservers()
+    }
+
+
+    // MARK: - Notification Center Configuration
+    func createObservers() {
+        NotificationCenter.default.addObserver(self,
+                selector: #selector(listenToTableViewDataSourceChanges(_ :)),
+                name: Notification.Name(entityNotificationKey), object: nil)
+    }
+
+    @objc func listenToTableViewDataSourceChanges(_ notification: NSNotification) {
+        if notification.name == dataSourceObserver {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 
 
@@ -134,6 +151,11 @@ class HomeViewController: UIViewController, HomeViewType {
         fatalError("init?(coder: NSCoder)")
     }
 
+
+    // MARK: - Deinit
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension HomeViewController: UISearchResultsUpdating {

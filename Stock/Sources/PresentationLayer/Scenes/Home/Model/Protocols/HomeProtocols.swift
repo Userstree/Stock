@@ -35,7 +35,9 @@ protocol HomePresenterType: AnyObject {
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol HomeInteractorInputType: AnyObject {
     var interactorOutput: HomeInteractorOutputType? { get set }
-    var dataSourceViewModel: DataViewModel? { get set }
+    var homeEntity: HomeEntity? { get set }
+    var remoteDataRepository: RemoteDataRepository? { get set }
+    var localDataRepository: LocalDataRepository? { get set }
 
     // MARK: - Methods
     func fetchStocks(for query: String)
@@ -45,7 +47,7 @@ protocol HomeInteractorInputType: AnyObject {
 
 // MARK: Interactor Output (Interactor -> Presenter)
 protocol HomeInteractorOutputType: AnyObject {
-    func didPrepareTableViewDataSourceVM(_ viewModel: DataViewModel)
+    func didPrepareTableViewDataSourceVM(_ viewModel: HomeEntity)
 }
 
 

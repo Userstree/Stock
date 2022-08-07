@@ -3,83 +3,14 @@
 //
 
 
-protocol DataViewModel {
-    // MARK: - Properties
-    var allStocksList: [SingleStockViewModel] { get set }
-    var favoritesStocksList: [SingleStockViewModel] { get set }
-
-    // MARK: - Methods
-//    func changeToFavorite()
-//    func changeToAll()
-    func appendToFavoriteStocksList(_ value: SingleStockViewModel)
-    func removeFromFavoriteStocksList(_ value: SingleStockViewModel)
-
-}
-
-class DataViewModelImpl: DataViewModel {
-
-    // MARK: - DataViewModel
-    var allStocksList = [SingleStockViewModel]()
-    var favoritesStocksList = [SingleStockViewModel]()
-
-
-    // MARK: - Methods
-    func appendToFavoriteStocksList(_ value: SingleStockViewModel) {
-        guard !favoritesStocksList.contains(value) else {
-            return
-        }
-        favoritesStocksList.append(value)
-    }
-
-    func removeFromFavoriteStocksList(_ value: SingleStockViewModel) {
-        guard favoritesStocksList.contains(value) else {
-            return
-        }
-        favoritesStocksList.removeAll {
-            $0 == value
-        }
-    }
-
-//    func changeToFavorite()
-//    func changeToAll()
-
-
-    // MARK: - Init
-    init() {
-
-    }
-}
-
 typealias TableViewDataSource = UITableViewDataSource & UITableViewDelegate
 
 class StocksTableViewDataSource: NSObject, TableViewDataSource {
 
     // MARK: - Properties
-    var viewModel: DataViewModel?
+    var homeEntity: HomeEntity?
 
     var data: [SingleStockViewModel] = []
-
-
-    // MARK: - SkeletonTableViewDataSource
-    func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
-    }
-
-    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        String(describing: StockTableViewCell.self)
-    }
-
-    func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
-        let cell = skeletonView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self), for: indexPath) as! StockTableViewCell
-
-        return cell
-    }
-
-
-    // MARK: - SkeletonTableViewDelegate
-    func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
-        String(describing: StockTableViewCell.self)
-    }
 
 
     // MARK: - TableViewDataSource
@@ -119,13 +50,15 @@ class StocksTableViewDataSource: NSObject, TableViewDataSource {
         headerView.configure(with: HeaderViewModel(
                 title: data[section].title,
                 subTitle: data[section].subTitle,
-                priceLabel: "\(data[section].currentPrice)"
+                priceLabel: "\(data[section].currentPrice)",
+                isLiked: data[section].isLiked
         ))
-        headerView.isLikedCallBack = { [weak self] value in
-            if value {
-                self?.viewModel?.appendToFavoriteStocksList(self!.data[section])
+        headerView.isLikedCallBack = { [weak self] liked in
+            self?.data[section].isLiked = liked
+            if liked {
+                self?.homeEntity?.appendToFavoriteStocksList(self!.data[section], position: section)
             } else {
-                self?.viewModel?.removeFromFavoriteStocksList(self!.data[section])
+                self?.homeEntity?.removeFromFavoriteStocksList(self!.data[section], position: section)
             }
         }
         headerView.clipsToBounds = true
@@ -150,7 +83,7 @@ class StocksTableViewDataSource: NSObject, TableViewDataSource {
         super.init()
     }
 
-    convenience init(viewModel: DataViewModel = DataViewModelImpl()) {
+    convenience init(viewModel: HomeEntity = HomeEntityImpl()) {
         self.init()
     }
 
