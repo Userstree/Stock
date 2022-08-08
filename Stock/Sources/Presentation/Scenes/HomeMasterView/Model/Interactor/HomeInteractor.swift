@@ -26,6 +26,7 @@ final class HomeInteractor: HomeInteractorInputType{
     func fetchInitialStocks() {
         remoteDataRepository?.allStocksCallBack = { [weak self] viewModels in
             self?.homeEntity?.allStocksList = viewModels
+            print(viewModels)
             self?.interactorOutput?.didPrepareHomeEntity(self!.homeEntity!)
         }
     }

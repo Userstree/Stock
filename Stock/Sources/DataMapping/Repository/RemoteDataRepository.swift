@@ -5,14 +5,14 @@
 protocol RemoteDataRepositoryType {
     // MARK: - Methods
     var allStocksCallBack: ([SingleStockViewModel]) -> Void { get set }
-//    var stockSummaryCallBack:
+    var companySummaryCallBack: (CompanySummary) -> Void { get set }
     func loadViewModelsFromWeb()
 }
 
 final class RemoteDataRepository: RemoteDataRepositoryType {
     // MARK: - Properties aka Vars & Lets>
     private var stocks: [SingleStockViewModel] = []
-
+    private var summary: CompanySummary?
 
     // MARK: - RemoteDataRepository Protocol
     func loadViewModelsFromWeb() {
@@ -28,9 +28,11 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
     }
 
     func loadSummary(for symbol: String) {
-        Task{
+        Task {
             do {
-//                let stockSummary = try await RemoteAPIRequest().
+                let summary = try await RemoteAPIRequest().getCompanySummary(for: symbol)
+                self.companySummaryCallBack(summary)
+                self.summary = summary
             } catch {
                 print("error is ", error.localizedDescription)
             }
@@ -38,7 +40,9 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
     }
 
     var allStocksCallBack: ([SingleStockViewModel]) -> Void = { _ in
+    }
 
+    var companySummaryCallBack: (CompanySummary) -> Void = { _ in
     }
 
 }

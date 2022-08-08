@@ -11,7 +11,7 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
     var homeEntity: HomeEntityType?
     var data: [SingleStockViewModel]?
     var onStockDidSelect: ((Int) -> Void)?
-    var onStarDidTap: ((Int, Bool) -> Void)?
+//    var onStarDidTap: ((Int, Bool) -> Void)?
 
 
     // MARK: - SkeletonTableViewDataSource
@@ -90,10 +90,10 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
             self?.data?[section].isLiked = liked
             if liked {
                 self?.homeEntity?.appendToFavoriteStocksList(self!.data![section], position: section)
-                self?.onStarDidTap?(section, liked)
+//                self?.onStarDidTap?(section, liked)
             } else {
                 self?.homeEntity?.removeFromFavoriteStocksList(self!.data![section], position: section)
-                self?.onStarDidTap?(section, liked)
+//                self?.onStarDidTap?(section, liked)
             }
         }
         headerView.clipsToBounds = true

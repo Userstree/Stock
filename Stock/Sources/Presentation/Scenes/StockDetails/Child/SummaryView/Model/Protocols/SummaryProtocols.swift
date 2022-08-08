@@ -6,9 +6,10 @@
 // MARK: View Output (Presenter -> View)
 protocol SummaryViewType: AnyObject {
     // MARK: - Properties
-    var presenter: SummaryPresenterType! { get set }
+    var viewOutput: SummaryPresenterType! { get set }
 
     // MARK: - Methods
+    func didPrepareEntity(_ value: SummaryEntityType)
 }
 
 
@@ -18,6 +19,7 @@ protocol SummaryPresenterType: AnyObject {
     var view: SummaryViewType? { get set }
     var interactorInput: SummaryInteractorInputType! { get set }
     var router: SummaryRouterType! { get set }
+    var symbol: String? { get set }
 
     // MARK: - Methods
     func onViewDidLoad()
@@ -41,7 +43,7 @@ protocol SummaryInteractorOutputType: AnyObject {
     // MARK: - Properties
 
     // MARK: - Methods
-
+    func didPrepareSummaryEntity(_ value: SummaryEntityType)
 }
 
 

@@ -4,6 +4,7 @@
 
 protocol RemoteAPIRequestType {
     func getAllStocksList() async throws -> [SingleStockViewModel]
+    func getCompanySummary(for symbol: String) async throws -> CompanySummary
 //    func fetchStockImageUrlString(for symbol: String) async throws -> String
 }
 
@@ -11,7 +12,8 @@ protocol RemoteAPIRequestType {
 struct RemoteAPIRequest: RemoteAPIRequestType {
 
     let stocksService = StocksService()
-    let summarySerice = ImageService()
+    let summarySerice = CompanyProfileService()
+
 
     // MARK: - RemoteAPIRequestType
     func getAllStocksList() async throws -> [SingleStockViewModel] {
@@ -26,6 +28,10 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         let (data, _) = try await URLSession.shared.data(from: URL(string: urlString)!)
         let dataResponse = try JSONDecoder().decode(QuoteResponse.self, from: data)
         return Int(dataResponse.currentPrice)
+    }
+
+    func getCompanySummary(for symbol: String) async throws -> CompanySummary {
+        try await summarySerice.makeProfileRequest(for: symbol, returnType: CompanySummary.self)
     }
 
 }

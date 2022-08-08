@@ -12,13 +12,14 @@ actor StocksService: StocksServiceable {
     var stocksViewModelList: [SingleStockViewModel] = []
     var stockPrices: [String: Double] = [:]
     var stockViewModels = [SingleStockViewModel]()
+    var stockDetailsDictByTitle: [String : StockDetails] = [:]
 
     // MARK: - Services
     let merketInfoSerice: MarketDataServiceable = MarketDataService()
 
     // MARK: - Methods
 
-    func getAllStocksList() async throws -> [SingleStockViewModel] {
+    func getStockSymbolsList() async throws -> [String] {
         let urlString = URLBuilder.getAllStocks.makeString()
         let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
@@ -26,17 +27,18 @@ actor StocksService: StocksServiceable {
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
         let stocksDetailsList = dataResponse[..<32]
-        let stockSymbolsList = stocksDetailsList.map {
+        stockDetailsDictByTitle = dataResponse.toDictionary {
             $0.title
         }
-        let dataResponseDict = dataResponse.toDictionary {
+        print(stocksDetailsList)
+        return stocksDetailsList.map {
             $0.title
         }
+    }
 
-//        let imageUrlStringsDict = try await imageService.makeStockImageUrlStringsList(for: stockSymbolsList)
-//        let nonEmptyImageUrlStringsList = imageUrlStringsDict.filter {
-//            !$0.value.isEmpty
-//        }
+    func getAllStocksList() async throws -> [SingleStockViewModel] {
+        let stockSymbolsList = try await getStockSymbolsList()
+
         var chartDescriptors = [Descriptor]()
         for item in stockSymbolsList {
             chartDescriptors.append(
@@ -49,15 +51,16 @@ actor StocksService: StocksServiceable {
         }
 
         let taskResultsDict = try await fetchGroupedStocksInfo(descriptors: chartDescriptors)
+        print(taskResultsDict)
         let dict = taskResultsDict.filter {
             $1.candleSticks.count > 10
         }
+        print("candle sticks ", dict)
         for item in dict {
             stockViewModels.append(
                     SingleStockViewModel(
                             title: item.key,
-                            subTitle: dataResponseDict[item.key]!.subTitle,
-//                            logoImage: imageUrlStringsDict[item.key]!,
+                            subTitle: stockDetailsDictByTitle[item.key]!.subTitle,
                             currentPrice: stockPrices[item.key]!,
                             priceChange: computeChangePrice(for: item.key, from: item.value.candleSticks),
                             candleSticks: item.value.candleSticks,
@@ -74,8 +77,7 @@ actor StocksService: StocksServiceable {
                 group.addTask { [self] in
                     switch descriptor.type {
                     case .marketData:
-                        let (symbol, market) = try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 3)
-                        return (symbol, market)
+                        return try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 3)
                     }
                 }
             }

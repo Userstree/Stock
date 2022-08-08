@@ -10,7 +10,10 @@ final class SummaryIneractor: SummaryInteractorInputType {
 
     // MARK: - SummaryInteractorInputType Protocol Methods
     func fetchRemoteSummary(for symbol: String) {
-//        remoteDataRepository.
+        remoteDataRepository?.companySummaryCallBack = { [weak self] companySummary in
+            self?.summaryEntity?.companySummary = companySummary
+//            self?.interactorOutput?.didPrepareSummaryEntity(self?.summaryEntity!)
+        }
     }
 
 }

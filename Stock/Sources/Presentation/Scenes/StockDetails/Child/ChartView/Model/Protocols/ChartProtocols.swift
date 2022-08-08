@@ -11,6 +11,7 @@ protocol ChartViewType: AnyObject {
 
     // MARK: - Methods
     func didPassStockViewModel(_ value: SingleStockViewModel)
+    func didPrepareCompanySummary(_ value: SummaryEntityType)
 }
 
 
@@ -32,9 +33,11 @@ protocol ChartInteractorInputType: AnyObject {
     // MARK: - Properties
     var interactorOutput: ChartInteractorOutputType! { get set }
     var chartEntity: ChartEntityType? { get set }
+    var summaryEntity: SummaryEntity? { get set }
 
     // MARK: - Methods
     func fetchRemoteStockData(title: String, resolution: String)
+    func fetchRemoteSummary(for symbol: String)
 }
 
 
@@ -43,7 +46,7 @@ protocol ChartInteractorOutputType: AnyObject {
     // MARK: - Properties
 
     // MARK: - Methods
-
+    func didPrepareSummaryEntity(_ value: SummaryEntityType)
 }
 
 

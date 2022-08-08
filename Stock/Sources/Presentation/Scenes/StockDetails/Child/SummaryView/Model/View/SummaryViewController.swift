@@ -3,12 +3,25 @@
 //
 
 
-final class SummaryViewController: UIViewController {
+final class SummaryViewController: UIViewController, SummaryViewType {
+    // MARK: - SummaryViewType Protocol Properties
+    var viewOutput: SummaryPresenterType! = nil
+
+    // MARK: - SummaryViewType Protocol Methods
+    func didPrepareEntity(_ value: SummaryEntityType) {
+
+    }
+
+
     // MARK: - Properties
 
 
     // MARK: - Lifecycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewOutput.onViewDidLoad()
 
+    }
 
     // MARK: - Actions
 
@@ -38,5 +51,6 @@ final class SummaryViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init?(coder: NSCoder)")
     }
+
 
 }

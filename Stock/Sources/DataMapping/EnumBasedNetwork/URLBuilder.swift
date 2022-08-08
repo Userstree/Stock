@@ -4,7 +4,7 @@
 
 
 enum URLBuilder {
-    case fetchImage(_ symbol: String)
+    case fetchProfile(_ symbol: String)
     case getAllStocks
     case searchForSymbol(_ symbol: String)
     case fetchQuote(_ symbol: String)
@@ -23,7 +23,7 @@ extension URLBuilder {
 
     fileprivate var path: String {
         switch self {
-        case .fetchImage:               return FinHubPaths.logo.rawValue
+        case .fetchProfile:               return FinHubPaths.logo.rawValue
         case .getAllStocks:             return FinHubPaths.allStocks.rawValue
         case .searchForSymbol:          return TwelveDataPaths.symbolSearch.rawValue
         case .fetchQuote:               return FinHubPaths.quote.rawValue
@@ -33,7 +33,7 @@ extension URLBuilder {
 
     fileprivate var endPoint: String {
         switch self {
-        case .fetchImage(let imageSymbol):      return imageSymbol
+        case .fetchProfile(let symbol):         return symbol
         case .searchForSymbol(let symbol):      return symbol
         case .fetchQuote(let symbol):           return symbol
         case .fetchMarketData(let symbol, _):   return "?symbol=" + symbol
@@ -68,7 +68,7 @@ extension URLBuilder {
         switch self {
         case .getAllStocks:
             urlString.append(basePath + path + APIKEYS.finHub.rawValue)
-        case .fetchImage:
+        case .fetchProfile:
             urlString.append(basePath + path + endPoint + APIKEYS.finHub.rawValue)
         case .searchForSymbol:
             urlString.append(basePath + path + endPoint)

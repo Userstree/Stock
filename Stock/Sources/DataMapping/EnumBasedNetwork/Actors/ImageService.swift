@@ -52,7 +52,7 @@ actor ImageService {
         if symbol.isEmpty {
             return (symbol, "")
         }
-        let urlString = URLBuilder.fetchImage(symbol).makeString()
+        let urlString = URLBuilder.fetchProfile(symbol).makeString()
         let (data, _) = try await urlSession.data(from: URL(string: urlString)!)
         guard data.count > 2 else {
             return (symbol, "")

@@ -7,7 +7,7 @@
 //
 
 
-final class HomeViewController: UIViewController, HomeViewType {
+final class HomeViewController: UIViewController, HomeViewType, UISearchResultsUpdating, UISearchControllerDelegate {
     // MARK: - HomeViewType Properties
     var viewOutput: HomePresenterType!
 
@@ -24,24 +24,64 @@ final class HomeViewController: UIViewController, HomeViewType {
         stocksTableDataDisplayManager.data = value.allStocksList
         tableView.delegate = stocksTableDataDisplayManager
         tableView.reloadData()
+        if value.allStocksList.isEmpty {
+            isTableEmpty = true
+            print("table is impty")
+        }
         print("new dataSource")
     }
 
 
     // MARK: - Properties
+    private var isTableEmpty: Bool = false {
+        didSet {
+            if isTableEmpty {
+                view.viewWithTag(2)?.isHidden = false
+                tableView.bringSubviewToFront(view.viewWithTag(2)!)
+            } else {
+                view.viewWithTag(2)?.isHidden = true
+            }
+        }
+    }
+    private var isSearchBarTapped: Bool = false {
+        didSet {
+            if isSearchBarTapped {
+                view.viewWithTag(0)?.isHidden = true
+                view.viewWithTag(1)?.isHidden = true
+                view.viewWithTag(3)?.isHidden = false
+            } else {
+                view.viewWithTag(0)?.isHidden = false
+                view.viewWithTag(1)?.isHidden = false
+                view.viewWithTag(3)?.isHidden = true
+            }
+        }
+    }
     private var entity: HomeEntityType? {
         didSet {
-            print("Entity changed")
             tableView.reloadData()
         }
     }
     var stocksTableDataDisplayManager: StocksMasterTableViewDisplayManager!
 
-    private let searchBarController: UISearchController = {
+    private lazy var noDataImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "no-data")!)
+        imageView.tag = 2
+        return imageView
+    }()
+
+    private lazy var searchView: SearchView = {
+        let view = SearchView()
+        view.tag = 3
+        return view
+    }()
+
+    private lazy var searchBarController: UISearchController = {
         let searchController = UISearchController()
+        searchController.delegate = self
         searchController.searchBar.placeholder = "Find Company or Ticker"
-        searchController.definesPresentationContext = true
-        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.searchBar.delegate = self
+//        searchController.definesPresentationContext = true
+//        searchController.obscuresBackgroundDuringPresentation = false
         return searchController
     }()
 
@@ -61,6 +101,7 @@ final class HomeViewController: UIViewController, HomeViewType {
         segmentedControl.setTitleTextAttributes(selectedStateAttributes, for: .selected)
         segmentedControl.removeBorders()
         segmentedControl.addTarget(self, action: #selector(changedToFavorites(_:)), for: .valueChanged)
+        segmentedControl.tag = 0
         return segmentedControl
     }()
 
@@ -74,6 +115,7 @@ final class HomeViewController: UIViewController, HomeViewType {
         tableView.rowHeight = 72
         tableView.layer.cornerRadius = 12
         tableView.backgroundColor = .clear
+        tableView.tag = 1
         return tableView
     }()
 
@@ -105,17 +147,19 @@ final class HomeViewController: UIViewController, HomeViewType {
     // MARK: - Configuration of the Views
     private func dataDisplayConfig() {
         stocksTableDataDisplayManager.onStockDidSelect = { [weak self] index in
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self else {
+                return
+            }
             strongSelf.viewOutput.showStockDetails(for: strongSelf.entity!.allStocksList[index])
         }
-        stocksTableDataDisplayManager.onStarDidTap = { [weak self] (section, liked) in
-            guard let strongSelf = self else { return }
+//        stocksTableDataDisplayManager.onStarDidTap = { [weak self] (section, liked) in
+//            guard let strongSelf = self else { return }
 //            if !liked {
 //                let indexPath = IndexPath(row: 0, section: section)
 //                strongSelf.tableView.deleteRows(at: [indexPath], with: .fade)
 //                strongSelf.tableView.reloadData()
 //            }
-        }
+//        }
     }
 
     private func configureNavigationItems() {
@@ -124,10 +168,14 @@ final class HomeViewController: UIViewController, HomeViewType {
     }
 
     private func configureViews() {
-        [stocksSegmentedControlView,
-         tableView,
+        [
+            stocksSegmentedControlView,
+            tableView,
+            noDataImageView,
+            searchView
         ].forEach(view.addSubview)
         makeConstraints()
+        noDataImageView.isHidden = true
     }
 
     private func makeConstraints() {
@@ -142,6 +190,14 @@ final class HomeViewController: UIViewController, HomeViewType {
             $0.trailing.equalTo(view.snp.trailing).offset(-16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+        noDataImageView.snp.makeConstraints {
+            $0.center.equalTo(tableView.snp.center)
+            $0.size.equalTo(CGSize(width: 120, height: 120))
+        }
+        searchView.snp.makeConstraints {
+            $0.edges.equalTo(view.snp.edges)
+        }
+        searchView.isHidden = true
     }
 
 
@@ -160,13 +216,23 @@ final class HomeViewController: UIViewController, HomeViewType {
         print("deinit home")
     }
 
-}
 
-
-extension HomeViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Protocol
     public func updateSearchResults(for searchController: UISearchController) {
+        print(searchController.searchBar.text)
         viewOutput.didChangeQuery(searchController.searchBar.text)
     }
+
+
+    // MARK: - UISearchControllerDelegate Protocol
+    func didPresentSearchController(_ searchController: UISearchController) {
+        isSearchBarTapped = true
+    }
+
+    func didDismissSearchController(_ searchController: UISearchController) {
+        isSearchBarTapped = false
+    }
+
 }
 
 

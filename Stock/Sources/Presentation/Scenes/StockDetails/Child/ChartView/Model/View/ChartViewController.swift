@@ -25,10 +25,27 @@ final class ChartViewController: UIViewController, ChartViewType {
         )
     }
 
+    func didPrepareCompanySummary(_ value: SummaryEntityType) {
+        print(value.companySummary?.finnhubIndustry)
+        categoriesDataManager.categories = value.companySummary!.finnhubIndustry
+    }
+
 
     // MARK: - Properties
     private var stockViewModel: SingleStockViewModel!
     var buttonsDataManager: ButtonsCollectionDataManager!
+    var categoriesDataManager: CategoriesCollectionDisplayManager!
+
+    private lazy var categoriesCollection: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.minimumLineSpacing = 10
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collection.dataSource = categoriesDataManager
+        collection.register(CompanyCatogyCollectionCell.self, forCellWithReuseIdentifier: String(describing: CompanyCatogyCollectionCell.self))
+        return collection
+    }()
 
     private lazy var chart: StockChartView = {
         let chart = StockChartView()
@@ -108,6 +125,7 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     private func configureViews() {
         [
+            categoriesCollection,
             chart,
             priceChangeLabel,
             buttonsHolderCollection,
@@ -118,8 +136,14 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
     private func makeConstraints() {
-        priceChangeLabel.snp.makeConstraints {
+        categoriesCollection.snp.makeConstraints {
             $0.top.equalTo(view.snp.top).offset(16)
+            $0.leading.equalTo(view.snp.leading).offset(16)
+            $0.trailing.equalTo(view.snp.trailing).offset(-16)
+            $0.height.equalTo(42)
+        }
+        priceChangeLabel.snp.makeConstraints {
+            $0.top.equalTo(categoriesCollection.snp.bottom).offset(16)
             $0.leading.equalTo(view.snp.leading).offset(16)
             $0.size.equalTo(CGSize(width: 65, height: 36))
         }
