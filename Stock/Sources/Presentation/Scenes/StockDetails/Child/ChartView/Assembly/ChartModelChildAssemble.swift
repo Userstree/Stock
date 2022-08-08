@@ -1,10 +1,10 @@
 //
-// Created by Dossymkhan Zhulamanov on 23.07.2022.
+// Created by Dossymkhan Zhulamanov on 08.08.2022.
 //
 
 
-final class HomeModelAssembly {
-    @MainActor class func assemble() -> HomeViewController {
+final class ChartModelChildAssemble {
+    @MainActor class func assemble() -> ChartViewController {
         // MARK: - Properties
         let view = HomeViewController()
         let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()

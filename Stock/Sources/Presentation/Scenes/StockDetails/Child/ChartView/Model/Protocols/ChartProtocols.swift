@@ -7,7 +7,7 @@
 // MARK: View Output (Presenter -> View)
 protocol ChartViewType: AnyObject {
     // MARK: - Properties
-    var presenter: ChartPresenterType! { get set }
+    var viewOutput: ChartPresenterType! { get set }
 
     // MARK: - Methods
 }
@@ -28,6 +28,7 @@ protocol ChartPresenterType: AnyObject {
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol ChartInteractorInputType: AnyObject {
     // MARK: - Properties
+    var interactorOutput: ChartInteractorOutputType! { get set }
 
     // MARK: - Methods
 
