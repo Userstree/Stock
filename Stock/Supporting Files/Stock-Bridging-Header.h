@@ -3,3 +3,4 @@
 @import MagicalRecord;
 @import Foundation;
 @import SkeletonView;
+@import Parchment;

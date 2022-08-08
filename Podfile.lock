@@ -5,6 +5,7 @@ PODS:
   - MagicalRecord (2.4.0):
     - MagicalRecord/Core (= 2.4.0)
   - MagicalRecord/Core (2.4.0)
+  - Parchment (3.2.0)
   - R.swift (6.1.0):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
@@ -14,6 +15,7 @@ PODS:
 DEPENDENCIES:
   - Charts
   - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord`)
+  - Parchment (~> 3.2)
   - R.swift
   - SkeletonView
   - SnapKit (~> 5.6.0)
@@ -21,6 +23,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Charts
+    - Parchment
     - R.swift
     - R.swift.Library
     - SkeletonView
@@ -38,11 +41,12 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   MagicalRecord: 1f22a766156474d9f46a9b1e1ce59ca9e37830fc
+  Parchment: a43c440b22c8a60f7e0196b74339446d4d1d18ea
   R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 73db80af67cf807860dce6323a20fb3678dea2ab
+PODFILE CHECKSUM: 57da5ca9307c7c9abff24d778ec9acc770a6dd60
 
 COCOAPODS: 1.11.2

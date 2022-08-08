@@ -135,13 +135,12 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
     }
 }
 
-struct HeaderViewModel {
+struct HeaderViewModel: SkeletonaableViewModel {
     var title: String
     var subTitle: String
     var priceLabel: String
     var isLiked: Bool
-}
 
-extension HeaderViewModel: SkeletonaableViewModel {
     private(set) static var skeletonable: Self = .init(title: "ergwngn", subTitle: "reonjn", priceLabel: "234", isLiked: false)
+
 }

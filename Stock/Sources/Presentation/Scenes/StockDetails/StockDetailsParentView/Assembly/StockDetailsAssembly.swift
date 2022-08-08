@@ -6,15 +6,14 @@
 final class StockDetailsAssembly {
     @MainActor class func assemble(
             for stock: SingleStockViewModel
-    ) -> StockDetailsViewController {
-        let view = StockDetailsViewController()
+    ) -> StockDetailsParentViewController {
+        let view = StockDetailsParentViewController()
         let interactor: StockDetailsInteractorInputType = StockDetailsInteractor()
         let presenter: StockDetailsInteractorOutputType & StockDetailsPresenterType & StockDetailsModuleInput = StockDetailsPresenter()
         let router: StockDetailsRouterType = StockDetailsRouter()
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
 
 //        configuration?(presenter)
-        print("X")
 
         interactor.interactorOutput = presenter
         interactor.remoteDataRepository = remoteDataRepository
