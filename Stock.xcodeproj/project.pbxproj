@@ -273,11 +273,11 @@
 		615B4439D0AB90E1CA514E72 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				615B4ED82EFA5BECBBA18C72 /* DataMappingLayer */,
+				615B4ED82EFA5BECBBA18C72 /* DataMapping */,
 				615B4AA7E025D52F607C40EB /* Extensions */,
 				615B455E25F5630E903BBE36 /* Utils */,
 				615B443E3B1B4F98098F1E8E /* App-Settings */,
-				F88433537DD5136D366F200F /* PresentationLayer */,
+				F88433537DD5136D366F200F /* Presentation */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -518,7 +518,7 @@
 			path = Actors;
 			sourceTree = "<group>";
 		};
-		615B4ED82EFA5BECBBA18C72 /* DataMappingLayer */ = {
+		615B4ED82EFA5BECBBA18C72 /* DataMapping */ = {
 			isa = PBXGroup;
 			children = (
 				615B48AA7D213B9801217CF7 /* PersistentContainer */,
@@ -526,7 +526,7 @@
 				615B410C35C62FD56677D21D /* Networking */,
 				615B4CBF576CE0C0C34E8CAF /* EnumBasedNetwork */,
 			);
-			path = DataMappingLayer;
+			path = DataMapping;
 			sourceTree = "<group>";
 		};
 		615B4F33169B5EF4A8B66184 /* Presenter */ = {
@@ -591,13 +591,13 @@
 			path = SearchChildView;
 			sourceTree = "<group>";
 		};
-		F88433537DD5136D366F200F /* PresentationLayer */ = {
+		F88433537DD5136D366F200F /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				F884347B3FC55AEA8CC3F441 /* Common */,
 				F88435AB17981B1DC4CB39F0 /* Scenes */,
 			);
-			path = PresentationLayer;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		F884339B31E020207136C3E0 /* Presenter */ = {
