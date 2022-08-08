@@ -9,7 +9,7 @@ protocol StockDetailsViewType: AnyObject {
     var viewOutput: StockDetailsPresenterType! { get set }
 
     // MARK: - Methods
-    func didPrepareViewControllers(_ value: [UIViewController])
+    func didPrepareViewControllers(_ value: [UIViewController], titles: [String])
 }
 
 

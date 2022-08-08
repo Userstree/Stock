@@ -7,31 +7,49 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
     // MARK: - StockDetailsViewType Protocol Properties
     var viewOutput: StockDetailsPresenterType!
 
+
     // MARK: - StockDetailsViewType Protocol Methods
-    func didPrepareViewControllers(_ value: [UIViewController]) {
-        viewControllers = value
+    func didPrepareViewControllers(_ value: [UIViewController], titles: [String]) {
+        dataDisplayManager?.viewControllersTitles = titles
+        dataDisplayManager?.viewControllers = value
     }
 
     // MARK: - Properties
-    private lazy var viewControllers: [UIViewController] = []
+    var dataDisplayManager: StockDetailsDataDisplayManager?
 
-    private let starButton = UIButton()
+    private lazy var isStarSelected: Bool = false {
+        didSet {
+            if isStarSelected {
+                starButton.setImage(UIImage(systemName: "star.fill")!)
+            } else {
+                starButton.setImage(UIImage(systemName: "star")!)
+            }
+        }
+    }
+
+    private lazy var starButton = UIButton()
             .setImage(UIImage(systemName: "star")!)
             .tintColor(.systemYellow)
             .target(target: self, action: #selector(didTapStarItem), for: .touchUpInside)
-            .isSkeletonable(true)
+
+    private lazy var navTitleLabel = UILabel()
+            .text("Not Title\n Not available")
+            .textAlignment(.center)
+            .numberOfLines(2)
+            .font(ofSize: 16, weight: .semibold)
+            .textColor(R.color.text()!)
 
     private lazy var pagingViewController: PagingViewController = {
-        let pagingViewController = PagingViewController(viewControllers: viewControllers)
-        pagingViewController.dataSource = self
-        pagingViewController.sizeDelegate = self
+        let pagingViewController = PagingViewController(viewControllers: dataDisplayManager!.viewControllers)
+        pagingViewController.dataSource = dataDisplayManager
+        pagingViewController.sizeDelegate = dataDisplayManager
 
-        pagingViewController.selectedBackgroundColor = .systemGray4
-        pagingViewController.selectedTextColor = .black
-        pagingViewController.indicatorColor = .green
-        pagingViewController.textColor = R.color.primary()
-        pagingViewController.backgroundColor = R.color.backgroundColor()
-        pagingViewController.menuBackgroundColor = R.color.backgroundColor()
+        pagingViewController.selectedBackgroundColor = .white
+        pagingViewController.selectedTextColor = R.color.text()!
+        pagingViewController.indicatorColor = R.color.cellHeaderBackground()!
+        pagingViewController.textColor = R.color.cellTitleLabelColor()!
+        pagingViewController.backgroundColor = R.color.backgroundColor()!
+        pagingViewController.menuBackgroundColor = .clear
 
         return pagingViewController
     }()
@@ -41,29 +59,31 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
     override func viewDidLoad() {
         super.viewDidLoad()
         viewOutput.onViewDidLoad()
-        configureNavBar()
+        configureViews()
+        configureNavigationItems()
         view.backgroundColor = R.color.backgroundColor()
     }
 
-    // MARK: - Configure NavigationBar Back Button
-    private func configureNavBar() {
+
+    // MARK: - Navigation Bar Configuration
+    private func configureNavigationItems() {
         let backItem = UIBarButtonItem()
         backItem.title = "Home"
         navigationItem.backBarButtonItem
         navigationController?.navigationBar.topItem?.backBarButtonItem = backItem
-        navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+        navigationItem.titleView = navTitleLabel
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
     }
+
 
     // MARK: - Actions
     @objc private func didTapStarItem() {
         print("star tapped ")
+        isStarSelected = !isStarSelected
     }
+
 
     // MARK: - Configuration of the Views
-    private func configureNavigationItems() {
-
-    }
-
     private func configureViews() {
         add(pagingViewController)
         view.addSubview(pagingViewController.view)
@@ -75,4 +95,5 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
             $0.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
     }
+
 }

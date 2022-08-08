@@ -3,11 +3,12 @@
 //
 
 
-final class StockDetailsAssembly {
+final class StockDetailsParentAssembly {
     @MainActor class func assemble(
             for stock: SingleStockViewModel
     ) -> StockDetailsParentViewController {
         let view = StockDetailsParentViewController()
+        let dataDisplayManager = StockDetailsDataDisplayManager()
         let interactor: StockDetailsInteractorInputType = StockDetailsInteractor()
         let presenter: StockDetailsInteractorOutputType & StockDetailsPresenterType & StockDetailsModuleInput = StockDetailsPresenter()
         let router: StockDetailsRouterType = StockDetailsRouter()
@@ -18,6 +19,7 @@ final class StockDetailsAssembly {
         interactor.interactorOutput = presenter
         interactor.remoteDataRepository = remoteDataRepository
         view.viewOutput = presenter
+        view.dataDisplayManager = dataDisplayManager
         presenter.view = view
         presenter.router = router
         presenter.interactorInput = interactor

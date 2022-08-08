@@ -16,11 +16,14 @@ final class StockDetailsPresenter: StockDetailsPresenterType, StockDetailsIntera
     private let newsViewController = NewsViewController()
     private let summaryViewController = SummaryViewController()
     private lazy var viewControllers = [chartViewController, newsViewController, summaryViewController]
-
+    private let controllersTitles = ["Chart",
+                                    "Summary",
+                                    "News"
+    ]
 
     // MARK: - StockDetailsPresenterType Protocol Methods
     func onViewDidLoad() {
-        view?.didPrepareViewControllers(viewControllers)
+        view?.didPrepareViewControllers(viewControllers, titles: controllersTitles)
     }
 
     // MARK: - StockDetailsInteractorOutputType Protocol
