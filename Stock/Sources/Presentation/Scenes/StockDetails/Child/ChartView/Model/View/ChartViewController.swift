@@ -33,10 +33,19 @@ final class ChartViewController: UIViewController, ChartViewType {
         return chart
     }()
 
+    private lazy var buttonsAnnotationLabel = UILabel()
+            .text("Choose the timeframe: ")
+            .textColor(.black)
+            .textAlignment(.left)
+            .font(ofSize: 16, weight: .regular)
+
     private lazy var buttonsHolderCollection: UICollectionView = {
-        let flow = UICollectionViewFlowLayout()
-        flow.scrollDirection = .horizontal
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: flow)
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+//        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+        flowLayout.minimumInteritemSpacing = 32
+        flowLayout.minimumLineSpacing = 32
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collection.isScrollEnabled = false
         collection.register(TimeButtonCollectionCell.self,
                 forCellWithReuseIdentifier: String(describing: TimeButtonCollectionCell.self))
@@ -52,7 +61,7 @@ final class ChartViewController: UIViewController, ChartViewType {
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
         button.backgroundColor = R.color.button()!
-        button.contentEdgeInsets = UIEdgeInsets(top: 24, left: 10, bottom: 24, right: 10)
+        button.titleEdgeInsets = UIEdgeInsets(top: 24, left: 0, bottom: 24, right: 0)
         button.layer.cornerCurve = .continuous
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.systemGray3.cgColor
@@ -93,6 +102,7 @@ final class ChartViewController: UIViewController, ChartViewType {
         [
             chart,
             buttonsHolderCollection,
+            buttonsAnnotationLabel,
             buyButton,
         ].forEach(view.addSubview)
         makeConstraints()
@@ -100,22 +110,28 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     private func makeConstraints() {
         chart.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(18)
+            $0.top.equalTo(view.snp.top).offset(20)
             $0.leading.equalTo(view.snp.leading)
             $0.trailing.equalTo(view.snp.trailing)
-            $0.height.equalTo(334)
+            $0.height.equalTo( view.frame.height * (1.62 / 3))
+        }
+        buttonsAnnotationLabel.snp.makeConstraints {
+            $0.top.equalTo(chart.snp.bottom).offset(20)
+            $0.leading.equalTo(chart.snp.leading).offset(16)
+            $0.trailing.equalTo(chart.snp.trailing)
+            $0.height.equalTo(20)
         }
         buttonsHolderCollection.snp.makeConstraints {
-            $0.top.equalTo(chart.snp.bottom).offset(8)
-            $0.leading.equalTo(chart.snp.leading)
+            $0.top.equalTo(buttonsAnnotationLabel.snp.bottom)
+            $0.leading.equalTo(chart.snp.leading).offset(16)
             $0.trailing.equalTo(chart.snp.trailing)
-            $0.height.equalTo(40)
+            $0.height.equalTo(44)
         }
         buyButton.snp.makeConstraints {
-            $0.top.equalTo(buttonsHolderCollection.snp.bottom).offset(8)
+            $0.top.equalTo(buttonsHolderCollection.snp.bottom).offset(20)
             $0.leading.equalTo(chart.snp.leading).offset(16)
             $0.trailing.equalTo(chart.snp.trailing).offset(-16)
-            $0.height.equalTo(30)
+            $0.height.equalTo(44)
         }
     }
 
@@ -131,20 +147,20 @@ final class ChartViewController: UIViewController, ChartViewType {
         chart.chartView.rightAxis.enabled = viewModel.showAxis
         chart.chartView.legend.enabled = viewModel.showLegend
 
-        let gradientColors = [UIColor.systemRed.cgColor, UIColor.clear.cgColor] as CFArray
+        let gradientColors = [UIColor.black.cgColor, UIColor.clear.cgColor] as CFArray
         let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
         let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
 
         let dataSet = LineChartDataSet(entries: entries, label: "3 days ")
         dataSet.fill = Fill.fillWithLinearGradient(gradient!, angle: 90)
         dataSet.colors = ChartColorTemplates.liberty()
-        dataSet.fillAlpha = 0.2
+        dataSet.fillAlpha = 0.42
         dataSet.lineWidth = 1
         dataSet.drawFilledEnabled = true
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false
         dataSet.drawCirclesEnabled = false
-        dataSet.setColors(.red)
+        dataSet.setColors(.black)
 
         let data = LineChartData(dataSet: dataSet)
         chart.chartView.data = data

@@ -5,11 +5,12 @@
 
 final class TimeButtonCollectionCell: UICollectionViewCell {
     // MARK: - Properties
+    var currentSelected: Int = 0
+
     lazy var timeLabel = UILabel()
             .font(ofSize: 16, weight: .semibold)
-            .textColor(.black)
+            .textColor(.white)
             .textAlignment(.center)
-            .backgroundColor(R.color.backgroundColor()!)
 
 
     // MARK: - Lifecycle Methods
@@ -17,9 +18,23 @@ final class TimeButtonCollectionCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         configureViews()
-        contentView.backgroundColor = .gray
+        contentView.backgroundColor = R.color.button()!
+        contentView.backgroundColor = isSelected ? UIColor.systemGray3 : R.color.button()!
+        contentView.clipsToBounds = true
     }
 
+    func configure(with viewModel: ButtonViewModel) {
+        timeLabel.text = viewModel.timeValue
+    }
+
+    override var isSelected: Bool {
+        get {
+            super.isSelected
+        }
+        set {
+            super.isSelected = (currentSelected != 0)
+        }
+    }
 
     // MARK: - Configuration of the Views
 
@@ -30,7 +45,8 @@ final class TimeButtonCollectionCell: UICollectionViewCell {
 
     private func makeConstraints() {
         timeLabel.snp.makeConstraints {
-            $0.edges.equalTo(contentView.snp.edges)
+            $0.center.equalTo(contentView.snp.center)
         }
     }
+
 }

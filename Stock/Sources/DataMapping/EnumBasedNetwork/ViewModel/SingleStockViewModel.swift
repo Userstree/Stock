@@ -8,6 +8,7 @@ struct SingleStockViewModel: Sendable {
     var subTitle: String
     var logoImage: String
     var currentPrice: Double
+    var priceChange: Double
     var candleSticks: [CandleStick]
     var isLiked: Bool
 }

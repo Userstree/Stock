@@ -9,6 +9,7 @@ struct ButtonViewModel {
 final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     // MARK: - Properties
     var onButtonTapped: ((String) -> Void)?
+    var currentSelected: Int = 0
 
     var buttonsViewModels: [ButtonViewModel] = [
         ButtonViewModel(timeValue: "15"),
@@ -27,8 +28,13 @@ final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TimeButtonCollectionCell.self), for: indexPath) as! TimeButtonCollectionCell
-        cell.timeLabel.text = buttonsViewModels[indexPath.item].timeValue
-        cell.backgroundColor = .systemGray6
+//        cell.contentView.backgroundColor = indexPath.item == currentSelected ? UIColor.systemGray5 : R.color.button()!
+        cell.isSelected
+        cell.configure(with: buttonsViewModels[indexPath.item])
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.systemGray3.cgColor
+        cell.layer.cornerRadius = 6
+        cell.clipsToBounds = true
         return cell
     }
 
@@ -36,6 +42,14 @@ final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, 
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         onButtonTapped?(buttonsViewModels[indexPath.item].timeValue)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 32, height: 32)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        45
     }
 
     // MARK: - Init

@@ -60,6 +60,7 @@ actor StocksService: StocksServiceable {
                             subTitle: dataResponseDict[item.key]!.subTitle,
                             logoImage: imageUrlStringsDict[item.key]!,
                             currentPrice: stockPrices[item.key]!,
+                            priceChange: computeChangePrice(for: item.key, from: item.value.candleSticks),
                             candleSticks: item.value.candleSticks,
                             isLiked: false
                     )
@@ -96,6 +97,19 @@ actor StocksService: StocksServiceable {
         return dataResponse.currentPrice
     }
 
+    private func computeChangePrice(for symbol: String, from data: [CandleStick]) -> Double {
+        let latestDate = data[0].date
+        guard let latestClose = data.first?.close,
+              let priorClose = data.first(where: {
+                          !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
+                      })?
+                      .close
+        else {
+            return 0
+        }
+        let diff = 1 - (priorClose / latestClose)
+        return diff
+    }
 }
 
 
