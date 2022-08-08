@@ -39,6 +39,7 @@ protocol HomeInteractorInputType: AnyObject {
     // MARK: - Properties
     var interactorOutput: HomeInteractorOutputType? { get set }
     var homeEntity: HomeEntityType? { get set }
+
     var remoteDataRepository: RemoteDataRepositoryType? { get set }
     var localDataRepository: LocalDataRepositoryType? { get set }
 

@@ -10,6 +10,7 @@ protocol ChartViewType: AnyObject {
     var viewOutput: ChartPresenterType! { get set }
 
     // MARK: - Methods
+    func didPassStockViewModel(_ value: SingleStockViewModel)
 }
 
 
@@ -19,6 +20,7 @@ protocol ChartPresenterType: AnyObject {
     var view: ChartViewType? { get set }
     var interactorInput: ChartInteractorInputType! { get set }
     var router: ChartRouterType! { get set }
+    var stockInitialViewModel: SingleStockViewModel? { get set }
 
     // MARK: - Methods
     func onViewDidLoad()
@@ -29,9 +31,10 @@ protocol ChartPresenterType: AnyObject {
 protocol ChartInteractorInputType: AnyObject {
     // MARK: - Properties
     var interactorOutput: ChartInteractorOutputType! { get set }
+    var chartEntity: ChartEntityType? { get set }
 
     // MARK: - Methods
-
+    func fetchRemoteStockData(title: String, resolution: String)
 }
 
 

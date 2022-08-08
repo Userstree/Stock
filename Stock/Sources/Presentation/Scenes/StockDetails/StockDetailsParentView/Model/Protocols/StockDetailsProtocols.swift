@@ -10,6 +10,7 @@ protocol StockDetailsViewType: AnyObject {
 
     // MARK: - Methods
     func didPrepareViewControllers(_ value: [UIViewController], titles: [String])
+    func didPassStockInfo(singleStockViewModel: SingleStockViewModel)
 }
 
 
@@ -19,7 +20,7 @@ protocol StockDetailsPresenterType: AnyObject {
     var view: StockDetailsViewType? { get set }
     var interactorInput: StockDetailsInteractorInputType! { get set }
     var router: StockDetailsRouterType! { get set }
-
+    var stockViewModel: SingleStockViewModel! { get set }
     // MARK: - Methods
     func onViewDidLoad()
 

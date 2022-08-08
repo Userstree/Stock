@@ -7,7 +7,7 @@
 //
 
 
-class HomeInteractor: HomeInteractorInputType{
+final class HomeInteractor: HomeInteractorInputType{
     // MARK: - Dependencies
     var remoteDataRepository: RemoteDataRepositoryType?
     var localDataRepository: LocalDataRepositoryType?

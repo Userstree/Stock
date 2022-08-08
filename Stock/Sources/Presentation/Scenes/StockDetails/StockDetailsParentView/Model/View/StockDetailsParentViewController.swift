@@ -14,8 +14,13 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
         dataDisplayManager?.viewControllers = value
     }
 
+    func didPassStockInfo(singleStockViewModel: SingleStockViewModel) {
+        stockInfo = singleStockViewModel
+    }
+
     // MARK: - Properties
-    var dataDisplayManager: StockDetailsDataDisplayManager?
+    private var stockInfo: SingleStockViewModel!
+    var dataDisplayManager: StockDetailsParentDataDisplayManager?
 
     private lazy var isStarSelected: Bool = false {
         didSet {
@@ -33,7 +38,7 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
             .target(target: self, action: #selector(didTapStarItem), for: .touchUpInside)
 
     private lazy var navTitleLabel = UILabel()
-            .text("Not Title\n Not available")
+            .text("\(stockInfo.title)\n \(stockInfo.subTitle)")
             .textAlignment(.center)
             .numberOfLines(2)
             .font(ofSize: 16, weight: .semibold)
@@ -44,10 +49,11 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
         pagingViewController.dataSource = dataDisplayManager
         pagingViewController.sizeDelegate = dataDisplayManager
 
+        pagingViewController.contentInteraction = .none
         pagingViewController.selectedBackgroundColor = .white
         pagingViewController.selectedTextColor = R.color.text()!
         pagingViewController.indicatorColor = R.color.cellHeaderBackground()!
-        pagingViewController.textColor = R.color.cellTitleLabelColor()!
+        pagingViewController.textColor = R.color.cellBodyBackground()!
         pagingViewController.backgroundColor = R.color.backgroundColor()!
         pagingViewController.menuBackgroundColor = .clear
 

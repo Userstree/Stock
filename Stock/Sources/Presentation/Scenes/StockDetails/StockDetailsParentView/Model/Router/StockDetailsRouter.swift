@@ -4,5 +4,7 @@
 
 
 final class StockDetailsRouter: StockDetailsRouterType {
+    weak var view: UIViewController?
 
+    
 }

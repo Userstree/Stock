@@ -13,11 +13,9 @@ final class HomeRouter: HomeRouterType {
     // MARK: - HomeRouterType Protocol
     func createStockDetailsScreen(from view: HomeViewType, with viewModel: SingleStockViewModel) {
         let viewController = StockDetailsParentAssembly.assemble(for: viewModel)
-//        viewController.title = viewModel.title
         if let sourceView = view as? UIViewController {
             sourceView.navigationController?.pushViewController(viewController, animated: true)
         }
-//        view?.navigationController?.pushViewController(viewController, animated: true)
     }
 
 }

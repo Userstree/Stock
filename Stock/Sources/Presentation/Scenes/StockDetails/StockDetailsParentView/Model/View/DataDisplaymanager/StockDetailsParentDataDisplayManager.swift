@@ -5,7 +5,7 @@
 
 fileprivate typealias PagingViewControllerProtocols = PagingViewControllerDataSource & PagingViewControllerSizeDelegate
 
-final class StockDetailsDataDisplayManager: NSObject, PagingViewControllerProtocols {
+final class StockDetailsParentDataDisplayManager: NSObject, PagingViewControllerProtocols {
     // MARK: - Properties
     var viewControllers = [UIViewController]()
     var viewControllersTitles = [String]()

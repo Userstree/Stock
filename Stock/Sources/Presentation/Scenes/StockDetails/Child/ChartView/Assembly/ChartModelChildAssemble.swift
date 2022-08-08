@@ -4,29 +4,28 @@
 
 
 final class ChartModelChildAssemble {
-    @MainActor class func assemble() -> ChartViewController {
+    @MainActor class func assemble(
+            with viewModel: SingleStockViewModel
+    ) -> ChartViewController {
         // MARK: - Properties
-        let view = HomeViewController()
-        let presenter: HomePresenterType & HomeInteractorOutputType = HomePresenter()
-        let interactor: HomeInteractorInputType = HomeInteractor()
-        let router: HomeRouterType = HomeRouter()
-        let homeEntity: HomeEntityType = HomeEntity()
-        var stocksTableDataDisplayManager = StocksTableViewDisplayManager()
-        // Repositories
+        let view = ChartViewController()
+        let presenter: ChartPresenterType & ChartInteractorOutputType = ChartPresenter()
+        let interactor: ChartInteractorInputType = ChartInteractor()
+        let router: ChartRouterType = ChartRouter()
+        let entity: ChartEntityType = ChartEntity()
+        let buttonsCollectionDisplayManager = ButtonsCollectionDataManager()
+        // Dependencies
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
-        remoteDataRepository.loadViewModelsFromWeb()
-        let localDataRepository: LocalDataRepositoryType = LocalDataRepository()
 
-        // MARK: - Methods
         view.viewOutput = presenter
-        view.stocksTableDataDisplayManager = stocksTableDataDisplayManager
+        view.buttonsDataManager = buttonsCollectionDisplayManager
         presenter.view = view
         presenter.router = router
+        presenter.stockInitialViewModel = viewModel
         presenter.interactorInput = interactor
         interactor.interactorOutput = presenter
-        interactor.homeEntity = homeEntity
-        interactor.remoteDataRepository = remoteDataRepository
-        interactor.localDataRepository = localDataRepository
+        interactor.chartEntity = entity
+
         return view
     }
 }
