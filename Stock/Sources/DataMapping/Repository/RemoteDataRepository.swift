@@ -5,7 +5,7 @@
 protocol RemoteDataRepositoryType {
     // MARK: - Methods
     var allStocksCallBack: ([SingleStockViewModel]) -> Void { get set }
-    func getAllStocks() -> [SingleStockViewModel]
+//    var stockSummaryCallBack:
     func loadViewModelsFromWeb()
 }
 
@@ -27,17 +27,18 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
         }
     }
 
-    func getAllStocks() -> [SingleStockViewModel] {
-        stocks
+    func loadSummary(for symbol: String) {
+        Task{
+            do {
+//                let stockSummary = try await RemoteAPIRequest().
+            } catch {
+                print("error is ", error.localizedDescription)
+            }
+        }
     }
 
     var allStocksCallBack: ([SingleStockViewModel]) -> Void = { _ in
 
     }
 
-
-    // MARK: - Init
-//    init() {
-//        loadViewModelsFromWeb()
-//    }
 }

@@ -13,10 +13,15 @@ final class ChartViewController: UIViewController, ChartViewType {
     // MARK: - ChartViewType Protocol Methods
     func didPassStockViewModel(_ value: SingleStockViewModel) {
         stockViewModel = value
-        configure(with: ChartViewModel(data: value.candleSticks.reversed().map { $0.close },
-                                        showLegend: true,
-                                        showAxis: true,
-                                        timeInterval: value.candleSticks.reversed().map{ $0.timeInterval })
+        configure(with: ChartViewModel(data: value.candleSticks.reversed().map {
+            $0.close
+        },
+                showLegend: true,
+                showAxis: true,
+                priceChange: value.priceChange,
+                timeInterval: value.candleSticks.reversed().map {
+                    $0.timeInterval
+                })
         )
     }
 
@@ -33,6 +38,13 @@ final class ChartViewController: UIViewController, ChartViewType {
         return chart
     }()
 
+    lazy var priceChangeLabel = UILabel()
+            .text(String(format: "%.2f%%", stockViewModel.priceChange * 100))
+            .font(ofSize: 18, weight: .regular)
+            .cornerRadius(12)
+            .clipsToBounds(true)
+            .textAlignment(.center)
+
     private lazy var buttonsAnnotationLabel = UILabel()
             .text("Choose the timeframe: ")
             .textColor(.black)
@@ -42,7 +54,6 @@ final class ChartViewController: UIViewController, ChartViewType {
     private lazy var buttonsHolderCollection: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-//        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         flowLayout.minimumInteritemSpacing = 32
         flowLayout.minimumLineSpacing = 32
         let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -56,7 +67,7 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     private lazy var buyButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Buy for \(stockViewModel.currentPrice)", for: .normal)
+        button.setTitle("Buy for $\(stockViewModel.currentPrice)", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
@@ -66,7 +77,6 @@ final class ChartViewController: UIViewController, ChartViewType {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.systemGray3.cgColor
         button.addTarget(self, action: #selector(didTapBuyButton), for: .touchUpInside)
-//        button.setTitleColor(R.color.text()!, for: .highlighted)
         return button
     }()
 
@@ -75,9 +85,13 @@ final class ChartViewController: UIViewController, ChartViewType {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewOutput.onViewDidLoad()
-        configureNavigationItems()
         configureViews()
         buttonCollectionActions()
+        if stockViewModel.priceChange >= 0 {
+            priceChangeLabel.backgroundColor = .systemGreen
+        } else {
+            priceChangeLabel.backgroundColor = .systemRed
+        }
     }
 
 
@@ -88,19 +102,14 @@ final class ChartViewController: UIViewController, ChartViewType {
         }
     }
 
-    @objc private func didTapBuyButton(){
+    @objc private func didTapBuyButton() {
         print("bought")
-    }
-
-
-    // MARK: - Configuration of the Views
-    private func configureNavigationItems() {
-
     }
 
     private func configureViews() {
         [
             chart,
+            priceChangeLabel,
             buttonsHolderCollection,
             buttonsAnnotationLabel,
             buyButton,
@@ -109,11 +118,16 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
     private func makeConstraints() {
+        priceChangeLabel.snp.makeConstraints {
+            $0.top.equalTo(view.snp.top).offset(16)
+            $0.leading.equalTo(view.snp.leading).offset(16)
+            $0.size.equalTo(CGSize(width: 65, height: 36))
+        }
         chart.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(20)
+            $0.top.equalTo(priceChangeLabel.snp.top).offset(12)
             $0.leading.equalTo(view.snp.leading)
             $0.trailing.equalTo(view.snp.trailing)
-            $0.height.equalTo( view.frame.height * (1.62 / 3))
+            $0.height.equalTo(view.frame.height * (1.62 / 3))
         }
         buttonsAnnotationLabel.snp.makeConstraints {
             $0.top.equalTo(chart.snp.bottom).offset(20)
@@ -146,9 +160,13 @@ final class ChartViewController: UIViewController, ChartViewType {
         }
         chart.chartView.rightAxis.enabled = viewModel.showAxis
         chart.chartView.legend.enabled = viewModel.showLegend
-
-        let gradientColors = [UIColor.black.cgColor, UIColor.clear.cgColor] as CFArray
-        let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
+        var gradientColors = [UIColor.black.cgColor, UIColor.clear.cgColor] as CFArray
+        if let price = viewModel.priceChange, price >= 0.0 {
+            gradientColors = [UIColor.green.cgColor, UIColor.clear.cgColor] as CFArray
+        } else {
+            gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
+        }
+        let colorLocations: [CGFloat] = [1.0, 0.0] // Positioning of the gradient
         let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
 
         let dataSet = LineChartDataSet(entries: entries, label: "3 days ")
@@ -160,7 +178,11 @@ final class ChartViewController: UIViewController, ChartViewType {
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false
         dataSet.drawCirclesEnabled = false
-        dataSet.setColors(.black)
+        if let price = viewModel.priceChange, price >= 0.0 {
+            dataSet.setColors(.systemGreen)
+        } else {
+            dataSet.setColors(.red)
+        }
 
         let data = LineChartData(dataSet: dataSet)
         chart.chartView.data = data

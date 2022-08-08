@@ -11,7 +11,7 @@ final class HomeModelMasterAssembly {
         let interactor: HomeInteractorInputType = HomeInteractor()
         let router: HomeRouterType = HomeRouter()
         let homeEntity: HomeEntityType = HomeEntity()
-        var stocksTableDataDisplayManager = StocksTableViewDisplayManager()
+        var stocksTableDataDisplayManager = StocksMasterTableViewDisplayManager()
         // Repositories
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
         remoteDataRepository.loadViewModelsFromWeb()

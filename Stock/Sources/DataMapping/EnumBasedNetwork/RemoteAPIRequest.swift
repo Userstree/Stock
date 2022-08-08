@@ -11,6 +11,7 @@ protocol RemoteAPIRequestType {
 struct RemoteAPIRequest: RemoteAPIRequestType {
 
     let stocksService = StocksService()
+    let summarySerice = ImageService()
 
     // MARK: - RemoteAPIRequestType
     func getAllStocksList() async throws -> [SingleStockViewModel] {

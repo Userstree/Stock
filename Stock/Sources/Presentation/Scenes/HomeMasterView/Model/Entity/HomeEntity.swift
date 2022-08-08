@@ -2,18 +2,7 @@
 // Created by Dossymkhan Zhulamanov on 07.08.2022.
 //
 
-let entityNotificationKey = "entity"
 
-protocol HomeEntityType {
-    // MARK: - Properties
-    var allStocksList: [SingleStockViewModel] { get set }
-    var favoritesStocksList: [SingleStockViewModel] { get set }
-
-    // MARK: - Methods
-    func appendToFavoriteStocksList(_ value: SingleStockViewModel, position: Int)
-    func removeFromFavoriteStocksList(_ value: SingleStockViewModel, position: Int)
-
-}
 
 final class HomeEntity: HomeEntityType {
 
@@ -32,7 +21,6 @@ final class HomeEntity: HomeEntityType {
         allStocksList.remove(at: position)
         allStocksList.insert(stock, at: position)
         favoritesStocksList.append(stock)
-        NotificationCenter.default.post(name: Notification.Name(entityNotificationKey), object: nil)
     }
 
     func removeFromFavoriteStocksList(_ value: SingleStockViewModel, position: Int) {
@@ -43,7 +31,6 @@ final class HomeEntity: HomeEntityType {
         stock.isLiked = false
         allStocksList[position].isLiked = false
         favoritesStocksList.remove(at: position)
-        NotificationCenter.default.post(name: Notification.Name(entityNotificationKey), object: nil)
     }
 
 

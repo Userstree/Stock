@@ -79,6 +79,7 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
         navigationController?.navigationBar.topItem?.backBarButtonItem = backItem
         navigationItem.titleView = navTitleLabel
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: starButton)
+        isStarSelected = stockInfo.isLiked
     }
 
 

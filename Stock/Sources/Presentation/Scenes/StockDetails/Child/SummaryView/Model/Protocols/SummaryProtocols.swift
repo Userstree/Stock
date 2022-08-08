@@ -27,9 +27,12 @@ protocol SummaryPresenterType: AnyObject {
 // MARK: Interactor Input (Presenter -> Interactor)
 protocol SummaryInteractorInputType: AnyObject {
     // MARK: - Properties
+    var interactorOutput: SummaryInteractorOutputType? { get set }
+    var summaryEntity: SummaryEntityType? { get set }
+    var remoteDataRepository: RemoteDataRepositoryType? { get set }
 
     // MARK: - Methods
-
+    func fetchRemoteSummary(for symbol: String)
 }
 
 

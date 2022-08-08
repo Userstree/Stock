@@ -6,7 +6,6 @@
 struct SingleStockViewModel: Sendable {
     var title: String
     var subTitle: String
-    var logoImage: String
     var currentPrice: Double
     var priceChange: Double
     var candleSticks: [CandleStick]

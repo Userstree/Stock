@@ -31,10 +31,11 @@ final class HomeViewController: UIViewController, HomeViewType {
     // MARK: - Properties
     private var entity: HomeEntityType? {
         didSet {
+            print("Entity changed")
             tableView.reloadData()
         }
     }
-    var stocksTableDataDisplayManager: StocksTableViewDisplayManager!
+    var stocksTableDataDisplayManager: StocksMasterTableViewDisplayManager!
 
     private let searchBarController: UISearchController = {
         let searchController = UISearchController()
@@ -106,6 +107,14 @@ final class HomeViewController: UIViewController, HomeViewType {
         stocksTableDataDisplayManager.onStockDidSelect = { [weak self] index in
             guard let strongSelf = self else { return }
             strongSelf.viewOutput.showStockDetails(for: strongSelf.entity!.allStocksList[index])
+        }
+        stocksTableDataDisplayManager.onStarDidTap = { [weak self] (section, liked) in
+            guard let strongSelf = self else { return }
+//            if !liked {
+//                let indexPath = IndexPath(row: 0, section: section)
+//                strongSelf.tableView.deleteRows(at: [indexPath], with: .fade)
+//                strongSelf.tableView.reloadData()
+//            }
         }
     }
 

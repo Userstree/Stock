@@ -6,11 +6,12 @@
 typealias SkeletonableTableView = SkeletonTableViewDataSource & SkeletonTableViewDelegate
 typealias TableViewDataSource = UITableViewDataSource & UITableViewDelegate
 
-class StocksTableViewDisplayManager: NSObject, SkeletonTableViewDataSource, SkeletonTableViewDelegate {
+class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource, SkeletonTableViewDelegate {
     // MARK: - Properties
     var homeEntity: HomeEntityType?
     var data: [SingleStockViewModel]?
     var onStockDidSelect: ((Int) -> Void)?
+    var onStarDidTap: ((Int, Bool) -> Void)?
 
 
     // MARK: - SkeletonTableViewDataSource
@@ -30,6 +31,7 @@ class StocksTableViewDisplayManager: NSObject, SkeletonTableViewDataSource, Skel
         let cell = skeletonView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self), for: indexPath) as? StockTableViewCell
         cell?.configure(viewModel: .skeletonable)
         cell?.isSkeletonable = true
+        cell?.contentView.isSkeletonable = true
         return cell
     }
 
@@ -56,6 +58,7 @@ class StocksTableViewDisplayManager: NSObject, SkeletonTableViewDataSource, Skel
         },
                 showLegend: false,
                 showAxis: false,
+                priceChange: data[indexPath.section].priceChange,
                 timeInterval: data[indexPath.section].candleSticks.reversed().map {
                     $0.timeInterval
                 }
@@ -80,19 +83,23 @@ class StocksTableViewDisplayManager: NSObject, SkeletonTableViewDataSource, Skel
         headerView.configure(with: HeaderViewModel(
                 title: data[section].title,
                 subTitle: data[section].subTitle,
-                priceLabel: "\(data[section].currentPrice)",
+                priceLabel: String(format: "$%.2f%", data[section].currentPrice),
                 isLiked: data[section].isLiked
         ))
         headerView.isLikedCallBack = { [weak self] liked in
             self?.data?[section].isLiked = liked
             if liked {
                 self?.homeEntity?.appendToFavoriteStocksList(self!.data![section], position: section)
+                self?.onStarDidTap?(section, liked)
             } else {
                 self?.homeEntity?.removeFromFavoriteStocksList(self!.data![section], position: section)
+                self?.onStarDidTap?(section, liked)
             }
         }
         headerView.clipsToBounds = true
-        guard section != 0 else { return headerView}
+        guard section != 0 else {
+            return headerView
+        }
         headerView.layer.cornerRadius = 12
         headerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return headerView

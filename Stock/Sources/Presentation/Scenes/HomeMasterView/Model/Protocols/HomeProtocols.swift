@@ -23,7 +23,7 @@ protocol HomePresenterType: AnyObject {
     // MARK: - Properties
     var view: HomeViewType? { get set }
     var interactorInput: HomeInteractorInputType! { get set }
-    var router: HomeRouterType!{ get set }
+    var router: HomeRouterType! { get set }
 
     // MARK: - Methods
     func onViewDidLoad()
@@ -65,5 +65,17 @@ protocol HomeRouterType: AnyObject {
     func createStockDetailsScreen(from view: HomeViewType, with viewModel: SingleStockViewModel)
 }
 
+
+// MARK: - Entitty
+protocol HomeEntityType {
+    // MARK: - Properties
+    var allStocksList: [SingleStockViewModel] { get set }
+    var favoritesStocksList: [SingleStockViewModel] { get set }
+
+    // MARK: - Methods
+    func appendToFavoriteStocksList(_ value: SingleStockViewModel, position: Int)
+    func removeFromFavoriteStocksList(_ value: SingleStockViewModel, position: Int)
+
+}
 
 

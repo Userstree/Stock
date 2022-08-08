@@ -9,6 +9,7 @@ struct ChartViewModel {
     let data: [Double]
     let showLegend: Bool
     let showAxis: Bool
+    let priceChange: Double?
     let timeInterval: [TimeInterval]
 }
 
@@ -49,7 +50,12 @@ class StockChartView: UIView {
         chartView.rightAxis.enabled = viewModel.showAxis
         chartView.legend.enabled = viewModel.showLegend
 
-        let gradientColors = [UIColor.systemRed.cgColor, UIColor.clear.cgColor] as CFArray
+        var gradientColors = [UIColor.black.cgColor, UIColor.clear.cgColor] as CFArray
+        if let price = viewModel.priceChange, price >= 0.0 {
+            gradientColors = [UIColor.green.cgColor, UIColor.clear.cgColor] as CFArray
+        } else {
+            gradientColors = [UIColor.red.cgColor, UIColor.clear.cgColor] as CFArray
+        }
         let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
         let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations)
 
@@ -62,7 +68,11 @@ class StockChartView: UIView {
         dataSet.drawIconsEnabled = false
         dataSet.drawValuesEnabled = false
         dataSet.drawCirclesEnabled = false
-        dataSet.setColors(.red)
+        if let price = viewModel.priceChange, price >= 0.0 {
+            dataSet.setColors(.systemGreen)
+        } else {
+            dataSet.setColors(.red)
+        }
 
         let data = LineChartData(dataSet: dataSet)
         chartView.data = data

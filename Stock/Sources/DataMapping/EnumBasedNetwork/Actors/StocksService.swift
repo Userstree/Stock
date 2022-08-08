@@ -14,7 +14,6 @@ actor StocksService: StocksServiceable {
     var stockViewModels = [SingleStockViewModel]()
 
     // MARK: - Services
-    let imageService = ImageService()
     let merketInfoSerice: MarketDataServiceable = MarketDataService()
 
     // MARK: - Methods
@@ -34,19 +33,19 @@ actor StocksService: StocksServiceable {
             $0.title
         }
 
-        let imageUrlStringsDict = try await imageService.makeStockImageUrlStringsList(for: stockSymbolsList)
-        let nonEmptyImageUrlStringsList = imageUrlStringsDict.filter {
-            !$0.value.isEmpty
-        }
+//        let imageUrlStringsDict = try await imageService.makeStockImageUrlStringsList(for: stockSymbolsList)
+//        let nonEmptyImageUrlStringsList = imageUrlStringsDict.filter {
+//            !$0.value.isEmpty
+//        }
         var chartDescriptors = [Descriptor]()
-        for item in nonEmptyImageUrlStringsList {
+        for item in stockSymbolsList {
             chartDescriptors.append(
                     Descriptor(
-                            stockSymbol: item.key,
+                            stockSymbol: item,
                             type: .marketData)
             )
-            let price = try await fetchStockPrice(for: item.key)
-            stockPrices[item.key] = price
+            let price = try await fetchStockPrice(for: item)
+            stockPrices[item] = price
         }
 
         let taskResultsDict = try await fetchGroupedStocksInfo(descriptors: chartDescriptors)
@@ -58,7 +57,7 @@ actor StocksService: StocksServiceable {
                     SingleStockViewModel(
                             title: item.key,
                             subTitle: dataResponseDict[item.key]!.subTitle,
-                            logoImage: imageUrlStringsDict[item.key]!,
+//                            logoImage: imageUrlStringsDict[item.key]!,
                             currentPrice: stockPrices[item.key]!,
                             priceChange: computeChangePrice(for: item.key, from: item.value.candleSticks),
                             candleSticks: item.value.candleSticks,

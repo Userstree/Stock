@@ -58,6 +58,7 @@ extension UILabel {
     @discardableResult
     func cornerRadius(_ value: CGFloat) -> Self {
         layer.cornerRadius = value
+        layer.cornerCurve = .continuous
 
         return self
     }
