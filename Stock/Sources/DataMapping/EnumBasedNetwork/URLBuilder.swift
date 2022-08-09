@@ -8,7 +8,7 @@ enum URLBuilder {
     case getAllStocks
     case searchForSymbol(_ symbol: String)
     case fetchQuote(_ symbol: String)
-    case fetchMarketData(_ symbol: String,_ numberOfDays: TimeInterval)
+    case fetchMarketData(_ symbol: String, _ numberOfDays: TimeInterval)
 }
 
 extension URLBuilder {
@@ -48,16 +48,21 @@ extension URLBuilder {
             let today = Date().addingTimeInterval(-(3600 * 24))
             let prior = Date().addingTimeInterval(-(3600 * 24 * numberOfDays))
 
-            let params: [String : String] = [
-                "resolution" : "1",
-                "from" : "\(Int(prior.timeIntervalSince1970))",
-                "to" : "\(Int(today.timeIntervalSince1970))"
+            let params: [String: String] = [
+                "resolution": "1",
+                "from": "\(Int(prior.timeIntervalSince1970))",
+                "to": "\(Int(today.timeIntervalSince1970))"
             ]
-            var queryItems = [URLQueryItem]()
-            for (name, value) in params {
-                queryItems.append(.init(name: name, value: value))
-            }
-            return "&" + queryItems.map{ "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
+            var res = "&" + "resolution=\(1)" +
+                    "&" + "from=\(Int(prior.timeIntervalSince1970))" +
+                    "&" + "to=\(Int(today.timeIntervalSince1970))"
+            return res
+//            var queryItems = [URLQueryItem]()
+//            for (name, value) in params {
+//                print(name)
+//                queryItems.append(.init(name: name, value: value))
+//            }
+//            return "&" + queryItems.map{ "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
         default:
             return ""
         }
@@ -80,4 +85,3 @@ extension URLBuilder {
         return urlString
     }
 }
-

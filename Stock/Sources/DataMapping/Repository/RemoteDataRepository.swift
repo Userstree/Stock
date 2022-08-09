@@ -5,8 +5,10 @@
 protocol RemoteDataRepositoryType {
     // MARK: - Methods
     var allStocksCallBack: ([SingleStockViewModel]) -> Void { get set }
+    var searchedStockCallBack: ([SearchResult]) -> Void { get set }
     var companySummaryCallBack: (CompanySummary) -> Void { get set }
     func loadViewModelsFromWeb()
+    func searchStock(for query: String)
 }
 
 final class RemoteDataRepository: RemoteDataRepositoryType {
@@ -21,6 +23,17 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
                 let stockViewModels = try await RemoteAPIRequest().getAllStocksList()
                 self.allStocksCallBack(stockViewModels)
                 self.stocks = stockViewModels
+            } catch {
+                print("error is ", error.localizedDescription)
+            }
+        }
+    }
+
+    func searchStock(for query: String) {
+        Task(priority: .userInitiated) {
+            do {
+                let searchResults = try await RemoteAPIRequest().searchForCompanyUsing(query: query)
+                self.searchedStockCallBack(searchResults)
             } catch {
                 print("error is ", error.localizedDescription)
             }
@@ -45,4 +58,6 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
     var companySummaryCallBack: (CompanySummary) -> Void = { _ in
     }
 
+    var searchedStockCallBack: ([SearchResult]) -> () = { _ in
+    }
 }

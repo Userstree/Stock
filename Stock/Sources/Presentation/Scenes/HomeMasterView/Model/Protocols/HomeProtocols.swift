@@ -29,8 +29,9 @@ protocol HomePresenterType: AnyObject {
     func onViewDidLoad()
     func didChangeQuery(_ query: String?)
 
-    func showStockDetails(for stock: SingleStockViewModel)
-
+    func showStockDetailsScreen(for stock: SingleStockViewModel)
+//    func listSearchItem(at index: Int) -> SearchResult
+    func allSearchResults() -> [SearchResult]
 }
 
 
@@ -53,6 +54,7 @@ protocol HomeInteractorInputType: AnyObject {
 protocol HomeInteractorOutputType: AnyObject {
     // MARK: - Methods
     func didPrepareHomeEntity(_ viewModel: HomeEntityType)
+    func didRetrieveSearchedCompanies(_ value: [SearchResult])
 }
 
 

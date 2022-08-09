@@ -26,7 +26,7 @@ actor StocksService: StocksServiceable {
             throw "Invalid HttpResponseCode"
         }
         let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
-        let stocksDetailsList = dataResponse[..<32]
+        let stocksDetailsList = dataResponse[..<30]
         stockDetailsDictByTitle = dataResponse.toDictionary {
             $0.title
         }

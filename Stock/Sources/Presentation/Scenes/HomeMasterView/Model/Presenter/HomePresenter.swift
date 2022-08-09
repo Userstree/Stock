@@ -8,6 +8,9 @@
 
 @MainActor
 final class HomePresenter: HomePresenterType, HomeInteractorOutputType {
+    // MARK: - Properties
+    var searchResults: [SearchResult] = []
+
     // MARK: HomePresenterType Properties
     weak var view: HomeViewType?
     var interactorInput: HomeInteractorInputType!
@@ -26,14 +29,25 @@ final class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         interactorInput?.fetchStocks(for: query)
     }
 
-    func showStockDetails(for stock: SingleStockViewModel) {
+    func showStockDetailsScreen(for stock: SingleStockViewModel) {
         router.createStockDetailsScreen(from: view!, with: stock)
     }
-
 
     // MARK: - HomeInteractorOutputType Protocol
     func didPrepareHomeEntity(_ homeEntity: HomeEntityType){
         view?.didPrepareHomeEntity(homeEntity)
+    }
+
+    func didRetrieveSearchedCompanies(_ value: [SearchResult]) {
+        self.searchResults = value
+    }
+
+//    func listSearchItem(at index: Int) -> SearchResult {
+//
+//    }
+
+    func allSearchResults() -> [SearchResult] {
+        searchResults
     }
 }
 

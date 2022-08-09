@@ -16,11 +16,17 @@ final class HomeInteractor: HomeInteractorInputType{
     // MARK: HomeInteractorInputType Properties
     weak var interactorOutput: HomeInteractorOutputType?
     var homeEntity: HomeEntityType?
+    var searchResults: [SearchResult]?
 
 
     // MARK: - HomeInteractorInputType Protocol
     func fetchStocks(for query: String) {
-
+        print(query)
+        remoteDataRepository?.searchStock(for: query)
+        remoteDataRepository?.searchedStockCallBack = { [weak self] searchResult in
+            print(searchResult)
+            self?.interactorOutput?.didRetrieveSearchedCompanies(searchResult)
+        }
     }
 
     func fetchInitialStocks() {

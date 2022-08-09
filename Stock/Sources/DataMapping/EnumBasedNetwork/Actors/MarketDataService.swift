@@ -26,6 +26,7 @@ actor MarketDataService: MarketDataServiceable {
 
     nonisolated func fetchMarketInfo(_ symbol: String, numberOfDays: TimeInterval = 3) async throws -> (String, MarketInfoResponse) {
         let urlString = URLBuilder.fetchMarketData(symbol, numberOfDays).makeString()
+        print(urlString)
         let dataResponse = try await makeRequest(using: URL(string: urlString)!, responseModel: MarketInfoResponse.self)
         return (symbol, dataResponse!)
     }

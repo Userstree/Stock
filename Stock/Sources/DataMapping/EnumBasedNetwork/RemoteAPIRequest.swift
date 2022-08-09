@@ -5,7 +5,7 @@
 protocol RemoteAPIRequestType {
     func getAllStocksList() async throws -> [SingleStockViewModel]
     func getCompanySummary(for symbol: String) async throws -> CompanySummary
-//    func fetchStockImageUrlString(for symbol: String) async throws -> String
+    func fetchStockPrice(for symbol: String) async throws -> Int
 }
 
 @MainActor
@@ -13,6 +13,7 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
 
     let stocksService = StocksService()
     let summarySerice = CompanyProfileService()
+    let searchService = SearchCompanySerice()
 
 
     // MARK: - RemoteAPIRequestType
@@ -34,4 +35,7 @@ struct RemoteAPIRequest: RemoteAPIRequestType {
         try await summarySerice.makeProfileRequest(for: symbol, returnType: CompanySummary.self)
     }
 
+    func searchForCompanyUsing(query: String) async throws -> [SearchResult] {
+        try await searchService.lookingFor(query: query)
+    }
 }

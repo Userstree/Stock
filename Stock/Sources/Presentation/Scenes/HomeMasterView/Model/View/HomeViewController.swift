@@ -76,12 +76,13 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
     }()
 
     private lazy var searchBarController: UISearchController = {
-        let searchController = UISearchController()
+        let searchResultsController = SearchResultViewController()
+        let searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.delegate = self
         searchController.searchBar.placeholder = "Find Company or Ticker"
 //        searchController.searchBar.delegate = self
-//        searchController.definesPresentationContext = true
-//        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.definesPresentationContext = true
+        searchController.obscuresBackgroundDuringPresentation = false
         return searchController
     }()
 
@@ -150,7 +151,7 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.viewOutput.showStockDetails(for: strongSelf.entity!.allStocksList[index])
+            strongSelf.viewOutput.showStockDetailsScreen(for: strongSelf.entity!.allStocksList[index])
         }
 //        stocksTableDataDisplayManager.onStarDidTap = { [weak self] (section, liked) in
 //            guard let strongSelf = self else { return }
@@ -219,8 +220,9 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
 
     // MARK: - UISearchResultsUpdating Protocol
     public func updateSearchResults(for searchController: UISearchController) {
-        print(searchController.searchBar.text)
         viewOutput.didChangeQuery(searchController.searchBar.text)
+        guard let resultVC = searchController.searchResultsController as? SearchResultViewController else { return }
+        resultVC.update(with: viewOutput.allSearchResults())
     }
 
 
