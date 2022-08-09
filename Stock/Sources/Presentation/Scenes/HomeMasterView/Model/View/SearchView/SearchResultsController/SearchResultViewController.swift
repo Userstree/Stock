@@ -35,8 +35,24 @@ final class SearchResultViewController: UIViewController, UITableViewDelegate, U
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.addSubview(tableView)
-        tableView.frame = view.bounds
+        configureViews()
+    }
+
+    // MARK: - Configuration of the Views
+    private func configureViews() {
+        [
+            tableView,
+        ].forEach(view.addSubview)
+        makeConstraints()
+    }
+
+    private func makeConstraints() {
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
 
     public func update(with result: [SearchResult]){

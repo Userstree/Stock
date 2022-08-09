@@ -62,6 +62,7 @@ class StockTableViewHeaderView: UITableViewHeaderFooterView {
 
     // MARK: - Configuring the Views
     private func configureViews() {
+        contentView.isSkeletonable = true
         [
             titleLabel,
             subTitleLabel,

@@ -10,7 +10,6 @@ actor CompanyProfileService {
     // MARK: - Methods
     func makeProfileRequest<T: Decodable>(for symbol: String, returnType: T.Type) async throws -> T {
         let urlString = URLBuilder.fetchProfile(symbol).makeString()
-        print("url is ", urlString)
         let (data, response) = try await urlSession.data(from: URL(string: urlString)!)
         if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
             throw "Invalid HttpResponseCode"

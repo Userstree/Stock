@@ -26,8 +26,11 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
     func didPrepareCompanySummary(_ value: SummaryEntityType) {
-        print(value.companySummary?.finnhubIndustry)
-        categoriesDataManager.categories = value.companySummary!.finnhubIndustry
+        print("company value in VIEW ", value.companySummary?.finnhubIndustry)
+        guard let industry = value.companySummary?.finnhubIndustry else {
+            return
+        }
+        industryLabel.text = industry
     }
 
 
@@ -36,16 +39,14 @@ final class ChartViewController: UIViewController, ChartViewType {
     var buttonsDataManager: ButtonsCollectionDataManager!
     var categoriesDataManager: CategoriesCollectionDisplayManager!
 
-    private lazy var categoriesCollection: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing = 10
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collection.dataSource = categoriesDataManager
-        collection.register(CompanyCatogyCollectionCell.self, forCellWithReuseIdentifier: String(describing: CompanyCatogyCollectionCell.self))
-        return collection
-    }()
+    private lazy var industryLabel = UILabel()
+            .text("Industry...")
+            .font(ofSize: 16, weight: .regular)
+            .textColor(.black)
+
+    private lazy var priceLabel = UILabel()
+            .text(String(format: "$%.2f%", stockViewModel.currentPrice))
+            .font(ofSize: 18, weight: .semibold)
 
     private lazy var chart: StockChartView = {
         let chart = StockChartView()
@@ -57,7 +58,7 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     lazy var priceChangeLabel = UILabel()
             .text(String(format: "%.2f%%", stockViewModel.priceChange * 100))
-            .font(ofSize: 18, weight: .regular)
+            .font(ofSize: 14, weight: .regular)
             .cornerRadius(12)
             .clipsToBounds(true)
             .textAlignment(.center)
@@ -125,9 +126,10 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     private func configureViews() {
         [
-            categoriesCollection,
-            chart,
+            priceLabel,
+            industryLabel,
             priceChangeLabel,
+            chart,
             buttonsHolderCollection,
             buttonsAnnotationLabel,
             buyButton,
@@ -136,22 +138,26 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
     private func makeConstraints() {
-        categoriesCollection.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(16)
+        priceLabel.snp.makeConstraints {
+            $0.top.equalTo(view.snp.top).offset(26)
             $0.leading.equalTo(view.snp.leading).offset(16)
-            $0.trailing.equalTo(view.snp.trailing).offset(-16)
-            $0.height.equalTo(42)
+            $0.size.equalTo(CGSize(width: 75, height: 36))
+        }
+        industryLabel.snp.makeConstraints {
+            $0.bottom.equalTo(priceLabel.snp.bottom)
+            $0.leading.equalTo(priceChangeLabel.snp.trailing).offset(16)
+            $0.size.equalTo(CGSize(width: 100, height: 40))
         }
         priceChangeLabel.snp.makeConstraints {
-            $0.top.equalTo(categoriesCollection.snp.bottom).offset(16)
-            $0.leading.equalTo(view.snp.leading).offset(16)
-            $0.size.equalTo(CGSize(width: 65, height: 36))
+            $0.bottom.equalTo(priceLabel.snp.bottom)
+            $0.leading.equalTo(view.snp.trailing).offset(16)
+            $0.size.equalTo(CGSize(width: 80, height: 40))
         }
         chart.snp.makeConstraints {
-            $0.top.equalTo(priceChangeLabel.snp.top).offset(12)
+            $0.top.equalTo(view.snp.top).offset(145)
             $0.leading.equalTo(view.snp.leading)
             $0.trailing.equalTo(view.snp.trailing)
-            $0.height.equalTo(view.frame.height * (1.62 / 3))
+            $0.height.equalTo(view.frame.height * (1 / 3))
         }
         buttonsAnnotationLabel.snp.makeConstraints {
             $0.top.equalTo(chart.snp.bottom).offset(20)

@@ -12,15 +12,15 @@ class StockTableViewCell: UITableViewCell {
     // MARK: - ViewModel
     struct CellViewModel: SkeletonaableViewModel {
         let chartViewModel: ChartViewModel
-        static var skeletonable: Self = .init(chartViewModel: .init(data: [], showLegend: false, showAxis: false, priceChange: 0.23, timeInterval: []))
+        static var skeletonable: Self = .init(chartViewModel: .init(data: [], showLegend: false, showAxis: false, priceChange: nil, timeInterval: []))
     }
 
     lazy var priceChangeLabel = UILabel()
             .font(ofSize: 14, weight: .regular)
             .cornerRadius(6)
             .clipsToBounds(true)
-            .isSkeletonable(true)
             .textAlignment(.center)
+            .isSkeletonable(true)
 
 
     lazy var chart: StockChartView = {
@@ -44,11 +44,11 @@ class StockTableViewCell: UITableViewCell {
 
     // MARK: - Configuration of the View
     private func configureViews() {
+        contentView.isSkeletonable = true
         [
             priceChangeLabel,
             chart,
         ].forEach(contentView.addSubview)
-        contentView.isSkeletonable = true
         makeConstraints()
     }
 
@@ -78,6 +78,7 @@ class StockTableViewCell: UITableViewCell {
             priceChangeLabel.textColor = .white
         }
         priceChangeLabel.text = String(format: "%.2f%%", price * 100)
+        priceChangeLabel.isSkeletonable = true
     }
 
 }

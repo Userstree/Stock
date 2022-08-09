@@ -7,11 +7,10 @@ struct CompanySummary: Decodable {
     var country: String
     var currency: String
     var exchange: String
-    var ipo: String
-    var marketCapitalization: Int
-    var shareOutstanding: Int
+    var marketCapitalization: Double
+    var shareOutstanding: Double
     var name: String
     var weburl: String
     var logo: String
-    var finnhubIndustry: [String]
+    var finnhubIndustry: String
 }

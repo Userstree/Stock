@@ -18,6 +18,7 @@ final class ChartModelChildAssemble {
         let categoriesCollectionDisplayManager = CategoriesCollectionDisplayManager()
         // Dependencies
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
+        remoteDataRepository.loadSummary(for: viewModel.title)
 
         view.viewOutput = presenter
         view.buttonsDataManager = buttonsCollectionDisplayManager

@@ -32,11 +32,15 @@ final class StockDetailsPresenter: StockDetailsPresenterType, StockDetailsIntera
     /// ChildViewControllers inits
     private lazy var chartViewController = ChartModelChildAssemble.assemble(with: stockViewModel)
     private lazy var newsViewController = NewsModelChildAssemble.assemble(with: stockViewModel)
-    private lazy var summaryViewController = SummaryModelChildAssemble.assemble(with: stockViewModel)
+//    private lazy var summaryViewController = SummaryModelChildAssemble.assemble(with: stockViewModel)
 
-    private lazy var viewControllers = [chartViewController, newsViewController, summaryViewController]
+    private lazy var viewControllers = [
+        chartViewController,
+        newsViewController,
+//        summaryViewController,
+    ]
     private let controllersTitles = ["Chart",
-                                     "Summary",
+//                                     "Summary",
                                      "News"
     ]
 

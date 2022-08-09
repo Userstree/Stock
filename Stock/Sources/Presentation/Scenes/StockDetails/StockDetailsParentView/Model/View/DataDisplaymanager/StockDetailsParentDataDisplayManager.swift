@@ -46,9 +46,9 @@ final class StockDetailsParentDataDisplayManager: NSObject, PagingViewController
         let width = ceil(rect.width) + insets.left + insets.right
 
         if isSelected {
-            return width * 1.75
+            return width * 2.62
         } else {
-            return width * 1.4
+            return pagingViewController.view.frame.width - width * 2.62
         }
     }
 

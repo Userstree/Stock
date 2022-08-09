@@ -21,11 +21,13 @@ final class ChartPresenter: ChartPresenterType, ChartInteractorOutputType {
     }
 
     private func fetchRequest(symbol: String) {
+        interactorInput.loadRemoteSummary(for: symbol)
         interactorInput.fetchRemoteSummary(for: symbol)
     }
 
     // MARK: - ChartInteractorOutputType Protocol Impl
     func didPrepareSummaryEntity(_ value: SummaryEntityType) {
+        print(" in presenter ")
         view?.didPrepareCompanySummary(value)
     }
 

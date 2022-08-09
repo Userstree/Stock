@@ -21,10 +21,8 @@ final class HomeInteractor: HomeInteractorInputType{
 
     // MARK: - HomeInteractorInputType Protocol
     func fetchStocks(for query: String) {
-        print(query)
         remoteDataRepository?.searchStock(for: query)
         remoteDataRepository?.searchedStockCallBack = { [weak self] searchResult in
-            print(searchResult)
             self?.interactorOutput?.didRetrieveSearchedCompanies(searchResult)
         }
     }
@@ -32,7 +30,6 @@ final class HomeInteractor: HomeInteractorInputType{
     func fetchInitialStocks() {
         remoteDataRepository?.allStocksCallBack = { [weak self] viewModels in
             self?.homeEntity?.allStocksList = viewModels
-            print(viewModels)
             self?.interactorOutput?.didPrepareHomeEntity(self!.homeEntity!)
         }
     }

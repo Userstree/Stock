@@ -18,24 +18,6 @@ actor StocksService: StocksServiceable {
     let merketInfoSerice: MarketDataServiceable = MarketDataService()
 
     // MARK: - Methods
-
-    func getStockSymbolsList() async throws -> [String] {
-        let urlString = URLBuilder.getAllStocks.makeString()
-        let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
-        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-            throw "Invalid HttpResponseCode"
-        }
-        let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
-        let stocksDetailsList = dataResponse[..<30]
-        stockDetailsDictByTitle = dataResponse.toDictionary {
-            $0.title
-        }
-        print(stocksDetailsList)
-        return stocksDetailsList.map {
-            $0.title
-        }
-    }
-
     func getAllStocksList() async throws -> [SingleStockViewModel] {
         let stockSymbolsList = try await getStockSymbolsList()
 
@@ -51,11 +33,9 @@ actor StocksService: StocksServiceable {
         }
 
         let taskResultsDict = try await fetchGroupedStocksInfo(descriptors: chartDescriptors)
-        print(taskResultsDict)
         let dict = taskResultsDict.filter {
             $1.candleSticks.count > 10
         }
-        print("candle sticks ", dict)
         for item in dict {
             stockViewModels.append(
                     SingleStockViewModel(
@@ -71,13 +51,29 @@ actor StocksService: StocksServiceable {
         return stockViewModels
     }
 
+    func getStockSymbolsList() async throws -> [String] {
+        let urlString = URLBuilder.getAllStocks.makeString()
+        let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
+        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+            throw "Invalid HttpResponseCode"
+        }
+        let dataResponse = try JSONDecoder().decode([StockDetails].self, from: data)
+        let stocksDetailsList = dataResponse[..<30]
+        stockDetailsDictByTitle = dataResponse.toDictionary {
+            $0.title
+        }
+        return stocksDetailsList.map {
+            $0.title
+        }
+    }
+
     fileprivate func fetchGroupedStocksInfo(descriptors: [Descriptor]) async throws -> [String: MarketInfoResponse] {
         try await withThrowingTaskGroup(of: (String, MarketInfoResponse).self, returning: [String: MarketInfoResponse].self) { group in
             for descriptor in descriptors {
                 group.addTask { [self] in
                     switch descriptor.type {
                     case .marketData:
-                        return try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 3)
+                        return try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 7)
                     }
                 }
             }

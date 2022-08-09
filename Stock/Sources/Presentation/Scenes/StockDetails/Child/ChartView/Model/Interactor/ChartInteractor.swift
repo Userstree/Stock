@@ -20,19 +20,30 @@ final class ChartInteractor: ChartInteractorInputType {
     }
 
     func fetchRemoteSummary(for symbol: String) {
+        print("fetchRemoteSummary")
         remoteDataRepository?.companySummaryCallBack = { [weak self] companySummary in
             self?.summaryEntity?.companySummary = companySummary
             guard let summaryEntity = self?.summaryEntity else {
                 print("error fetching summary")
                 return
             }
-            print(summaryEntity.companySummary?.finnhubIndustry)
+            print("company summary is ", companySummary)
             self?.interactorOutput?.didPrepareSummaryEntity(summaryEntity)
         }
     }
 
-//    func
-
+    func loadRemoteSummary(for symbol: String) {
+        print("loadRemoteSummary")
+        remoteDataRepository?.loadSummary(for: symbol)
+        remoteDataRepository?.companySummaryCallBack = { [weak self] summary in
+            self?.summaryEntity?.companySummary = summary
+            guard let summaryEntity = self?.summaryEntity else {
+                print("error fetching summary")
+                return
+            }
+            self?.interactorOutput?.didPrepareSummaryEntity(summaryEntity)
+        }
+    }
 
     // MARK: - Init
     init() {

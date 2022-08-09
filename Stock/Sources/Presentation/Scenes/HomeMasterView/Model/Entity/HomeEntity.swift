@@ -18,8 +18,9 @@ final class HomeEntity: HomeEntityType {
         }
         var stock = value
         stock.isLiked = true
-        allStocksList.remove(at: position)
-        allStocksList.insert(stock, at: position)
+//        allStocksList.remove(at: position)
+        allStocksList[position].isLiked = true
+//        allStocksList.insert(stock, at: position)
         favoritesStocksList.append(stock)
     }
 

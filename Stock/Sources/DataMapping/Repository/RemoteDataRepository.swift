@@ -9,6 +9,7 @@ protocol RemoteDataRepositoryType {
     var companySummaryCallBack: (CompanySummary) -> Void { get set }
     func loadViewModelsFromWeb()
     func searchStock(for query: String)
+    func loadSummary(for symbol: String)
 }
 
 final class RemoteDataRepository: RemoteDataRepositoryType {
@@ -44,8 +45,9 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
         Task {
             do {
                 let summary = try await RemoteAPIRequest().getCompanySummary(for: symbol)
+                print("summary in remoteRepo is ", summary)
                 self.companySummaryCallBack(summary)
-                self.summary = summary
+//                self.summary = summary
             } catch {
                 print("error is ", error.localizedDescription)
             }

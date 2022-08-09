@@ -26,7 +26,6 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
         tableView.reloadData()
         if value.allStocksList.isEmpty {
             isTableEmpty = true
-            print("table is impty")
         }
         print("new dataSource")
     }
@@ -46,9 +45,9 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
     private var isSearchBarTapped: Bool = false {
         didSet {
             if isSearchBarTapped {
-                view.viewWithTag(0)?.isHidden = true
-                view.viewWithTag(1)?.isHidden = true
-                view.viewWithTag(3)?.isHidden = false
+//                view.viewWithTag(0)?.isHidden = true
+//                view.viewWithTag(3)?.isHidden = false
+//                view.bringSubviewToFront(view.viewWithTag(3)!)
             } else {
                 view.viewWithTag(0)?.isHidden = false
                 view.viewWithTag(1)?.isHidden = false
@@ -116,6 +115,7 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
         tableView.rowHeight = 72
         tableView.layer.cornerRadius = 12
         tableView.backgroundColor = .clear
+//        tableView.backgroundColor = .systemGray
         tableView.tag = 1
         return tableView
     }()
@@ -196,9 +196,13 @@ final class HomeViewController: UIViewController, HomeViewType, UISearchResultsU
             $0.size.equalTo(CGSize(width: 120, height: 120))
         }
         searchView.snp.makeConstraints {
-            $0.edges.equalTo(view.snp.edges)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            $0.bottom.equalTo(view.snp.bottom)
         }
         searchView.isHidden = true
+//        tableView.bringSubviewToFront(searchView)
     }
 
 

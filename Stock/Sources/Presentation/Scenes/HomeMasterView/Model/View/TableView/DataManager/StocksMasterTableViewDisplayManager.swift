@@ -11,7 +11,7 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
     var homeEntity: HomeEntityType?
     var data: [SingleStockViewModel]?
     var onStockDidSelect: ((Int) -> Void)?
-//    var onStarDidTap: ((Int, Bool) -> Void)?
+    var onStarDidTap: ((Int, Bool) -> Void)?
 
 
     // MARK: - SkeletonTableViewDataSource
@@ -29,9 +29,11 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
 
     public func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
         let cell = skeletonView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self), for: indexPath) as? StockTableViewCell
-        cell?.configure(viewModel: .skeletonable)
+        let header = skeletonView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: StockTableViewHeaderView.self)) as? StockTableViewHeaderView
+        header?.configure(with: .skeletonable)
         cell?.isSkeletonable = true
-        cell?.contentView.isSkeletonable = true
+        cell?.configure(viewModel: .skeletonable)
+//        cell?.contentView.isSkeletonable = true
         return cell
     }
 
@@ -49,7 +51,7 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StockTableViewCell.self),
                 for: indexPath) as! StockTableViewCell
         guard let data = data else {
-            cell.configure(viewModel: .skeletonable)
+//            cell.configure(viewModel: .skeletonable)
             return cell
         }
         cell.configure(viewModel:
@@ -90,10 +92,8 @@ class StocksMasterTableViewDisplayManager: NSObject, SkeletonTableViewDataSource
             self?.data?[section].isLiked = liked
             if liked {
                 self?.homeEntity?.appendToFavoriteStocksList(self!.data![section], position: section)
-//                self?.onStarDidTap?(section, liked)
             } else {
                 self?.homeEntity?.removeFromFavoriteStocksList(self!.data![section], position: section)
-//                self?.onStarDidTap?(section, liked)
             }
         }
         headerView.clipsToBounds = true

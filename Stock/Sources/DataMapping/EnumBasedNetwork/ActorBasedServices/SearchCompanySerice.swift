@@ -9,7 +9,6 @@ actor SearchCompanySerice {
 
     nonisolated func lookingFor(query: String) async throws -> [SearchResult] {
         var urlString = URLBuilder.searchForSymbol(query).makeString()
-        print(urlString)
         let dataResponse = try await makeRequest(using: URL(string: urlString)!, responseModel: SearchResponse.self)
         guard let dataResponse = dataResponse else { return [] }
         return dataResponse.data
