@@ -15,7 +15,7 @@ actor StocksService: StocksServiceable {
     var stockDetailsDictByTitle: [String : StockDetails] = [:]
 
     // MARK: - Services
-    let merketInfoSerice: MarketDataServiceable = MarketDataService()
+    let merketInfoService: MarketDataServiceable = MarketDataService()
 
     // MARK: - Methods
     func getAllStocksList() async throws -> [SingleStockViewModel] {
@@ -73,7 +73,7 @@ actor StocksService: StocksServiceable {
                 group.addTask { [self] in
                     switch descriptor.type {
                     case .marketData:
-                        return try await merketInfoSerice.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 7)
+                        return try await merketInfoService.fetchMarketInfo(descriptor.stockSymbol, numberOfDays: 7)
                     }
                 }
             }

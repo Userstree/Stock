@@ -42,10 +42,6 @@ final class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         self.searchResults = value
     }
 
-//    func listSearchItem(at index: Int) -> SearchResult {
-//
-//    }
-
     func allSearchResults() -> [SearchResult] {
         searchResults
     }

@@ -15,14 +15,12 @@ final class ChartModelChildAssemble {
         let chartEntity: ChartEntityType = ChartEntity()
         let summaryEntity = SummaryEntity()
         let buttonsCollectionDisplayManager = ButtonsCollectionDataManager()
-        let categoriesCollectionDisplayManager = CategoriesCollectionDisplayManager()
         // Dependencies
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
         remoteDataRepository.loadSummary(for: viewModel.title)
 
         view.viewOutput = presenter
         view.buttonsDataManager = buttonsCollectionDisplayManager
-        view.categoriesDataManager = categoriesCollectionDisplayManager
         presenter.view = view
         presenter.router = router
         presenter.stockInitialViewModel = viewModel

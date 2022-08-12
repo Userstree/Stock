@@ -30,23 +30,30 @@ final class ChartViewController: UIViewController, ChartViewType {
         guard let industry = value.companySummary?.finnhubIndustry else {
             return
         }
-        industryLabel.text = industry
+        pricesStack.industryLabel.text = (industry)
     }
 
 
     // MARK: - Properties
     private var stockViewModel: SingleStockViewModel!
+
     var buttonsDataManager: ButtonsCollectionDataManager!
-    var categoriesDataManager: CategoriesCollectionDisplayManager!
 
-    private lazy var industryLabel = UILabel()
-            .text("Industry...")
-            .font(ofSize: 16, weight: .regular)
-            .textColor(.black)
-
-    private lazy var priceLabel = UILabel()
-            .text(String(format: "$%.2f%", stockViewModel.currentPrice))
-            .font(ofSize: 18, weight: .semibold)
+    private lazy var pricesStack: PriceLabelsView = {
+        let stack = PriceLabelsView()
+        stack.priceLabel.text = String(format: "$%.2f%", stockViewModel.currentPrice)
+        stack.priceChangeLabel.text = String(format: "%.2f%%", stockViewModel.priceChange * 100)
+        if stockViewModel.priceChange >= 0 {
+            stack.changeIndicatorImageView.image = UIImage(systemName: "arrowtriangle.up.fill")
+            stack.changeIndicatorImageView.tintColor = .systemGreen
+            stack.priceChangeLabel.textColor = .systemGreen
+        } else {
+            stack.changeIndicatorImageView.image = UIImage(systemName: "arrowtriangle.down.fill")
+            stack.changeIndicatorImageView.tintColor = .systemRed
+            stack.priceChangeLabel.textColor = .systemRed
+        }
+        return stack
+    }()
 
     private lazy var chart: StockChartView = {
         let chart = StockChartView()
@@ -55,13 +62,6 @@ final class ChartViewController: UIViewController, ChartViewType {
         chart.isSkeletonable = true
         return chart
     }()
-
-    lazy var priceChangeLabel = UILabel()
-            .text(String(format: "%.2f%%", stockViewModel.priceChange * 100))
-            .font(ofSize: 14, weight: .regular)
-            .cornerRadius(12)
-            .clipsToBounds(true)
-            .textAlignment(.center)
 
     private lazy var buttonsAnnotationLabel = UILabel()
             .text("Choose the timeframe: ")
@@ -105,11 +105,6 @@ final class ChartViewController: UIViewController, ChartViewType {
         viewOutput.onViewDidLoad()
         configureViews()
         buttonCollectionActions()
-        if stockViewModel.priceChange >= 0 {
-            priceChangeLabel.backgroundColor = .systemGreen
-        } else {
-            priceChangeLabel.backgroundColor = .systemRed
-        }
     }
 
 
@@ -126,9 +121,7 @@ final class ChartViewController: UIViewController, ChartViewType {
 
     private func configureViews() {
         [
-            priceLabel,
-            industryLabel,
-            priceChangeLabel,
+            pricesStack,
             chart,
             buttonsHolderCollection,
             buttonsAnnotationLabel,
@@ -138,23 +131,13 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
     private func makeConstraints() {
-        priceLabel.snp.makeConstraints {
+        pricesStack.snp.makeConstraints {
             $0.top.equalTo(view.snp.top).offset(26)
             $0.leading.equalTo(view.snp.leading).offset(16)
-            $0.size.equalTo(CGSize(width: 75, height: 36))
-        }
-        industryLabel.snp.makeConstraints {
-            $0.bottom.equalTo(priceLabel.snp.bottom)
-            $0.leading.equalTo(priceChangeLabel.snp.trailing).offset(16)
-            $0.size.equalTo(CGSize(width: 100, height: 40))
-        }
-        priceChangeLabel.snp.makeConstraints {
-            $0.bottom.equalTo(priceLabel.snp.bottom)
-            $0.leading.equalTo(view.snp.trailing).offset(16)
-            $0.size.equalTo(CGSize(width: 80, height: 40))
+            $0.size.equalTo(CGSize(width: view.frame.width, height: 65))
         }
         chart.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(145)
+            $0.top.equalTo(pricesStack.snp.top).offset(45)
             $0.leading.equalTo(view.snp.leading)
             $0.trailing.equalTo(view.snp.trailing)
             $0.height.equalTo(view.frame.height * (1 / 3))
@@ -229,3 +212,4 @@ final class ChartViewController: UIViewController, ChartViewType {
     }
 
 }
+

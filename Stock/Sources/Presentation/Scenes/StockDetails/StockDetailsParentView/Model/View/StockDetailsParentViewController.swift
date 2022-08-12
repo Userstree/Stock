@@ -85,7 +85,6 @@ final class StockDetailsParentViewController: UIViewController, StockDetailsView
 
     // MARK: - Actions
     @objc private func didTapStarItem() {
-        print("star tapped ")
         isStarSelected = !isStarSelected
     }
 

@@ -37,7 +37,7 @@ protocol ChartInteractorInputType: AnyObject {
 
     // MARK: - Methods
     func fetchRemoteStockData(title: String, resolution: String)
-    func fetchRemoteSummary(for symbol: String)
+//    func fetchRemoteSummary(for symbol: String)
     func loadRemoteSummary(for symbol: String)
 }
 

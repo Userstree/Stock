@@ -2,10 +2,16 @@
 // Created by Dossymkhan Zhulamanov on 09.08.2022.
 //
 
+
 protocol SummaryEntityType {
-    var finnhubIndustry: CompanySummary { get set }
+    // MARK: - Properties
+    var companySummary: CompanySummary? { get set }
+
+    // MARK: - Methods
 }
 
 final class SummaryEntity: SummaryEntityType {
-    var finnhubIndustry: CompanySummary
+    // MARK: - Properties
+    var companySummary: CompanySummary?
+    // MARK: - Methods
 }

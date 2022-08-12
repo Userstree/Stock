@@ -25,7 +25,7 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
                 self.allStocksCallBack(stockViewModels)
                 self.stocks = stockViewModels
             } catch {
-                print("error is ", error.localizedDescription)
+                print("error is in loadViewMdeols: ", error.localizedDescription)
             }
         }
     }
@@ -36,7 +36,7 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
                 let searchResults = try await RemoteAPIRequest().searchForCompanyUsing(query: query)
                 self.searchedStockCallBack(searchResults)
             } catch {
-                print("error is ", error.localizedDescription)
+                print("error is in search stock: ", error.localizedDescription)
             }
         }
     }
@@ -47,6 +47,7 @@ final class RemoteDataRepository: RemoteDataRepositoryType {
                 let summary = try await RemoteAPIRequest().getCompanySummary(for: symbol)
                 print("summary in remoteRepo is ", summary)
                 self.companySummaryCallBack(summary)
+
 //                self.summary = summary
             } catch {
                 print("error is ", error.localizedDescription)

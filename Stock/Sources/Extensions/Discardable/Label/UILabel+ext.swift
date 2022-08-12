@@ -90,4 +90,10 @@ extension UILabel {
 
         return self
     }
+
+    @discardableResult
+    func setPaddingInsets(_ value: UIEdgeInsets ) -> Self {
+
+        return self
+    }
 }
