@@ -25,12 +25,8 @@ final class ChartViewController: UIViewController, ChartViewType {
         )
     }
 
-    func didPrepareCompanySummary(_ value: SummaryEntityType) {
-        print("company value in VIEW ", value.companySummary?.finnhubIndustry)
-        guard let industry = value.companySummary?.finnhubIndustry else {
-            return
-        }
-        pricesStack.industryLabel.text = (industry)
+    func didPrepareCompanySummary(_ value: CompanySummary) {
+        pricesStack.industryLabel.text = (value.finnhubIndustry)
     }
 
 
@@ -107,6 +103,10 @@ final class ChartViewController: UIViewController, ChartViewType {
         buttonCollectionActions()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        buttonsHolderCollection.selectItem(at: .some(IndexPath(row: 0, section: 0)), animated: false, scrollPosition: .top)
+    }
 
     // MARK: - Actions
     private func buttonCollectionActions() {
@@ -137,7 +137,7 @@ final class ChartViewController: UIViewController, ChartViewType {
             $0.size.equalTo(CGSize(width: view.frame.width, height: 65))
         }
         chart.snp.makeConstraints {
-            $0.top.equalTo(pricesStack.snp.top).offset(45)
+            $0.top.equalTo(pricesStack.snp.bottom).offset(45)
             $0.leading.equalTo(view.snp.leading)
             $0.trailing.equalTo(view.snp.trailing)
             $0.height.equalTo(view.frame.height * (1 / 3))
@@ -155,7 +155,7 @@ final class ChartViewController: UIViewController, ChartViewType {
             $0.height.equalTo(44)
         }
         buyButton.snp.makeConstraints {
-            $0.top.equalTo(buttonsHolderCollection.snp.bottom).offset(20)
+            $0.top.equalTo(buttonsHolderCollection.snp.bottom).offset(32)
             $0.leading.equalTo(chart.snp.leading).offset(16)
             $0.trailing.equalTo(chart.snp.trailing).offset(-16)
             $0.height.equalTo(44)

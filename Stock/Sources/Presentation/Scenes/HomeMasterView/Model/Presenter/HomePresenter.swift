@@ -26,7 +26,7 @@ final class HomePresenter: HomePresenterType, HomeInteractorOutputType {
         guard let query = query else {
             return
         }
-        interactorInput?.fetchStocks(for: query)
+        interactorInput?.searchStocks(for: query)
     }
 
     func showStockDetailsScreen(for stock: SingleStockViewModel) {

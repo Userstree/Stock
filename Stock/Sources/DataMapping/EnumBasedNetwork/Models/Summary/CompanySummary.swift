@@ -3,7 +3,7 @@
 //
 
 
-struct CompanySummary: Decodable {
+struct CompanySummary: Codable {
     var country: String
     var currency: String
     var exchange: String

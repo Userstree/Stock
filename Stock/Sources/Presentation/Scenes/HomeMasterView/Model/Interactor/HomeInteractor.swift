@@ -20,7 +20,7 @@ final class HomeInteractor: HomeInteractorInputType{
 
 
     // MARK: - HomeInteractorInputType Protocol
-    func fetchStocks(for query: String) {
+    func searchStocks(for query: String) {
         remoteDataRepository?.searchStock(for: query)
         remoteDataRepository?.searchedStockCallBack = { [weak self] searchResult in
             self?.interactorOutput?.didRetrieveSearchedCompanies(searchResult)

@@ -45,7 +45,7 @@ protocol HomeInteractorInputType: AnyObject {
     var localDataRepository: LocalDataRepositoryType? { get set }
 
     // MARK: - Methods
-    func fetchStocks(for query: String)
+    func searchStocks(for query: String)
     func fetchInitialStocks()
 }
 

@@ -17,7 +17,7 @@ final class ChartModelChildAssemble {
         let buttonsCollectionDisplayManager = ButtonsCollectionDataManager()
         // Dependencies
         let remoteDataRepository: RemoteDataRepositoryType = RemoteDataRepository()
-        remoteDataRepository.loadSummary(for: viewModel.title)
+//        remoteDataRepository.loadSummary(for: viewModel.title)
 
         view.viewOutput = presenter
         view.buttonsDataManager = buttonsCollectionDisplayManager
@@ -25,6 +25,7 @@ final class ChartModelChildAssemble {
         presenter.router = router
         presenter.stockInitialViewModel = viewModel
         presenter.interactorInput = interactor
+        interactor.remoteDataRepository = remoteDataRepository
         interactor.interactorOutput = presenter
         interactor.chartEntity = chartEntity
         interactor.summaryEntity = summaryEntity

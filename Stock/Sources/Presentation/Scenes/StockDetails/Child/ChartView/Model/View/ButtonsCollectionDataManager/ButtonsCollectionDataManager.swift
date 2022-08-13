@@ -28,20 +28,33 @@ final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TimeButtonCollectionCell.self), for: indexPath) as! TimeButtonCollectionCell
-//        cell.contentView.backgroundColor = indexPath.item == currentSelected ? UIColor.systemGray5 : R.color.button()!
-        cell.isSelected
+//        if indexPath.item == 0 {
+//            cell.isSelected = true
+//        }
+//        cell.isSelected = false
+
+//        cell.layer.borderWidth = 1
+//        cell.layer.borderColor = UIColor.systemGray3.cgColor
+//        cell.layer.cornerRadius = 6
+//        cell.clipsToBounds = true
+
         cell.configure(with: buttonsViewModels[indexPath.item])
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor.systemGray3.cgColor
-        cell.layer.cornerRadius = 6
-        cell.clipsToBounds = true
         return cell
     }
 
     // MARK: - UICollectionViewDelegate Protocol
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TimeButtonCollectionCell.self), for: indexPath) as! TimeButtonCollectionCell
+        cell.backgroundColor = .white
+        cell.timeLabel.textColor = .black
         onButtonTapped?(buttonsViewModels[indexPath.item].timeValue)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TimeButtonCollectionCell.self), for: indexPath) as! TimeButtonCollectionCell
+        cell.backgroundColor = .black
+        cell.timeLabel.textColor = .white
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

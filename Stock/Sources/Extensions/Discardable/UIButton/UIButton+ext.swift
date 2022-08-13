@@ -27,6 +27,13 @@ extension UIButton {
     }
 
     @discardableResult
+    func contentHorizontalAlignment(_ value: UIControl.ContentHorizontalAlignment) -> Self {
+        contentHorizontalAlignment = value
+
+        return self
+    }
+
+    @discardableResult
     func setText(_ value: String) -> Self {
         setTitle(value, for: .normal)
 
