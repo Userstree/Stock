@@ -33,7 +33,7 @@ final class TimeButtonCollectionCell: UICollectionViewCell {
         layer.borderColor = UIColor.systemGray3.cgColor
         layer.cornerRadius = 6
         clipsToBounds = true
-        timeLabel.text = viewModel.timeValue
+        timeLabel.text = viewModel.rawValue
     }
 
 

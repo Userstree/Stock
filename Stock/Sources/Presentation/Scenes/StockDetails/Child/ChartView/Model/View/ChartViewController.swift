@@ -108,6 +108,18 @@ final class ChartViewController: UIViewController, ChartViewType {
         buttonsHolderCollection.selectItem(at: .some(IndexPath(row: 0, section: 0)), animated: false, scrollPosition: .top)
     }
 
+    private func collectionButtonTapped() {
+        buttonsDataManager.onButtonTapped = { buttonVM in
+            switch buttonVM {
+            case .fifteenMinutes: return
+            case .thirtyMinutes: return
+            case .day: return
+            case .week: return
+            case .month: return
+            }
+        }
+    }
+
     // MARK: - Actions
     private func buttonCollectionActions() {
         buttonsDataManager.onButtonTapped = { [weak self] stringVal in

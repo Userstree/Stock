@@ -182,7 +182,7 @@
 		C2660EEB2887143F00D8EA16 /* Stock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2660EFA2887144100D8EA16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2660EFF2887144100D8EA16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2660F09288715C400D8EA16 /* Stock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Stock-Bridging-Header.h"; path = "Stock/Supporting Files/Stock-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		C2660F09288715C400D8EA16 /* Stock-Headers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Stock-Headers.h"; path = "Stock/Supporting Files/Stock-Headers.h"; sourceTree = SOURCE_ROOT; };
 		C2FE87D0288945FF0032E3B7 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		C47552D34E845DBB859096A2 /* Pods-Stock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.debug.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.debug.xcconfig"; sourceTree = "<group>"; };
 		F88430C081445CA9DD614081 /* UIImage+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+ext.swift"; sourceTree = "<group>"; };
@@ -863,7 +863,7 @@
 			isa = PBXGroup;
 			children = (
 				C2660EFF2887144100D8EA16 /* Info.plist */,
-				C2660F09288715C400D8EA16 /* Stock-Bridging-Header.h */,
+				C2660F09288715C400D8EA16 /* Stock-Headers.h */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1452,7 +1452,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Zlmnv.Stock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Stock/Supporting Files/Stock-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stock/Supporting Files/Stock-Headers.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1481,7 +1481,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Zlmnv.Stock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Stock/Supporting Files/Stock-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stock/Supporting Files/Stock-Headers.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
