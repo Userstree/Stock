@@ -25,6 +25,7 @@ protocol ChartPresenterType: AnyObject {
 
     // MARK: - Methods
     func onViewDidLoad()
+    func chartTimeFrameRequest(for value: (String)?)
 }
 
 

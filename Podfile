@@ -12,5 +12,7 @@ target 'Stock' do
   pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord'
   pod 'SkeletonView'
   pod 'Parchment', '~> 3.2'
+  pod "Resolver"
+  pod 'XServiceLocator', '~> 1.0'
 
 end

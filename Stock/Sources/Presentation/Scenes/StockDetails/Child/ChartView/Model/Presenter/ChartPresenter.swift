@@ -20,8 +20,10 @@ final class ChartPresenter: ChartPresenterType, ChartInteractorOutputType {
         view?.didPassStockViewModel(stockInitialViewModel!)
     }
 
-    private func fetchRequest(symbol: String) {
-        interactorInput.loadRemoteSummary(for: symbol)
+    func chartTimeFrameRequest(for value: (String)?){
+        if var timeInterval = value {
+                getChartData(for: timeInterval)
+        }
     }
 
     // MARK: - ChartInteractorOutputType Protocol Impl
@@ -30,8 +32,12 @@ final class ChartPresenter: ChartPresenterType, ChartInteractorOutputType {
     }
 
 
-    // MARK: - Properties
+    // MARK: - Private Methods
+    private func fetchRequest(symbol: String) {
+        interactorInput.loadRemoteSummary(for: symbol)
+    }
 
-
-    // MARK: - Methods
+    private func getChartData(for timeInterval: String) {
+        print("get chart data for timeInterval of ", timeInterval)
+    }
 }

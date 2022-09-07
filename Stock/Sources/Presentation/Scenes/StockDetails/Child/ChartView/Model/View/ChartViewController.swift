@@ -100,7 +100,7 @@ final class ChartViewController: UIViewController, ChartViewType {
         super.viewDidLoad()
         viewOutput.onViewDidLoad()
         configureViews()
-        buttonCollectionActions()
+        collectionButtonTapped()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -108,22 +108,11 @@ final class ChartViewController: UIViewController, ChartViewType {
         buttonsHolderCollection.selectItem(at: .some(IndexPath(row: 0, section: 0)), animated: false, scrollPosition: .top)
     }
 
-    private func collectionButtonTapped() {
-        buttonsDataManager.onButtonTapped = { buttonVM in
-            switch buttonVM {
-            case .fifteenMinutes: return
-            case .thirtyMinutes: return
-            case .day: return
-            case .week: return
-            case .month: return
-            }
-        }
-    }
 
     // MARK: - Actions
-    private func buttonCollectionActions() {
-        buttonsDataManager.onButtonTapped = { [weak self] stringVal in
-            print(stringVal)
+    private func collectionButtonTapped() {
+        buttonsDataManager.onTappedToString = { [unowned self] value in
+            self.viewOutput.chartTimeFrameRequest(for: value)
         }
     }
 

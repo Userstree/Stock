@@ -12,7 +12,8 @@ enum ButtonViewModel: String {
 
 final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     // MARK: - Properties
-    var onButtonTapped: ((ButtonViewModel) -> Void)?
+    var onTapped: ((ButtonViewModel) -> Void)?
+    var onTappedToString: ((String) -> Void)?
 
     var buttonsVMs: [ButtonViewModel] = [
         ButtonViewModel.fifteenMinutes,
@@ -39,7 +40,9 @@ final class ButtonsCollectionDataManager: NSObject, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TimeButtonCollectionCell.self), for: indexPath) as! TimeButtonCollectionCell
         cell.backgroundColor = .white
         cell.timeLabel.textColor = .black
-        onButtonTapped?(buttonsVMs[indexPath.item])
+//        onTapped?(buttonsVMs[indexPath.item])
+        onTappedToString?(buttonsVMs[indexPath.item].rawValue)
+        print(buttonsVMs[indexPath.item].rawValue)
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
